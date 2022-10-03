@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "haze", "haze.csproj", "{B9FB8345-4179-40BE-98E5-9353C8A8BADC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9FB8345-4179-40BE-98E5-9353C8A8BADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9FB8345-4179-40BE-98E5-9353C8A8BADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9FB8345-4179-40BE-98E5-9353C8A8BADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9FB8345-4179-40BE-98E5-9353C8A8BADC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC351264-4449-43B2-9761-3774912B1FED}
+	EndGlobalSection
+EndGlobal
