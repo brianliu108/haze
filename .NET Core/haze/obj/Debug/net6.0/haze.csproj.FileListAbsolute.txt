@@ -1,27 +1,29 @@
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\appsettings.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\haze.exe
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\haze.deps.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\haze.runtimeconfig.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\haze.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\haze.pdb
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\Microsoft.OpenApi.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.AssemblyReference.cache
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.AssemblyInfoInputs.cache
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.AssemblyInfo.cs
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.CoreCompileInputs.cache
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\staticwebassets.build.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\staticwebassets.development.json
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\scopedcss\bundle\haze.styles.css
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.CopyComplete
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\refint\haze.dll
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.pdb
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\haze.genruntimeconfig.cache
-C:\Users\nmysh\Desktop\haze\.NET Core\haze\obj\Debug\net6.0\ref\haze.dll
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\appsettings.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.staticwebassets.runtime.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.exe
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.deps.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.runtimeconfig.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.dll
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\haze.pdb
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\EFDataAccessLibrary.dll
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\bin\Debug\net6.0\EFDataAccessLibrary.pdb
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.AssemblyReference.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.AssemblyInfoInputs.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.AssemblyInfo.cs
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.CoreCompileInputs.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.RazorAssemblyInfo.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.RazorAssemblyInfo.cs
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\scopedcss\bundle\haze.styles.css
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\scopedcss\projectbundle\haze.bundle.scp.css
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.csproj.CopyComplete
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.dll
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\refint\haze.dll
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.pdb
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\haze.genruntimeconfig.cache
+C:\Users\nmysh\Desktop\Microsoft Enterprises\haze\.NET Core\haze\obj\Debug\net6.0\ref\haze.dll
