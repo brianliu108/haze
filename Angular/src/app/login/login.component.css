@@ -21,7 +21,8 @@
     border-radius: 25px;
     margin: 1em 0;
     padding: 1em;
-    width: 100%
+    width: 100%;
+    box-sizing:border-box;
 }
 
 .fields-wrapper label {
@@ -30,6 +31,9 @@
 }
 
 #submit {
-    width: 106%;
+    width: 100%;
+    margin: 1em 0;
     color: white;
+    font-weight: bold;
+    display: block;
 }

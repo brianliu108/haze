@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -11,7 +13,9 @@ import { NavComponent } from './nav/nav.component';
     NavComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
+    BrowserAnimationsModule,
+    MatMenuModule,
     RouterModule.forRoot([
       {path: 'login', component: LoginComponent}
     ])
