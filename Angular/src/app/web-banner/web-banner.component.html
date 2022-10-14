@@ -1,0 +1,19 @@
+<div class="normalBanner">
+    <section class="webBannerContainer">
+      <div class="websiteBannerContent">
+        <div class="title">
+          <h1>Haze</h1>
+        </div>
+        <div class="buttons">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon class="icon">account_circle</mat-icon>
+          </button>
+          <mat-menu backdropClass="dropdown" #menu="matMenu" [overlapTrigger]="false">
+            <button (click)="navigateProfile()" mat-menu-item>Profile Page</button>
+            <button mat-menu-item>Preferences</button>
+            <button mat-menu-item>Log Out</button>
+          </mat-menu>
+        </div>
+      </div>
+    </section>
+  </div>
