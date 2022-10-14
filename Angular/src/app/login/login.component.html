@@ -4,17 +4,19 @@
         <br>
         <h1 style="text-align: center; font-weight: bold;">Login</h1>
         <br>
-        <mat-form-field appearance="fill" class="inputSet">
-            <mat-label>Username</mat-label>
-            <input matInput>
-            <mat-error></mat-error>
-        </mat-form-field>
-        <br><br>
-        <mat-form-field appearance="fill"  class="inputSet">
-            <mat-label>Password</mat-label>
-            <input matInput>
-            <mat-error></mat-error>
-        </mat-form-field>
+        <form [formGroup] = "loginGroup">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Username</mat-label>
+                <input [formControl]="usernameCtrl" id="usernameInput" matInput>
+                <mat-error *ngIf="usernameCtrl.hasError('required')">UserName is required.</mat-error>
+            </mat-form-field>
+            <br><br>
+            <mat-form-field appearance="fill"  class="inputSet">
+                <mat-label>Password</mat-label>
+                <input [formControl]="passwdCtrl" id="passwordInput" matInput>
+                <mat-error *ngIf="passwdCtrl.hasError('required')">Password is required.</mat-error>
+            </mat-form-field>
+        </form>
         <br><br>
         <button mat-stroked-button (click)="attemptLogin()" class="buttonStyle">Submit</button>
         <br>
