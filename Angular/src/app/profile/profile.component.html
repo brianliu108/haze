@@ -1,6 +1,36 @@
 <app-web-banner></app-web-banner>
 <div class="profileBodyStyle">
     <mat-card class="profileCardStyle">
-        
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Update Profile Information</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="infoFormSpot">
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>First Name</mat-label>
+                        <input matInput>
+                        <mat-error></mat-error> 
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput>
+                        <mat-error></mat-error> 
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Gender</mat-label>
+                        <input matInput>
+                        <mat-error></mat-error> 
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label></mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
     </mat-card>
 </div>

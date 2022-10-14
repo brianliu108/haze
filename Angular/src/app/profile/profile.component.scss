@@ -8,6 +8,19 @@
              width: auto;
              height: auto;
              margin-top: 3%;
+
+             .infoFormSpot{
+                width: 100%;
+                height: auto;
+                border: 2px solid black;
+
+                .infoInputs{
+                    padding: 1%;
+                    width: 80%;
+                    margin: auto;
+                    display: block;
+                }
+             }
         }
     }
 }

@@ -7,6 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { matTabsAnimations, MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -38,7 +41,10 @@ import { WebBannerComponent } from './web-banner/web-banner.component';
     MatTabsModule,
     MatCardModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
