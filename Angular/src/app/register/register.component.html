@@ -2,10 +2,16 @@
     <mat-card class="loginCard">
         <img src="assets/haze-logo.png" alt="Haze Png" class="imageStyle">
         <br>
-        <h1 style="text-align: center; font-weight: bold;">Login</h1>
+        <h1 style="text-align: center; font-weight: bold;">Register</h1>
         <br>
         <mat-form-field appearance="fill" class="inputSet">
             <mat-label>Username</mat-label>
+            <input matInput>
+            <mat-error></mat-error>
+        </mat-form-field>
+        <br><br>
+        <mat-form-field appearance="fill"  class="inputSet">
+            <mat-label>Email</mat-label>
             <input matInput>
             <mat-error></mat-error>
         </mat-form-field>
@@ -16,9 +22,7 @@
             <mat-error></mat-error>
         </mat-form-field>
         <br><br>
-        <button mat-stroked-button (click)="attemptLogin()" class="buttonStyle">Submit</button>
+        <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
         <br>
-        <br>
-        <button mat-button (click)="routeToRegister()">Not a member? Register now</button>
     </mat-card>
 </div>
