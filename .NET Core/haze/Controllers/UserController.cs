@@ -1,45 +1,51 @@
 ﻿using haze.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
-using BC = BCrypt.Net.BCrypt;
-using haze.Controllers.Utility;
+using System.Diagnostics;
 
 namespace haze.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : Controller
     {
-        private IConfiguration _configuration;
-        private UsersContext _hazeContext;
-        public UserController(IConfiguration configuration, UsersContext hazeContext)
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(ILogger<UserController> logger)
         {
-            _configuration = configuration;
-            _hazeContext = hazeContext;
+            _logger = logger;
         }
 
-        [HttpPost("/Login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] User? user)
+       
+        [HttpGet("/GetUsers")]
+        public IActionResult Get()
         {
-            User? queriedUser = null;
-            if (_hazeContext.Users != null)
-                queriedUser = await _hazeContext.Users.Where(x => x == user).FirstOrDefaultAsync();
-            if (queriedUser == null)
-                return NotFound();
-            AuthUtility utility = new AuthUtility(_configuration);
-            string jwt = utility.GenerateToken(queriedUser);
-            return Ok(jwt);
+            //List<User> users = new List<User> { new User { UserId = 1, FullName = "Nik" }, new User { UserId = 2, FullName = "Brian" } };
+
+            return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpPost("/Register")]
-        public IActionResult Register([FromBody] User user)
+        [HttpPost("/CreateUser")]
+        public IActionResult Create([FromBody] User request)
+        {
+            return Ok();
+        }
+
+        [HttpPut("/UpdateUser")]
+        public IActionResult Update([FromBody] User request)
+        {
+            return Ok();
+        }
+
+        [HttpDelete("/DeleteUser/{Id}")]
+        public IActionResult Delete(int Id)
+        {
+            return Ok();
+        }
+
+        [HttpGet("/TestAuth")]
+        [Authorize(Roles ="User")]
+        public IActionResult TestAuthRoute()
         {
             return Ok();
         }
