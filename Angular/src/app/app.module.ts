@@ -23,6 +23,7 @@ import { StoreComponent } from './store/store.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { PaymentPageComponent } from './payment-page/payment-page.component';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RecaptchaFormsModule,
+    RecaptchaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
