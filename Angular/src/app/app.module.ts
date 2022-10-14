@@ -21,6 +21,7 @@ import { RegisterComponent } from './register/register.component';
 import { StoreComponent } from './store/store.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { WebBannerComponent } from './web-banner/web-banner.component';
     MatIconModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RecaptchaFormsModule,
+    RecaptchaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
