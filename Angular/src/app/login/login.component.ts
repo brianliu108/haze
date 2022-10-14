@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 
@@ -15,10 +15,10 @@ export class LoginComponent implements OnInit {
     private appComponent: AppComponent
   ) { }
 
-  emailCtrl: FormControl = new FormControl(null, Validators.required);
+  usernameCtrl: FormControl = new FormControl(null, Validators.required);
   passwdCtrl: FormControl = new FormControl(null, Validators.required);
   loginGroup: FormGroup = new FormGroup({
-    email: this.emailCtrl,
+    username: this.usernameCtrl,
     passwd: this.passwdCtrl
   });
 
