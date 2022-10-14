@@ -9,7 +9,7 @@ namespace haze.DataAccess
     {
         public UsersContext(DbContextOptions<UsersContext> options) : base(options) { }
 
-        public DbSet<User>? Users { get; set; }
-        public DbSet<PaymentInfo>? PaymentInfo { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<PaymentInfo> PaymentInfo { get; set; }
     }
 }
