@@ -20,9 +20,9 @@ namespace haze.Controllers
         [HttpGet("/GetUsers")]
         public IActionResult Get()
         {
-            List<User> users = new List<User> { new User { Id = 1, FullName = "Nik" }, new User { Id = 2, FullName = "Brian" } };
+            //List<User> users = new List<User> { new User { UserId = 1, FullName = "Nik" }, new User { UserId = 2, FullName = "Brian" } };
 
-            return Ok(users);
+            return Ok();
         }
 
         [HttpPost("/CreateUser")]
@@ -44,7 +44,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/TestAuth")]
-        [Authorize]
+        [Authorize(Roles ="User")]
         public IActionResult TestAuthRoute()
         {
             return Ok();

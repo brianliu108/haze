@@ -8,44 +8,33 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+using BC = BCrypt.Net.BCrypt;
+using haze.Controllers.Utility;
 
 namespace haze.Controllers
 {
     public class UserController : Controller
     {
         private IConfiguration _configuration;
-        public UserController(IConfiguration configuration)
+        private UsersContext _hazeContext;
+        public UserController(IConfiguration configuration, UsersContext hazeContext)
         {
             _configuration = configuration;
+            _hazeContext = hazeContext;
         }
 
         [HttpPost("/Login")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] User user)
+        public async Task<IActionResult> Login([FromBody] User? user)
         {
-            var issuer = _configuration["JWT:Issuer"];
-            var audience = _configuration["JWT:Audience"];
-            var secret = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-            {
-                new Claim("Id", Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Email, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-             }),
-                Expires = DateTime.UtcNow.AddMinutes(60),
-                Issuer = issuer,
-                Audience = audience,
-                SigningCredentials = new SigningCredentials
-            (new SymmetricSecurityKey(secret),
-            SecurityAlgorithms.HmacSha512Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var stringToken = tokenHandler.WriteToken(token);
-            return Ok(stringToken);
+            User? queriedUser = null;
+            if (_hazeContext.Users != null)
+                queriedUser = await _hazeContext.Users.Where(x => x == user).FirstOrDefaultAsync();
+            if (queriedUser == null)
+                return NotFound();
+            AuthUtility utility = new AuthUtility(_configuration);
+            string jwt = utility.GenerateToken(queriedUser);
+            return Ok(jwt);
         }
 
         [AllowAnonymous]
