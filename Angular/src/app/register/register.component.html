@@ -18,10 +18,12 @@
         <br><br>
         <mat-form-field appearance="fill"  class="inputSet">
             <mat-label>Password</mat-label>
-            <input matInput>
-            <mat-error></mat-error>
+            <input matInput type="password">
+            <mat-error></mat-error>            
         </mat-form-field>
+        <re-captcha (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
         <br><br>
+        
         <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
         <br>
     </mat-card>
