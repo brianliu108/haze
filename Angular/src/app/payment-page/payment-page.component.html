@@ -1,0 +1,20 @@
+<app-web-banner></app-web-banner>
+<div class="paymentBodyStyle">
+    <mat-card class="paymentCardStyle">
+        <h1 style="text-align: center;">Add Payment Method</h1>
+        <div class="paymentFormSpot">
+            <mat-form-field appearance="fill" class="paymentInputs">
+                <mat-label>Credit Card Number</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="paymentInputs">
+                <mat-label>Expiry</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <br>
+            <br>
+            <button class="buttonStyle" mat-stroked-button (click)="submitPaymentInfo()">Submit</button>
+        </div>
+        <button mat-stroked-button (click)="navigateProfile()" style="margin-left: 85%;">Back</button>
+    </mat-card>
+</div>

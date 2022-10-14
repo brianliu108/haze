@@ -10,27 +10,35 @@
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>First Name</mat-label>
                         <input matInput>
-                        <mat-error></mat-error> 
+                        <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Last Name</mat-label>
                         <input matInput>
-                        <mat-error></mat-error> 
+                        <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Gender</mat-label>
                         <input matInput>
-                        <mat-error></mat-error> 
+                        <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
-                        <mat-label></mat-label>
+                        <mat-label>Birth Date</mat-label>
                         <input matInput [matDatepicker]="picker">
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                    <br>
+                    <mat-checkbox style="margin-left: 10%;">Sign up for promotional emails</mat-checkbox>
+                    <br>
+                    <br>
+                    <button class="buttonStyle" mat-stroked-button (click)="submitProfileChanges()">Submit</button>
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
+        <br>
+        <br>
+        <button mat-stroked-button (click)="navigatePayment()" style="margin-left: 85%;">Add Payment Options</button>
     </mat-card>
 </div>

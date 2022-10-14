@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 
@@ -14,15 +15,17 @@ export class LoginComponent implements OnInit {
     private appComponent: AppComponent
   ) { }
 
+  emailCtrl: FormControl = new FormControl(null, Validators.required);
+  passwdCtrl: FormControl = new FormControl(null, Validators.required);
+  loginGroup: FormGroup = new FormGroup({
+    email: this.emailCtrl,
+    passwd: this.passwdCtrl
+  });
+
   ngOnInit(): void {
   }
 
   routeToRegister(){
-    /*
-    console.log("called");
-    this.router.navigate(['/register']);
-    */
-
     this.appComponent.navigate("register");
   }
 

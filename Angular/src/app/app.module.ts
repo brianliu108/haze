@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox'; 
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -21,6 +22,7 @@ import { RegisterComponent } from './register/register.component';
 import { StoreComponent } from './store/store.component';
 import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
+import { PaymentPageComponent } from './payment-page/payment-page.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { WebBannerComponent } from './web-banner/web-banner.component';
     RegisterComponent,
     StoreComponent,
     ProfileComponent,
-    WebBannerComponent
+    WebBannerComponent,
+    PaymentPageComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { WebBannerComponent } from './web-banner/web-banner.component';
     MatIconModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
