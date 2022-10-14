@@ -1,19 +1,19 @@
-:host{
-    .profileBodyStyle{
+:host {
+    .paymentBodyStyle {
         width: 60%;
         height: auto;
         margin: 0 auto;
 
-        .profileCardStyle{
-             width: auto;
-             height: auto;
-             margin-top: 3%;
+        .paymentCardStyle {
+            width: auto;
+            height: auto;
+            margin-top: 3%;
 
-             .infoFormSpot{
+            .paymentFormSpot{
                 width: 100%;
                 height: auto;
 
-                .infoInputs{
+                .paymentInputs{
                     padding: 1%;
                     width: 80%;
                     margin: auto;
@@ -25,13 +25,7 @@
                     display: block;
                     width: 30%;
                 }
-
-
-
-                .mat-checkbox.mat-accent .mat-checkbox-inner-container {
-                    margin: 2px 8px auto 0;
-                }
-             }
+            }
         }
     }
 }
