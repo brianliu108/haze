@@ -1,0 +1,34 @@
+<mat-form-field class="loginInput" appearance="fill">
+  <mat-label>Email or User Id: </mat-label>
+  <input id="emailInput" matInput>
+  <mat-error >UserName is required.</mat-error>
+</mat-form-field>
+
+<button mat-stroked-button>TEST BUTTOn</button>
+
+<form id="login-form">
+  <img id="login-logo" src="/assets/images/haze-logo.png" alt="image">
+  <br>
+  <h1 style="text-align:center; font-weight:bold;">Log In</h1>
+  <br>
+  <div class="fields-wrapper">
+      <label for="username">Username</label>
+      <input id="username" type="text">
+      <div id="username-error"></div>
+  </div>
+  <div class="fields-wrapper">
+      <label for="password">Password</label>
+      <input id="password" type="password">
+      <div id="password-error"></div>
+  </div>
+
+  <div class="fields-wrapper">
+      <!--
+      <input id="submit" type="submit" value="Submit">-->
+      <br>
+      <button  id="submit">Submit</button>
+      <br><br>
+      <label for="createAccount">Don't Have An Account? Create One Now</label>
+      <button  id="createAccount">Create Account</button>
+  </div>
+</form>  
