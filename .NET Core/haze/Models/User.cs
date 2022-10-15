@@ -16,6 +16,7 @@ namespace haze.Models
         public bool Newsletter { get; set; }
         public string RoleName { get; set; }
         public List<PaymentInfo>? PaymentInfos { get; set; }
-        public UserPreferences UserPreferences { get; set; }
+        public List<FavouritePlatform> FavouritePlatforms { get; set; }
+        public List<FavouriteCategory> FavouriteCategories { get; set; }
     }
 }
