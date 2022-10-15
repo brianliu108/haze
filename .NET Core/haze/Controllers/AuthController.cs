@@ -29,7 +29,7 @@ namespace haze.Controllers
         {
             User? queriedUser = null;
             if (_hazeContext.Users != null)
-                queriedUser = await _hazeContext.Users.Where(x => x == user).FirstOrDefaultAsync();
+                queriedUser = await _hazeContext.Users.Where(x => x.Username == user.Username).Where(x => x.Password == user.Password).FirstOrDefaultAsync();
             if (queriedUser == null)
                 return NotFound();
             AuthUtility utility = new AuthUtility(_configuration);
