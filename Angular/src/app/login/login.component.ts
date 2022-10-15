@@ -59,8 +59,8 @@ export class LoginComponent implements OnInit {
 
       if (response.status == 200) {
         let currentUser = {
-          username: this.usernameCtrl.value,
-          password: this.passwdCtrl.value,
+          username: btoa(this.usernameCtrl.value),
+          password: btoa(this.passwdCtrl.value),
           token: responseData
 
         }
