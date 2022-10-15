@@ -11,5 +11,8 @@ namespace haze.DataAccess
 
         public DbSet<User> Users { get; set; }
         public DbSet<PaymentInfo> PaymentInfo { get; set; }
+        public DbSet<UserPreferences> UserPreferences { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Platform> Platforms { get; set; }
     }
 }

@@ -26,8 +26,8 @@ namespace haze.Controllers.Utility
             {
                 new Claim("id", Guid.NewGuid().ToString()),
                 new Claim("role", user.RoleName),
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Username),
+                new Claim("email", user.Email),
+                new Claim("username", user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
              }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
