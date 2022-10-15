@@ -14,7 +14,7 @@ namespace haze.Models
         public DateTime BirthDate { get; set; }
         public bool Verified { get; }
         public bool Newsletter { get; set; }
-        public string Role { get; set; }
+        public string RoleName { get; set; }
         public List<PaymentInfo>? PaymentInfos { get; set; }
 
     }
