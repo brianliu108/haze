@@ -55,7 +55,14 @@ export class LoginComponent implements OnInit {
       let response = await this.logonCall(logonInfo);
       console.log(response);
 
+
       //this.appComponent.navigate("store");
     }
   }
+
+  routeToPasswordRecovery(){
+    this.appComponent.navigate("password-recovery");
+  }
+
+  
 }

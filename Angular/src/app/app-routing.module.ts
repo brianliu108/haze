@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'preferences',
     component: PreferencesComponent
+  },
+  {
+    path: 'password-recovery',
+    component: PasswordRecoveryComponent
   }
 ];
 
