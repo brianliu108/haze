@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import axios from 'axios';
 import { AppComponent } from '../app.component';
 
 @Component({
@@ -25,13 +26,36 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  makeCall(){
+
+  }
+
+  async logonCall(logonInfo: object) {
+    try {
+      const response = await axios.post('https://localhost:7105/Login', logonInfo);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   routeToRegister(){
     this.appComponent.navigate("register");
   }
 
-  attemptLogin(){
+  async attemptLogin(){
     if(this.loginGroup.valid){
-      this.appComponent.navigate("store");
+      let logonInfo: object = {
+        "Username" : this.usernameCtrl.value,
+        "Password" : this.passwdCtrl.value,
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+      let response = await this.logonCall(logonInfo);
+      console.log(response);
+
+      //this.appComponent.navigate("store");
     }
   }
 }
