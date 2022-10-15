@@ -26,43 +26,54 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  makeCall(){
+  makeCall() {
 
   }
 
   async logonCall(logonInfo: object) {
     try {
       const response = await axios.post('https://localhost:7105/Login', logonInfo);
-      console.log(response);
+      return (response);
     } catch (error) {
       console.error(error);
+      return (error);
     }
   }
 
-  routeToRegister(){
+  routeToRegister() {
     this.appComponent.navigate("register");
   }
 
-  async attemptLogin(){
-    if(this.loginGroup.valid){
+  async attemptLogin() {
+    if (this.loginGroup.valid) {
       let logonInfo: object = {
-        "Username" : this.usernameCtrl.value,
-        "Password" : this.passwdCtrl.value,
+        "Username": this.usernameCtrl.value,
+        "Password": this.passwdCtrl.value,
         headers: {
           "Access-Control-Allow-Origin": "*"
         }
       }
-      let response = await this.logonCall(logonInfo);
-      console.log(response);
+      let response: any = await this.logonCall(logonInfo);
+      let responseData: any = response.data;
+      console.log(responseData);
 
+      if (response.status == 200) {
+        let currentUser = {
+          username: this.usernameCtrl.value,
+          password: this.passwdCtrl.value,
+          token: responseData
 
-      //this.appComponent.navigate("store");
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        this.appComponent.navigate("store");
+      }
     }
   }
 
-  routeToPasswordRecovery(){
+  routeToPasswordRecovery() {
     this.appComponent.navigate("password-recovery");
   }
 
-  
+
 }
