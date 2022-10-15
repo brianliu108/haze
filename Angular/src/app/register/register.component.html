@@ -4,24 +4,28 @@
         <br>
         <h1 style="text-align: center; font-weight: bold;">Register</h1>
         <br>
-        <mat-form-field appearance="fill" class="inputSet">
-            <mat-label>Username</mat-label>
-            <input matInput>
-            <mat-error></mat-error>
-        </mat-form-field>
-        <br><br>
-        <mat-form-field appearance="fill"  class="inputSet">
-            <mat-label>Email</mat-label>
-            <input matInput>
-            <mat-error></mat-error>
-        </mat-form-field>
-        <br><br>
-        <mat-form-field appearance="fill"  class="inputSet">
-            <mat-label>Password</mat-label>
-            <input matInput type="password">
-            <mat-error></mat-error>            
-        </mat-form-field>
-        <re-captcha (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
+        <form [formGroup]="registerGroup">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Username</mat-label>
+                <input [formControl]="usernameCtrl" matInput>
+                <mat-error *ngIf="usernameCtrl.hasError('required')">Username is required</mat-error>
+            </mat-form-field>
+            <br><br>
+            <mat-form-field appearance="fill"  class="inputSet">
+                <mat-label>Email</mat-label>
+                <input [formControl]="emailCtrl" matInput>
+                <mat-error *ngIf="emailCtrl.hasError('required')">Email is required</mat-error>
+            </mat-form-field>
+            <br><br>
+            <mat-form-field appearance="fill"  class="inputSet">
+                <mat-label>Password</mat-label>
+                <input [formControl]="passwdCtrl" matInput type="password">
+                <mat-error *ngIf="passwdCtrl.hasError('required')">Password is required</mat-error> 
+                <mat-error *ngIf="passwdCtrl.hasError('pattern')">Password must be minimum eight characters, at least one letter and one number</mat-error>            
+            </mat-form-field>
+            <re-captcha id="recaptcha" (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
+        </form>
+        
         <br><br>
         
         <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
