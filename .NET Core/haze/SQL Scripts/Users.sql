@@ -1,0 +1,13 @@
+CREATE TABLE Users (
+    Id INT PRIMARY KEY,
+	Email VARCHAR(50) NOT NULL,
+	Username VARCHAR(30) NOT NULL,
+	UserPassword VARCHAR(30) NOT NULL,
+    FirstName VARCHAR(30) NOT NULL,
+    LastName VARCHAR(30) NOT NULL,
+    Gender VARCHAR(255) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Verified BIT NOT NULL,
+	Newsletter BIT NOT NULL,
+	UserRole VARCHAR(30) NOT NULL
+);
