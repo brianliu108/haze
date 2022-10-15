@@ -19,4 +19,16 @@ export class WebBannerComponent implements OnInit {
     this.appComponent.navigate("profile");
   }
 
+  navigateStore(){
+    this.appComponent.navigate("store");
+  }
+
+  navigateLogin(){
+    this.appComponent.navigate("");
+  }
+
+  navigatePreferences(){
+    this.appComponent.navigate("preferences");
+  }
+
 }
