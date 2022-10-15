@@ -31,6 +31,15 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "cors-policy",
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:4200");
+                      });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +54,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("cors-policy");
 
 app.UseAuthentication();
 app.UseAuthorization();
