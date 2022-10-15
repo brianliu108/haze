@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 var connectionString = "Data Source=5.161.48.218;Initial Catalog=haze;Persist Security Info=True;User ID=sa;Password=Initial1";
 builder.Services.AddDbContext<HazeContext>(x => x.UseSqlServer(connectionString));
+
+// JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -39,8 +41,13 @@ builder.Services.AddCors(options =>
                           policy.WithOrigins("https://localhost:4200");
                       });
 });
+// Swagger API docs
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -63,5 +70,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseSwagger(x => x.SerializeAsV2 = true);
 
 app.Run();
