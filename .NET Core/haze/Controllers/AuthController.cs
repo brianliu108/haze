@@ -44,7 +44,7 @@ namespace haze.Controllers
         [AllowAnonymous]
         [HttpPost("/Register")]
         public async Task<IActionResult> Register([FromBody] User? user)
-        {
+        {            
             if (user == null || user.Username == null || user.Password == null)
                 return BadRequest();
             List<string> errors = new List<string>();
@@ -58,8 +58,18 @@ namespace haze.Controllers
             if (!passwordRegex.IsMatch(user.Password))
                 errors.Add("Password must be minimum eight characters, at least one letter and one number!");
 
-
-
+            if (errors.Count > 0)
+            {
+                return BadRequest(new
+                {
+                    Errors = errors
+                });
+            }
+            user.RoleName = "User";
+            user.Verified = false;
+            user.Newsletter = true;
+            _hazeContext.Users.Add(user);
+            await _hazeContext.SaveChangesAsync();
             return Ok();
         }
     }
