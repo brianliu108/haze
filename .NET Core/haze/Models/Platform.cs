@@ -8,7 +8,7 @@
 
     public enum PlatformId
     {
-        PC,
+        PC = 1,
         XBox,
         Playstation,
         Nintendo,
