@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { AppComponent } from '../app.component';
 
 @Component({

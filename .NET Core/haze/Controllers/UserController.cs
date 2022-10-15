@@ -6,7 +6,6 @@ using System.Diagnostics;
 
 namespace haze.Controllers
 {
-    [Route("/")]
     [ApiController]
     public class UserController : Controller
     {
@@ -19,7 +18,8 @@ namespace haze.Controllers
             _hazeContext = hazeContext;
         }
 
-        [HttpGet("/GetUsers")]
+        [HttpGet("GetUsers")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.ToListAsync());
@@ -58,6 +58,7 @@ namespace haze.Controllers
         [Authorize(Roles ="User")]
         public IActionResult TestAuthRoute()
         {
+            var test = HttpContext.User;
             return Ok();
         }
     }

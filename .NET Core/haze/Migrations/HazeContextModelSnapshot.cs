@@ -22,6 +22,66 @@ namespace haze.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("haze.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("haze.Models.FavouriteCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavouriteCategories");
+                });
+
+            modelBuilder.Entity("haze.Models.FavouritePlatform", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlatformId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavouritePlatforms");
+                });
+
             modelBuilder.Entity("haze.Models.PaymentInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -43,7 +103,6 @@ namespace haze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
@@ -54,6 +113,20 @@ namespace haze.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PaymentInfo");
+                });
+
+            modelBuilder.Entity("haze.Models.Platform", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Platforms");
                 });
 
             modelBuilder.Entity("haze.Models.User", b =>
@@ -98,9 +171,42 @@ namespace haze.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Verified")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("haze.Models.FavouriteCategory", b =>
+                {
+                    b.HasOne("haze.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("haze.Models.User", null)
+                        .WithMany("FavouriteCategories")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("haze.Models.FavouritePlatform", b =>
+                {
+                    b.HasOne("haze.Models.Platform", "Platform")
+                        .WithMany()
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("haze.Models.User", null)
+                        .WithMany("FavouritePlatforms")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Platform");
                 });
 
             modelBuilder.Entity("haze.Models.PaymentInfo", b =>
@@ -112,6 +218,10 @@ namespace haze.Migrations
 
             modelBuilder.Entity("haze.Models.User", b =>
                 {
+                    b.Navigation("FavouriteCategories");
+
+                    b.Navigation("FavouritePlatforms");
+
                     b.Navigation("PaymentInfos");
                 });
 #pragma warning restore 612, 618
