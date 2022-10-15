@@ -23,6 +23,7 @@
                 <mat-error *ngIf="passwdCtrl.hasError('required')">Password is required</mat-error> 
                 <mat-error *ngIf="passwdCtrl.hasError('pattern')">Password must be minimum eight characters, at least one letter and one number</mat-error>            
             </mat-form-field>
+            <br>
            <div style="padding-left: 10%; width: 100%; height:auto;">
             <re-captcha (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
         </div>

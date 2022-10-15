@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   }
   usernameCtrl: FormControl = new FormControl(null, Validators.required);
   emailCtrl: FormControl = new FormControl(null, Validators.required);
-  passwdCtrl: FormControl = new FormControl(null, [Validators.pattern(`^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$`), Validators.required]);
+  passwdCtrl: FormControl = new FormControl(null, [Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/), Validators.required]);
   registerGroup: FormGroup = new FormGroup({ email: this.emailCtrl, passwd: this.passwdCtrl });
   
   attemptCreate() {
@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateForm() {
-    if (this.captchaComplete)
+    if (this.captchaComplete && this.registerGroup.valid)
       return true;
     return false;
   }

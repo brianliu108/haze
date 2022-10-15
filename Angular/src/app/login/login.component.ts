@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit {
   }
 
   attemptLogin(){
-    this.appComponent.navigate("store");
+    if(this.loginGroup.valid){
+      this.appComponent.navigate("store");
+    }
   }
 }
