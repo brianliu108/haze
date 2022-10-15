@@ -21,6 +21,9 @@
         <button mat-stroked-button (click)="attemptLogin()" class="buttonStyle">Submit</button>
         <br>
         <br>
-        <button mat-button (click)="routeToRegister()">Not a member? Register now</button>
+        <div style="display: flex;">
+            <button style="flex: 1;" mat-button (click)="routeToRegister()">Not a member? Register now</button>
+            <button style="margin-left: 70%; flex: 1;" mat-button (click)="routeToPasswordRecovery()">Forgot Password</button>
+        </div>
     </mat-card>
 </div>
