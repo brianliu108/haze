@@ -24,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     StoreComponent,
     ProfileComponent,
     WebBannerComponent,
-    PaymentPageComponent
+    PaymentPageComponent,
+    PreferencesComponent
   ],
   imports: [
     BrowserModule,

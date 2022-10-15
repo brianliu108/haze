@@ -21,7 +21,10 @@
             <input matInput type="password">
             <mat-error></mat-error>            
         </mat-form-field>
-        <re-captcha (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
+        <br>
+        <div style="padding-left: 10%; width: 100%; height:auto;">
+            <re-captcha (resolved)="resolved($event)" siteKey="{{siteKey}}"></re-captcha>
+        </div>
         <br><br>
         
         <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
