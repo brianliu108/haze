@@ -8,7 +8,7 @@
 
     public enum CategoryId
     {
-        Shooter,
+        Shooter = 1,
         Platformer,
         Rogue_Like,
         Strategy,
