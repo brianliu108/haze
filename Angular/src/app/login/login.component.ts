@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
 
   }
 
-  async logonCall() {
+  async logonCall(logonInfo: object) {
     try {
-      const response = await axios.post('https://localhost:7105/Login');
+      const response = await axios.post('https://localhost:7105/Login', logonInfo);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -43,13 +43,17 @@ export class LoginComponent implements OnInit {
     this.appComponent.navigate("register");
   }
 
-  attemptLogin(){
+  async attemptLogin(){
     if(this.loginGroup.valid){
       let logonInfo: object = {
         "Username" : this.usernameCtrl.value,
-        
-
+        "Password" : this.passwdCtrl.value,
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
       }
+      let response = await this.logonCall(logonInfo);
+      console.log(response);
 
       //this.appComponent.navigate("store");
     }
