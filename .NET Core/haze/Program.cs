@@ -38,7 +38,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "cors-policy",
                       policy =>
                       {
-                          policy.WithOrigins("https://localhost:4200");
+                          policy.WithOrigins("http://localhost:4200");
+                          policy.AllowAnyHeader();
+                          policy.AllowAnyMethod();
+                          //policy.AllowAnyOrigin();                          
                       });
 });
 // Swagger API docs
