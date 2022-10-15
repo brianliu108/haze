@@ -1,0 +1,31 @@
+:host {
+    .preferencesBodyStyle {
+        width: 60%;
+        height: auto;
+        margin: 0 auto;
+
+        .preferencesCardStyle {
+            width: auto;
+            height: auto;
+            margin-top: 3%;
+
+            .preferencesFormSpot{
+                width: 100%;
+                height: auto;
+
+                .preferencesInputs{
+                    padding: 1%;
+                    width: 80%;
+                    margin: auto;
+                    display: block;
+                }
+
+                .buttonStyle{
+                    margin: auto;
+                    display: block;
+                    width: 30%;
+                }
+            }
+        }
+    }
+}
