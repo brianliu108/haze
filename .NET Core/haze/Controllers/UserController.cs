@@ -1,33 +1,49 @@
-﻿using haze.Models;
+﻿using haze.DataAccess;
+using haze.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace haze.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/")]
     [ApiController]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
+        private HazeContext _hazeContext;
+        public UserController(ILogger<UserController> logger, HazeContext hazeContext)
         {
             _logger = logger;
+            _hazeContext = hazeContext;
         }
 
-       
-        [HttpGet("/GetUsers")]
+        [HttpGet]
         public IActionResult Get()
         {
-            //List<User> users = new List<User> { new User { UserId = 1, FullName = "Nik" }, new User { UserId = 2, FullName = "Brian" } };
+            return Ok("FUCK");
+        }
 
-            return Ok();
+        [HttpGet("/GetUsers")]
+        public async Task<ActionResult<List<User>>> GetUsers()
+        {
+            return Ok(await _hazeContext.Users.ToListAsync());
         }
 
         [HttpPost("/CreateUser")]
-        public IActionResult Create([FromBody] User request)
+        public async Task<IActionResult> Create(User request)
         {
+            //User user = new User();
+            //user.Email = request.Email;
+            //user.Username = request.Username;
+            //user.Password = request.Password;
+            //user.FirstName = request.FirstName;
+            //user.LastName = request.LastName;
+            //user.BirthDate = request.BirthDate;
+            //user.Gender = request.Gender;
+            _hazeContext.Users.Add(request);
+            await _hazeContext.SaveChangesAsync();
             return Ok();
         }
 

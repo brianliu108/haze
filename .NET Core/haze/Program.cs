@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 var connectionString = "Data Source=5.161.48.218;Initial Catalog=haze;Persist Security Info=True;User ID=sa;Password=Initial1";
-builder.Services.AddDbContext<UsersContext>(x => x.UseSqlServer(connectionString));
+builder.Services.AddDbContext<HazeContext>(x => x.UseSqlServer(connectionString));
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

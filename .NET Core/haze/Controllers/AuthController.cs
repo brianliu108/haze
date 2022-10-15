@@ -16,8 +16,8 @@ namespace haze.Controllers
     public class AuthController : Controller
     {
         private IConfiguration _configuration;
-        private UsersContext _hazeContext;
-        public AuthController(IConfiguration configuration, UsersContext hazeContext)
+        private HazeContext _hazeContext;
+        public AuthController(IConfiguration configuration, HazeContext hazeContext)
         {
             _configuration = configuration;
             _hazeContext = hazeContext;
