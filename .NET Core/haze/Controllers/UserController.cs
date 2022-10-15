@@ -19,29 +19,24 @@ namespace haze.Controllers
             _hazeContext = hazeContext;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("FUCK");
-        }
-
         [HttpGet("/GetUsers")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.ToListAsync());
         }
 
+        [HttpGet("/GetUser/{id}")]
+        public async Task<ActionResult<User>> GetUser()
+        {
+            var user = await _hazeContext.Users.FirstOrDefaultAsync();
+            if (user == null)
+                return BadRequest("User not found!");
+            return Ok(user);
+        }
+
         [HttpPost("/CreateUser")]
         public async Task<IActionResult> Create(User request)
         {
-            //User user = new User();
-            //user.Email = request.Email;
-            //user.Username = request.Username;
-            //user.Password = request.Password;
-            //user.FirstName = request.FirstName;
-            //user.LastName = request.LastName;
-            //user.BirthDate = request.BirthDate;
-            //user.Gender = request.Gender;
             _hazeContext.Users.Add(request);
             await _hazeContext.SaveChangesAsync();
             return Ok();
