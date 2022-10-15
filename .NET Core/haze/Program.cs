@@ -33,6 +33,14 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "cors-policy",
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:4200");
+                      });
+});
 // Swagger API docs
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -53,6 +61,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("cors-policy");
 
 app.UseAuthentication();
 app.UseAuthorization();
