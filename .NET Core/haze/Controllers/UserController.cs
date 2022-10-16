@@ -187,6 +187,38 @@ namespace haze.Controllers
             return Ok();
         }
 
+        [HttpGet("/GetPaymentInfo")]
+        public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo(int userId)
+        {
+            int userIdHTTP = 0;
+            try
+            {
+                if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+                {
+                    userIdHTTP = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                }
+                if (userIdHTTP == 0)
+                {
+                    return BadRequest("User not authorized!");
+                }
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest("Error " + e);
+            }
+
+            User user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userIdHTTP).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            else
+            {
+                return Ok(user.PaymentInfos);
+            }
+        }
+
         [HttpPost("/UserPaymentInfo")]
         public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
@@ -205,10 +237,10 @@ namespace haze.Controllers
                         return BadRequest("User not found!");
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
-                    throw;
+                    return BadRequest("Error " + e);
                 }
 
                 var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
@@ -235,9 +267,86 @@ namespace haze.Controllers
             return Ok();
         }
 
+        [HttpPut("/UpdatePaymentInfo")]
+        public async Task<IActionResult> PaymentInfoUpdate([FromBody] PaymentInfo paymentInfo)
+        {
+            int userId = 0;
+            try
+            {
+                if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+                {
+                    userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                }
+                if (userId == 0)
+                {
+                    return BadRequest("User not found!");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error " + e);
+
+            }
+
+            User user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User not found!");
+
+            if (user.PaymentInfos.Count() == 0)
+            {
+                return BadRequest("Payment Info not found!");
+            }
+
+            PaymentInfo pInfo = user.PaymentInfos.Where(p => p.Id == paymentInfo.Id).First();
+
+            pInfo = paymentInfo;
+
+
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("/DeletePaymentInfo")]
+        public async Task<IActionResult> DeletePaymentInfo([FromBody] PaymentInfo paymentInfo)
+        {
+            int userId = 0;
+            try
+            {
+                if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+                {
+                    userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                }
+                if (userId == 0)
+                {
+                    return BadRequest("User not found!");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error " + e);
+
+            }
+
+            User user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User not found!");
+
+            if (user.PaymentInfos.Count() == 0)
+                return BadRequest("Payment Info not found!");
+
+            PaymentInfo pInfo = user.PaymentInfos.Where(p => p.Id == paymentInfo.Id).First();
+
+            _hazeContext.PaymentInfo.Remove(pInfo);
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
 
         [HttpDelete("/DeleteUser/{Id}")]
-        public IActionResult Delete(int Id)
+        public IActionResult DeleteUser(int Id)
         {
             return Ok();
         }
