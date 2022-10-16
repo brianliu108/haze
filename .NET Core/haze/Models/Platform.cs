@@ -2,7 +2,7 @@
 {
     public class Platform
     {
-        public PlatformId Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 
