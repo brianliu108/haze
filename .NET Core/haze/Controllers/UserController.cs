@@ -27,7 +27,7 @@ namespace haze.Controllers
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
         }
 
-        [HttpGet("/GetUser/{id}")]
+        [HttpGet("/GetUser")]
         public async Task<ActionResult<User>> GetUser()
         {
             var user = await _hazeContext.Users.FirstOrDefaultAsync();
@@ -188,7 +188,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/GetPaymentInfo")]
-        public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo(int userId)
+        public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo()
         {
             int userIdHTTP = 0;
             try
@@ -219,51 +219,45 @@ namespace haze.Controllers
             }
         }
 
-        [HttpPost("/UserPaymentInfo")]
+        [HttpPost("/AddUserPaymentInfo")]
         public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
-            try
+            Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
+            Regex cardRegex = new Regex(@"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$");
+
+            if (!Regex.IsMatch(paymentInfo.CreditCardNumber.ToString().ToLower(), @"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"))
             {
-                Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
-                int userId = 0;
-                try
-                {
-                    if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
-                    {
-                        userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-                    }
-                    if (userId == 0)
-                    {
-                        return BadRequest("User not found!");
-                    }
-                }
-                catch (Exception e)
-                {
+                return BadRequest("Credit card number is incorrect!");
+            }
 
-                    return BadRequest("Error " + e);
-                }
 
-                var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+            int userId = 0;
+            if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+            {
+                userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            }
+            if (userId == 0)
+            {
+                return BadRequest("User not found!");
+            }
+            
+            var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
 
-                if (user == null)
+            if (user == null)
+            {
+                return BadRequest("User not found!");
+            }
+            else
+            {
+                if (userId != user.Id)
                 {
                     return BadRequest("User not found!");
                 }
-                else
-                {
-                    if (userId != user.Id)
-                    {
-                        return BadRequest("User not found!");
-                    }
-                    user.PaymentInfos.Add(paymentInfo);
-                }
+                user.PaymentInfos.Add(paymentInfo);
+            }
 
-                await _hazeContext.SaveChangesAsync();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            await _hazeContext.SaveChangesAsync();
+            
             return Ok();
         }
 
