@@ -68,6 +68,7 @@ namespace haze.Controllers
             {
                 List<Category> categories = new List<Category>();
                 List<Platform> platforms = new List<Platform>();
+                List<string> errors = new List<string>();
                 if (preferences == null)
                     return BadRequest();
                 var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
@@ -77,9 +78,18 @@ namespace haze.Controllers
 
                 if (preferences?.PlatformIds != null || preferences?.PlatformIds?.Count > 0)
                     platforms = await _hazeContext.Platforms.Where(x => preferences.PlatformIds.Contains(x.Id)).ToListAsync();
-                
-                // does this stay null if no categories given?
-                if (categories != null)
+
+                if (categories.Count < preferences.CategoryIds.Count)
+                    errors.Add("One or more provided Categories were not found!");
+                if (platforms.Count < preferences.PlatformIds.Count)
+                    errors.Add("One or more provided Platforms were not found!");
+                if (errors.Count > 0)
+                    return NotFound(new
+                    {
+                        Errors = errors
+                    });
+               
+                if (categories.Count > 0)
                 {                    
                     if (user.FavouriteCategories == null)
                     {
@@ -105,7 +115,7 @@ namespace haze.Controllers
                         }
                     }
                 }
-                if (platforms != null)
+                if (platforms.Count > 0)
                 {
                     if (user.FavouritePlatforms == null)
                     {
