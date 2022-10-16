@@ -20,7 +20,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("GetUsers")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
@@ -88,9 +88,9 @@ namespace haze.Controllers
                     {
                         Errors = errors
                     });
-               
+
                 if (categories.Count > 0)
-                {                    
+                {
                     if (user.FavouriteCategories == null)
                     {
                         user.FavouriteCategories = new List<FavouriteCategory>();
@@ -147,13 +147,40 @@ namespace haze.Controllers
             {
                 return BadRequest();
             }
-                        
+
             return Ok();
         }
 
         [HttpPut("/UpdateUser")]
-        public IActionResult Update([FromBody] User request)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> ProfileUpdate(User request)
         {
+            User user = await _hazeContext.Users.FindAsync(request.Id);
+            if (user == null)
+                return BadRequest("User not found!");
+
+            var test = HttpContext.User;
+
+            if (test == null || !test.Identity.IsAuthenticated)
+            {
+                return BadRequest("User not Authenticated!");
+            }
+            else
+            {
+                user.BirthDate = request.BirthDate;
+                user.Username = request.Username;
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.Email = request.Email;
+                user.Password = request.Password;
+                user.Gender = request.Gender;
+                user.Newsletter = request.Newsletter;
+                user.RoleName = request.RoleName;
+            }
+
+
+            await _hazeContext.SaveChangesAsync();
+
             return Ok();
         }
 
