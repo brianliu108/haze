@@ -152,7 +152,6 @@ namespace haze.Controllers
         }
 
         [HttpPut("/UpdateUser")]
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
             User user = await _hazeContext.Users.FindAsync(request.Id);
@@ -161,7 +160,10 @@ namespace haze.Controllers
 
             var test = HttpContext.User;
 
-            if (test == null || !test.Identity.IsAuthenticated)
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+
+
+            if (test == null || userId != request.Id)
             {
                 return BadRequest("User not Authenticated!");
             }
