@@ -44,9 +44,41 @@ namespace haze.Controllers
             _hazeContext.Users.Add(request);
             await _hazeContext.SaveChangesAsync();
             return Ok();
-        }        
+        }
 
-        [HttpPatch("/UpdateUserPreferences")]
+        [HttpGet("/UserPreferences")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> GetUserPreferences()
+        {
+            try
+            {
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                UpdateUserPreferences preferences = new UpdateUserPreferences();
+                if (user.FavouritePlatforms != null && user.FavouritePlatforms.Count > 0)
+                {
+                    foreach (var platform in user.FavouritePlatforms)
+                    {
+                        preferences.PlatformIds.Add(platform.Id);
+                    }
+                }
+                if (user.FavouriteCategories != null && user.FavouriteCategories.Count > 0)
+                {
+                    foreach (var category in user.FavouriteCategories)
+                    {
+                        preferences.CategoryIds.Add(category.Id);
+                    }
+                }
+
+                return Ok(preferences);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPatch("/UserPreferences")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateUserPreferences([FromBody] UpdateUserPreferences preferences)
         {
