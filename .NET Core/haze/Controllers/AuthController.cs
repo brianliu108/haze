@@ -60,10 +60,13 @@ namespace haze.Controllers
 
             if (errors.Count > 0)
             {
-                return BadRequest(new
+                var response = new
                 {
                     Errors = errors
-                });
+                };
+                if (errors.Contains("The username is already taken!") || errors.Contains("The email is already in use!"))
+                    return Conflict(response);
+                else return BadRequest(response);
             }
             user.RoleName = "User";
             user.Verified = false;

@@ -4,6 +4,8 @@
         <br>
         <h1 style="text-align: center; font-weight: bold;">Login</h1>
         <br>
+        <h2 style="text-align: center; color: red; font-weight: bold;" *ngIf="loginFail == true">Logon Failed, Check Username or Password</h2>
+        <br>
         <form [formGroup] = "loginGroup">
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Username</mat-label>
@@ -22,7 +24,7 @@
         <br>
         <br>
         <div style="display: flex;">
-            <button style="flex: 1;" mat-button (click)="routeToRegister()">Not a member? Register now</button>
+            <button style="flex: 1; width: auto;" mat-button (click)="routeToRegister()">Not a member? Register now</button>
             <button style="margin-left: 70%; flex: 1;" mat-button (click)="routeToPasswordRecovery()">Forgot Password</button>
         </div>
     </mat-card>

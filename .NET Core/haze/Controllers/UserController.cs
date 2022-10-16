@@ -27,7 +27,8 @@ namespace haze.Controllers
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
         }
 
-        [HttpGet("/GetUser")]
+        [HttpGet("/GetUser/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<User>> GetUser()
         {
             var user = await _hazeContext.Users.FirstOrDefaultAsync();
@@ -37,6 +38,7 @@ namespace haze.Controllers
         }
 
         [HttpPost("/CreateUser")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Create(User request)
         {
             _hazeContext.Users.Add(request);
@@ -44,24 +46,39 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpPost("/testcreate")]
-        public async Task<IActionResult> TestCreate(User request)
+        [HttpGet("/UserPreferences")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> GetUserPreferences()
         {
-            List<FavouritePlatform> favouritePlatforms = new List<FavouritePlatform>();
-
-            Platform platform = await _hazeContext.Platforms.Where(x => x.Id == request.FavouritePlatforms[0].Platform.Id).FirstOrDefaultAsync();
-            FavouritePlatform favouritePlatform = new FavouritePlatform()
+            try
             {
-                Platform = platform
-            };
-            favouritePlatforms.Add(favouritePlatform);
-            request.FavouritePlatforms = favouritePlatforms;
-            _hazeContext.Users.Add(request);
-            await _hazeContext.SaveChangesAsync();
-            return Ok();
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                UpdateUserPreferences preferences = new UpdateUserPreferences();
+                if (user.FavouritePlatforms != null && user.FavouritePlatforms.Count > 0)
+                {
+                    foreach (var platform in user.FavouritePlatforms)
+                    {
+                        preferences.PlatformIds.Add(platform.Id);
+                    }
+                }
+                if (user.FavouriteCategories != null && user.FavouriteCategories.Count > 0)
+                {
+                    foreach (var category in user.FavouriteCategories)
+                    {
+                        preferences.CategoryIds.Add(category.Id);
+                    }
+                }
+
+                return Ok(preferences);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpPatch("/UpdateUserPreferences")]
+        [HttpPatch("/UserPreferences")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateUserPreferences([FromBody] UpdateUserPreferences preferences)
         {
@@ -82,8 +99,12 @@ namespace haze.Controllers
 
                 if (categories.Count < preferences.CategoryIds.Count)
                     errors.Add("One or more provided Categories were not found!");
+                else if (categories.Count > 3)
+                    errors.Add("Cannot add more than 3 favourite categories!");
                 if (platforms.Count < preferences.PlatformIds.Count)
                     errors.Add("One or more provided Platforms were not found!");
+                else if (platforms.Count > 3)
+                    errors.Add("Cannot add more than 3 favourite platforms!");
                 if (errors.Count > 0)
                     return NotFound(new
                     {
