@@ -21,14 +21,14 @@ namespace haze.Controllers
         }
 
         [HttpGet("GetUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
         }
 
-        [HttpGet("/GetUser/{id}")]
-        [Authorize(Roles = "Admin")]
+        [HttpGet("/GetUser")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<User>> GetUser()
         {
             var user = await _hazeContext.Users.FirstOrDefaultAsync();
