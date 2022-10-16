@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace haze.Controllers
 {
@@ -185,6 +186,55 @@ namespace haze.Controllers
 
             return Ok();
         }
+
+        [HttpPost("/UserPaymentInfo")]
+        public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
+        {
+            try
+            {
+                Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
+                int userId = 0;
+                try
+                {
+                    if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+                    {
+                        userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                    }
+                    if (userId == 0)
+                    {
+                        return BadRequest("User not found!");
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return BadRequest("User not found!");
+                }
+                else
+                {
+                    if (userId != user.Id)
+                    {
+                        return BadRequest("User not found!");
+                    }
+                    user.PaymentInfos.Add(paymentInfo);
+                }
+
+                await _hazeContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
 
         [HttpDelete("/DeleteUser/{Id}")]
         public IActionResult Delete(int Id)
