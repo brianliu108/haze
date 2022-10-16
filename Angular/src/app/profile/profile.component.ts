@@ -8,6 +8,8 @@ import { AppComponent } from '../app.component';
 })
 export class ProfileComponent implements OnInit {
 
+  checked: boolean = false;
+
   constructor(
     private appComponent: AppComponent
   ) { }
