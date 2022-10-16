@@ -176,36 +176,27 @@ namespace haze.Controllers
         [HttpPut("/UpdateUser")]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
-            User user = await _hazeContext.Users.FindAsync(request.Id);
-            if (user == null)
-                return BadRequest("User not found!");
-
-            var test = HttpContext.User;
-
-            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-
-
-            if (test == null || userId != request.Id)
+            try
             {
-                return BadRequest("User not Authenticated!");
-            }
-            else
-            {
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                User user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest("User not found!");
+
                 user.BirthDate = request.BirthDate;
-                user.Username = request.Username;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
-                user.Email = request.Email;
-                user.Password = request.Password;
                 user.Gender = request.Gender;
                 user.Newsletter = request.Newsletter;
-                user.RoleName = request.RoleName;
+
+                await _hazeContext.SaveChangesAsync();
+
+                return Ok();
             }
-
-
-            await _hazeContext.SaveChangesAsync();
-
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }            
         }
 
         [HttpGet("/GetPaymentInfo")]
