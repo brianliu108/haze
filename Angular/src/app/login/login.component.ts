@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
     private appComponent: AppComponent
   ) { }
 
+  logonAttempts: number;
+  loginFail: boolean = false;
+
   usernameCtrl: FormControl = new FormControl(null, Validators.required);
   passwdCtrl: FormControl = new FormControl(null, Validators.required);
   loginGroup: FormGroup = new FormGroup({
@@ -24,10 +27,13 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-  }
-
-  makeCall() {
-
+    if(localStorage.getItem('logonAttempts') == null){
+      this.logonAttempts = 0;
+      localStorage.setItem('logonAttempts', JSON.stringify(this.logonAttempts));
+    }
+    else{
+      this.logonAttempts =  JSON.parse(localStorage.getItem('logonAttempts')!);
+    }
   }
 
   async logonCall(logonInfo: object) {
@@ -36,6 +42,7 @@ export class LoginComponent implements OnInit {
       return (response);
     } catch (error) {
       console.error(error);
+      this.loginFail = true;
       return (error);
     }
   }
@@ -45,35 +52,41 @@ export class LoginComponent implements OnInit {
   }
 
   async attemptLogin() {
-    if (this.loginGroup.valid) {
-      let logonInfo: object = {
-        "Username": this.usernameCtrl.value,
-        "Password": this.passwdCtrl.value,
-        headers: {
-          "Access-Control-Allow-Origin": "*"
+    if(this.logonAttempts < 3){
+      if (this.loginGroup.valid) {
+        let logonInfo: object = {
+          "Username": this.usernameCtrl.value,
+          "Password": this.passwdCtrl.value,
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+        let response: any = await this.logonCall(logonInfo);
+        let responseData: any = response.data;
+        console.log(responseData);
+  
+        if (response.status == 200) {
+          let currentUser = {
+            username: btoa(this.usernameCtrl.value),
+            password: btoa(this.passwdCtrl.value),
+            token: responseData
+          }
+  
+          localStorage.setItem("currentUser", JSON.stringify(currentUser));
+          this.appComponent.navigate("store");
+        }
+        else{
+          this.logonAttempts++;
+          localStorage.setItem('logonAttempts', JSON.stringify(this.logonAttempts));
         }
       }
-      let response: any = await this.logonCall(logonInfo);
-      let responseData: any = response.data;
-      console.log(responseData);
-
-      if (response.status == 200) {
-        let currentUser = {
-          username: btoa(this.usernameCtrl.value),
-          password: btoa(this.passwdCtrl.value),
-          token: responseData
-
-        }
-
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        this.appComponent.navigate("store");
-      }
+    }
+    else{
+      alert("Logon Attempts Exceeded!");
     }
   }
 
   routeToPasswordRecovery() {
     this.appComponent.navigate("password-recovery");
   }
-
-
 }
