@@ -25,6 +25,7 @@ namespace haze.Controllers.Utility
                 Subject = new ClaimsIdentity(new[]
             {
                 new Claim("id", Guid.NewGuid().ToString()),
+                new Claim("userId", user.Id.ToString()),
                 new Claim("role", user.RoleName),
                 new Claim("email", user.Email),
                 new Claim("username", user.Username),
