@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace haze.Controllers
 {
@@ -27,6 +28,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/GetUser/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<User>> GetUser()
         {
             var user = await _hazeContext.Users.FirstOrDefaultAsync();
@@ -36,29 +38,13 @@ namespace haze.Controllers
         }
 
         [HttpPost("/CreateUser")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Create(User request)
         {
             _hazeContext.Users.Add(request);
             await _hazeContext.SaveChangesAsync();
             return Ok();
-        }
-
-        [HttpPost("/testcreate")]
-        public async Task<IActionResult> TestCreate(User request)
-        {
-            List<FavouritePlatform> favouritePlatforms = new List<FavouritePlatform>();
-
-            Platform platform = await _hazeContext.Platforms.Where(x => x.Id == request.FavouritePlatforms[0].Platform.Id).FirstOrDefaultAsync();
-            FavouritePlatform favouritePlatform = new FavouritePlatform()
-            {
-                Platform = platform
-            };
-            favouritePlatforms.Add(favouritePlatform);
-            request.FavouritePlatforms = favouritePlatforms;
-            _hazeContext.Users.Add(request);
-            await _hazeContext.SaveChangesAsync();
-            return Ok();
-        }
+        }        
 
         [HttpPatch("/UpdateUserPreferences")]
         [Authorize(Roles = "User")]
@@ -81,8 +67,12 @@ namespace haze.Controllers
 
                 if (categories.Count < preferences.CategoryIds.Count)
                     errors.Add("One or more provided Categories were not found!");
+                else if (categories.Count > 3)
+                    errors.Add("Cannot add more than 3 favourite categories!");
                 if (platforms.Count < preferences.PlatformIds.Count)
                     errors.Add("One or more provided Platforms were not found!");
+                else if (platforms.Count > 3)
+                    errors.Add("Cannot add more than 3 favourite platforms!");
                 if (errors.Count > 0)
                     return NotFound(new
                     {

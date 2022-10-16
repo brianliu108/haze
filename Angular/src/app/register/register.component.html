@@ -4,8 +4,9 @@
         <br>
         <h1 style="text-align: center; font-weight: bold;">Register</h1>
         <br>
-        <form [formGroup]="registerGroup">
-            <mat-form-field appearance="fill" class="inputSet">
+        <form [formGroup]="registerGroup">            
+            <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <mat-form-field appearance="fill" class="inputSet">                
                 <mat-label>Username</mat-label>
                 <input [formControl]="usernameCtrl" matInput>
                 <mat-error *ngIf="usernameCtrl.hasError('required')">Username is required</mat-error>
@@ -13,8 +14,9 @@
             <br><br>
             <mat-form-field appearance="fill"  class="inputSet">
                 <mat-label>Email</mat-label>
-                <input [formControl]="emailCtrl" matInput>
+                <input [formControl]="emailCtrl" matInput type="email">
                 <mat-error *ngIf="emailCtrl.hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="emailCtrl.hasError('email')">A valid email is required</mat-error>
             </mat-form-field>
             <br><br>
             <mat-form-field appearance="fill"  class="inputSet">
@@ -32,5 +34,9 @@
         
         <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
         <br>
+        <br>
+        <div style="display: flex;">
+            <button style="flex: 1; margin-right: 70%; margin-left: 10%;" mat-button (click)="routeToLogin()">Already a member? Login now</button>            
+        </div>
     </mat-card>
 </div>
