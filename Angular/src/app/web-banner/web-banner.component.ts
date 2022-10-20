@@ -24,6 +24,7 @@ export class WebBannerComponent implements OnInit {
   }
 
   navigateLogin(){
+    localStorage.clear();
     this.appComponent.navigate("");
   }
 
