@@ -2,7 +2,7 @@
 <div class="profileBodyStyle">
     <mat-card class="profileCardStyle">
         <mat-accordion>
-            <mat-expansion-panel expanded="true">
+            <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>Update Profile Information</mat-panel-title>
                 </mat-expansion-panel-header>
@@ -28,6 +28,38 @@
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <br>
+                    <mat-checkbox style="margin-left: 10%;" [formControl]="newsletterCtrl">Sign up for promotional
+                        emails</mat-checkbox>
+                    <br>
+                    <br>
+                    <button class="buttonStyle" mat-stroked-button (click)="submitProfileChanges()">Submit</button>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngFor="let item of currentCards; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Payment Method {{i + 1}}</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="infoFormSpot">
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Card Number</mat-label>
+                        <input  matInput>
+                        <mat-error *ngIf="firstNameCtrl.hasError('required')">First Name is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Expiration Date</mat-label>
+                        <input  matInput>
+                        <mat-error *ngIf="lastNameCtrl.hasError('required')">Last Name is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Billing Address</mat-label>
+                        <input  matInput>
+                        <mat-error></mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="infoInputs">
+                        <mat-label>Shipping Address</mat-label>
+                        <input  matInput >
                     </mat-form-field>
                     <br>
                     <mat-checkbox style="margin-left: 10%;" [formControl]="newsletterCtrl">Sign up for promotional emails</mat-checkbox>
