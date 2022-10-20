@@ -20,7 +20,6 @@ export class ProfileComponent implements OnInit {
 
   profileGroup: FormGroup;
 
-
   constructor(
     private appComponent: AppComponent
   ) { }
