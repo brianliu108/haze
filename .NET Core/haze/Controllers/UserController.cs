@@ -155,7 +155,7 @@ namespace haze.Controllers
                     }
                     else
                     {
-                        for (int i = 0; i < categories.Count; i++)
+                        for (int i = 0; i < platforms.Count; i++)
                         {
                             if (user.FavouritePlatforms.ElementAtOrDefault(i) != null)
                                 user.FavouritePlatforms[i].Platform = platforms[i];
