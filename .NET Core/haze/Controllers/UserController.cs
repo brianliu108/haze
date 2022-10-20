@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
 namespace haze.Controllers
 {
@@ -59,14 +60,14 @@ namespace haze.Controllers
                 {
                     foreach (var platform in user.FavouritePlatforms)
                     {
-                        preferences.PlatformIds.Add(platform.Id);
+                        preferences.PlatformIds.Add(platform.Platform.Id);
                     }
                 }
                 if (user.FavouriteCategories != null && user.FavouriteCategories.Count > 0)
                 {
                     foreach (var category in user.FavouriteCategories)
                     {
-                        preferences.CategoryIds.Add(category.Id);
+                        preferences.CategoryIds.Add(category.Category.Id);
                     }
                 }
 
@@ -91,6 +92,8 @@ namespace haze.Controllers
                     return BadRequest();
                 var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
                 var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest();
                 if (preferences?.CategoryIds != null || preferences.CategoryIds?.Count > 0)
                     categories = await _hazeContext.Categories.Where(x => preferences.CategoryIds.Contains(x.Id)).ToListAsync();
 
@@ -110,7 +113,7 @@ namespace haze.Controllers
                     {
                         Errors = errors
                     });
-
+            
                 if (categories.Count > 0)
                 {
                     if (user.FavouriteCategories == null)
@@ -136,6 +139,9 @@ namespace haze.Controllers
                             user.FavouriteCategories.RemoveAt(i);
                         }
                     }
+                } else if (user.FavouriteCategories?.Count > 0 && preferences.CategoryIds.Count == 0)
+                {
+                    user.FavouriteCategories.RemoveAll(x => x != null);
                 }
                 if (platforms.Count > 0)
                 {
@@ -162,7 +168,11 @@ namespace haze.Controllers
                             user.FavouritePlatforms.RemoveAt(i);
                         }
                     }
+                } else if (user.FavouritePlatforms?.Count > 0 && preferences.PlatformIds.Count == 0)
+                {
+                    user.FavouritePlatforms.RemoveAll(x => x != null);
                 }
+                
                 await _hazeContext.SaveChangesAsync();
             }
             catch (Exception)
