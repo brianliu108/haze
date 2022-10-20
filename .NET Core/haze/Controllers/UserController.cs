@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
 namespace haze.Controllers
 {
@@ -21,14 +22,15 @@ namespace haze.Controllers
         }
 
         [HttpGet("GetUsers")]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
         }
 
-        [HttpGet("/GetUser/{id}")]
-        [Authorize(Roles = "User")]
+
+        [HttpGet("/GetUser")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<User>> GetUser()
         {
             var user = await _hazeContext.Users.FirstOrDefaultAsync();
@@ -59,14 +61,14 @@ namespace haze.Controllers
                 {
                     foreach (var platform in user.FavouritePlatforms)
                     {
-                        preferences.PlatformIds.Add(platform.Id);
+                        preferences.PlatformIds.Add(platform.Platform.Id);
                     }
                 }
                 if (user.FavouriteCategories != null && user.FavouriteCategories.Count > 0)
                 {
                     foreach (var category in user.FavouriteCategories)
                     {
-                        preferences.CategoryIds.Add(category.Id);
+                        preferences.CategoryIds.Add(category.Category.Id);
                     }
                 }
 
@@ -91,6 +93,8 @@ namespace haze.Controllers
                     return BadRequest();
                 var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
                 var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest();
                 if (preferences?.CategoryIds != null || preferences.CategoryIds?.Count > 0)
                     categories = await _hazeContext.Categories.Where(x => preferences.CategoryIds.Contains(x.Id)).ToListAsync();
 
@@ -110,7 +114,7 @@ namespace haze.Controllers
                     {
                         Errors = errors
                     });
-
+            
                 if (categories.Count > 0)
                 {
                     if (user.FavouriteCategories == null)
@@ -136,6 +140,9 @@ namespace haze.Controllers
                             user.FavouriteCategories.RemoveAt(i);
                         }
                     }
+                } else if (user.FavouriteCategories?.Count > 0 && preferences.CategoryIds.Count == 0)
+                {
+                    user.FavouriteCategories.RemoveAll(x => x != null);
                 }
                 if (platforms.Count > 0)
                 {
@@ -149,7 +156,7 @@ namespace haze.Controllers
                     }
                     else
                     {
-                        for (int i = 0; i < categories.Count; i++)
+                        for (int i = 0; i < platforms.Count; i++)
                         {
                             if (user.FavouritePlatforms.ElementAtOrDefault(i) != null)
                                 user.FavouritePlatforms[i].Platform = platforms[i];
@@ -162,7 +169,11 @@ namespace haze.Controllers
                             user.FavouritePlatforms.RemoveAt(i);
                         }
                     }
+                } else if (user.FavouritePlatforms?.Count > 0 && preferences.PlatformIds.Count == 0)
+                {
+                    user.FavouritePlatforms.RemoveAll(x => x != null);
                 }
+                
                 await _hazeContext.SaveChangesAsync();
             }
             catch (Exception)
@@ -172,44 +183,56 @@ namespace haze.Controllers
 
             return Ok();
         }
+        
+        [HttpGet("/UserProfile")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                User user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest("User not found!");
 
-        [HttpPut("/UpdateUser")]
+                return Ok(user);
+            }
+            catch
+            {
+                return BadRequest();
+            }            
+        }
+        
+        [HttpPut("/UserProfile")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
-            User user = await _hazeContext.Users.FindAsync(request.Id);
-            if (user == null)
-                return BadRequest("User not found!");
-
-            var test = HttpContext.User;
-
-            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-
-
-            if (test == null || userId != request.Id)
+            try
             {
-                return BadRequest("User not Authenticated!");
-            }
-            else
-            {
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                User user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest("User not found!");
+
                 user.BirthDate = request.BirthDate;
-                user.Username = request.Username;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
-                user.Email = request.Email;
-                user.Password = request.Password;
                 user.Gender = request.Gender;
                 user.Newsletter = request.Newsletter;
-                user.RoleName = request.RoleName;
+
+                await _hazeContext.SaveChangesAsync();
+
+                return Ok();
             }
-
-
-            await _hazeContext.SaveChangesAsync();
-
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }            
         }
 
-        [HttpGet("/GetPaymentInfo")]
-        public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo(int userId)
+        [HttpGet("/PaymentInfo")]
+        [Authorize(Roles="User")]
+        public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo()
         {
             int userIdHTTP = 0;
             try
@@ -240,55 +263,51 @@ namespace haze.Controllers
             }
         }
 
-        [HttpPost("/UserPaymentInfo")]
+        [HttpPost("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
-            try
+            Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
+            Regex cardRegex = new Regex(@"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$");
+
+            if (!Regex.IsMatch(paymentInfo.CreditCardNumber.ToString().ToLower(), @"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"))
             {
-                Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
-                int userId = 0;
-                try
-                {
-                    if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
-                    {
-                        userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-                    }
-                    if (userId == 0)
-                    {
-                        return BadRequest("User not found!");
-                    }
-                }
-                catch (Exception e)
-                {
+                return BadRequest("Credit card number is incorrect!");
+            }
 
-                    return BadRequest("Error " + e);
-                }
 
-                var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+            int userId = 0;
+            if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
+            {
+                userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            }
+            if (userId == 0)
+            {
+                return BadRequest("User not found!");
+            }
+            
+            var user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
 
-                if (user == null)
+            if (user == null)
+            {
+                return BadRequest("User not found!");
+            }
+            else
+            {
+                if (userId != user.Id)
                 {
                     return BadRequest("User not found!");
                 }
-                else
-                {
-                    if (userId != user.Id)
-                    {
-                        return BadRequest("User not found!");
-                    }
-                    user.PaymentInfos.Add(paymentInfo);
-                }
+                user.PaymentInfos.Add(paymentInfo);
+            }
 
-                await _hazeContext.SaveChangesAsync();
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            await _hazeContext.SaveChangesAsync();
+            
             return Ok();
         }
 
-        [HttpPut("/UpdatePaymentInfo")]
+        [HttpPut("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> PaymentInfoUpdate([FromBody] PaymentInfo paymentInfo)
         {
             int userId = 0;
@@ -329,7 +348,8 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpDelete("/DeletePaymentInfo")]
+        [HttpDelete("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> DeletePaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
             int userId = 0;

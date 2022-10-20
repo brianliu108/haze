@@ -8,20 +8,20 @@
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
             <mat-form-field appearance="fill" class="inputSet">                
                 <mat-label>Username</mat-label>
-                <input [formControl]="usernameCtrl" matInput>
+                <input id="usernameCtrl" matInput>
                 <mat-error *ngIf="usernameCtrl.hasError('required')">Username is required</mat-error>
             </mat-form-field>
             <br><br>
             <mat-form-field appearance="fill"  class="inputSet">
                 <mat-label>Email</mat-label>
-                <input [formControl]="emailCtrl" matInput type="email">
+                <input id="emailCtrl" matInput type="email">
                 <mat-error *ngIf="emailCtrl.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="emailCtrl.hasError('email')">A valid email is required</mat-error>
             </mat-form-field>
             <br><br>
             <mat-form-field appearance="fill"  class="inputSet">
                 <mat-label>Password</mat-label>
-                <input [formControl]="passwdCtrl" matInput type="password">
+                <input id="passwdCtrl" matInput type="password">
                 <mat-error *ngIf="passwdCtrl.hasError('required')">Password is required</mat-error> 
                 <mat-error *ngIf="passwdCtrl.hasError('pattern')">Password must be minimum eight characters, at least one letter and one number</mat-error>            
             </mat-form-field>

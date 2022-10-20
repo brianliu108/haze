@@ -21,9 +21,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  usernameCtrl: FormControl = new FormControl(null, Validators.required);
-  emailCtrl: FormControl = new FormControl(null, [Validators.required, Validators.email]);
-  passwdCtrl: FormControl = new FormControl(null, [Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/), Validators.required]);
+  usernameCtrl = new FormControl(null, Validators.required);
+  emailCtrl = new FormControl(null, [Validators.required, Validators.email]);
+  passwdCtrl = new FormControl(null, [Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/), Validators.required]);
   registerGroup: FormGroup = new FormGroup({ email: this.emailCtrl, passwd: this.passwdCtrl });
   
   async attemptCreate() {
