@@ -182,8 +182,28 @@ namespace haze.Controllers
 
             return Ok();
         }
+        
+        [HttpGet("/UserProfile")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+                User user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return BadRequest("User not found!");
 
-        [HttpPut("/UpdateUser")]
+                return Ok(user);
+            }
+            catch
+            {
+                return BadRequest();
+            }            
+        }
+        
+        [HttpPut("/UserProfile")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
             try
@@ -209,7 +229,8 @@ namespace haze.Controllers
             }            
         }
 
-        [HttpGet("/GetPaymentInfo")]
+        [HttpGet("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo()
         {
             int userIdHTTP = 0;
@@ -241,7 +262,8 @@ namespace haze.Controllers
             }
         }
 
-        [HttpPost("/AddUserPaymentInfo")]
+        [HttpPost("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
             Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
@@ -283,7 +305,8 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpPut("/UpdatePaymentInfo")]
+        [HttpPut("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> PaymentInfoUpdate([FromBody] PaymentInfo paymentInfo)
         {
             int userId = 0;
@@ -324,7 +347,8 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpDelete("/DeletePaymentInfo")]
+        [HttpDelete("/PaymentInfo")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> DeletePaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
             int userId = 0;
