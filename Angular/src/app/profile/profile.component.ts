@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
 
   profileGroup: FormGroup;
 
+  currentCards: Array<any>;
+
   constructor(
     private appComponent: AppComponent
   ) { }
@@ -53,6 +55,8 @@ export class ProfileComponent implements OnInit {
     } catch (err) {
       this.appComponent.navigate('store');
     }
+
+    this.getCards();
   }
 
   async submitProfileChanges() {
@@ -71,7 +75,7 @@ export class ProfileComponent implements OnInit {
       newsletter: this.newsletterCtrl.value
     };
 
-    await axios.put("https://localhost:7105/UserProfile", requestBody,this.requestInfo)
+    await axios.put("https://localhost:7105/UserProfile", requestBody,this.requestInfo);
     
     this.appComponent.navigate('store');
   }
@@ -79,5 +83,15 @@ export class ProfileComponent implements OnInit {
   navigatePayment() {
     this.appComponent.navigate("payment");
   }
+  
+  async getCards(){
+    try {
+      const response = await axios.get('https://localhost:7105/PaymentInfo', this.requestInfo);
+      this.currentCards = response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }
 
