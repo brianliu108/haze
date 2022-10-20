@@ -25,7 +25,8 @@ namespace haze.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).ToListAsync());
+            return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).ToListAsync());
         }
 
 

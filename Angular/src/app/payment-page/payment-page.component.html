@@ -6,19 +6,24 @@
             <form>
                 <mat-form-field appearance="fill" class="paymentInputs">
                     <mat-label>Credit Card Number</mat-label>
-                    <input matInput>
+                    <input matInput [formControl]="creditCardNumCtrl">
+                    <mat-error *ngIf="creditCardNumCtrl.hasError('required')">Credit card is required</mat-error>
+                    <mat-error *ngIf="creditCardNumCtrl.hasError('pattern')">Please check your credit card</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="paymentInputs">
                     <mat-label>Expiry</mat-label>
-                    <input matInput>
+                    <input matInput [formControl]="expiryCtrl">
+                    <mat-error *ngIf="expiryCtrl.hasError('required')">Expiry is required</mat-error>
+                    <mat-error *ngIf="expiryCtrl.hasError('pattern')">Please check your expiry</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="paymentInputs">
                     <mat-label>Billing Address</mat-label>
-                    <input matInput>
+                    <input matInput [formControl]="billingAddressCtrl">
+                    <mat-error>Billing Address is required</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="paymentInputs">
                     <mat-label>Shipping Address (leave blank if same as billing)</mat-label>
-                    <input matInput>
+                    <input matInput [formControl]="shippingAddressCtrl">
                 </mat-form-field>
             </form>
             <br>
