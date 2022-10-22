@@ -58,6 +58,8 @@ export class PreferencesComponent implements OnInit {
       }
     } catch (e) {
       console.log(e);
+      if(this.token == undefined)
+        this.appComponent.navigate("")
     }
 
   }
