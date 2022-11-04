@@ -38,7 +38,12 @@ namespace haze.Controllers
                 return NotFound();
             AuthUtility utility = new AuthUtility(_configuration);
             string jwt = utility.GenerateToken(queriedUser);
-            return Ok(jwt);
+            string role = queriedUser.RoleName;
+            return Ok(new
+            {
+                Token = jwt,
+                Role = role
+            });
         }
 
         [AllowAnonymous]
