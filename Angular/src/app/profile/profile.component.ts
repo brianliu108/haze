@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
     try {
       let userProfile = await axios.get("https://localhost:7105/UserProfile", this.requestInfo);
       let data = userProfile.data;
-      console.log(userProfile.data)
+      //console.log(userProfile.data)
 
       this.firstNameCtrl = new FormControl(data.firstName, Validators.required);
       this.lastNameCtrl = new FormControl(data.lastName, Validators.required);
@@ -88,6 +88,7 @@ export class ProfileComponent implements OnInit {
     try {
       const response = await axios.get('https://localhost:7105/PaymentInfo', this.requestInfo);
       this.currentCards = response.data;
+      console.log(this.currentCards);
     } catch (error) {
       console.error(error);
     }
