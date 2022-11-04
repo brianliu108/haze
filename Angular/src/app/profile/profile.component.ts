@@ -18,6 +18,10 @@ export class ProfileComponent implements OnInit {
   private token:any;
   private requestInfo:any;
 
+  public updatingCard: boolean = false;
+
+  creditCardNumCtrl: FormControl = new FormControl();
+
   profileGroup: FormGroup;
 
   currentCards: Array<any>;
@@ -25,6 +29,19 @@ export class ProfileComponent implements OnInit {
   constructor(
     private appComponent: AppComponent
   ) { }
+
+  updatingCreditCard(item: any){
+    console.log(this.updatingCard);
+    if(this.updatingCard == false){
+      this.updatingCard = true;
+    }
+    else{
+      this.updatingCard = false;
+    }
+    console.log(this.updatingCard);
+
+    this.updateCardCall(item);
+  }
 
   async ngOnInit() {
     this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
@@ -94,5 +111,23 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  async updateCardCall(item: any){
+    console.log(item.creditCardNumber);
+    let updatedInfo:any = item;
+
+    /*
+    try {
+      const response = await axios.put('https://localhost:7105/PaymentInfo', this.requestInfo);
+      this.currentCards = response.data;
+      console.log(this.currentCards);
+    } catch (error) {
+      console.error(error);
+    }
+    */
+  }
+
+  submitUpdateCall(){
+    console.log(this.creditCardNumCtrl.value + "  Called");
+  }
 }
 
