@@ -44,22 +44,22 @@
                 <div class="infoFormSpot">
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Card Number</mat-label>
-                        <input  matInput>
+                        <input value="{{item.creditCardNumber}}" readonly matInput>
                         <mat-error *ngIf="firstNameCtrl.hasError('required')">First Name is required.</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Expiration Date</mat-label>
-                        <input  matInput>
+                        <input value="{{item.expiryDate}}" readonly matInput>
                         <mat-error *ngIf="lastNameCtrl.hasError('required')">Last Name is required.</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Billing Address</mat-label>
-                        <input  matInput>
+                        <input value="{{item.billingAddress}}" readonly matInput>
                         <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Shipping Address</mat-label>
-                        <input  matInput >
+                        <input value="{{item.shippingAddress}}" readonly matInput >
                     </mat-form-field>
                     <br>
                     <mat-checkbox style="margin-left: 10%;" [formControl]="newsletterCtrl">Sign up for promotional emails</mat-checkbox>
