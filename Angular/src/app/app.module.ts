@@ -26,6 +26,7 @@ import { PaymentPageComponent } from './payment-page/payment-page.component';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
     WebBannerComponent,
     PaymentPageComponent,
     PreferencesComponent,
-    PasswordRecoveryComponent
+    PasswordRecoveryComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,

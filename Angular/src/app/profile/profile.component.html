@@ -44,28 +44,34 @@
                 <div class="infoFormSpot">
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Card Number</mat-label>
-                        <input value="{{item.creditCardNumber}}" readonly matInput>
+                        <input [formControl]="creditCardNumCtrl" value="{{item.creditCardNumber}}" [disabled]="!updatingCard" matInput>
                         <mat-error *ngIf="firstNameCtrl.hasError('required')">First Name is required.</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Expiration Date</mat-label>
-                        <input value="{{item.expiryDate}}" readonly matInput>
+                        <input value="{{item.expiryDate}}" [disabled]="!updatingCard" matInput>
                         <mat-error *ngIf="lastNameCtrl.hasError('required')">Last Name is required.</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Billing Address</mat-label>
-                        <input value="{{item.billingAddress}}" readonly matInput>
+                        <input value="{{item.billingAddress}}" [disabled]="!updatingCard" matInput>
                         <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Shipping Address</mat-label>
-                        <input value="{{item.shippingAddress}}" readonly matInput >
+                        <input value="{{item.shippingAddress}}" [disabled]="!updatingCard" matInput >
                     </mat-form-field>
                     <br>
-                    <mat-checkbox style="margin-left: 10%;" [formControl]="newsletterCtrl">Sign up for promotional emails</mat-checkbox>
+                    <div style="width: 100%; height: auto; display: flex;" *ngIf="updatingCard">
+                        <button mat-stroked-button style="width: 50%; flex: 1; margin-left: 25%; margin-right: 25%;" (click)="submitUpdateCall()">Submit Changes</button>
+                    </div>
                     <br>
                     <br>
-                    <button class="buttonStyle" mat-stroked-button (click)="submitProfileChanges()">Submit</button>
+                    <div style="width: 100%; display: flex;">
+                        <button style="flex: 1; margin-right: 2%; margin-left: 2%;" (click)="updatingCreditCard(item)" mat-stroked-button>Update Credit Card</button>
+                        <button style="flex: 1; margin-right: 2%; margin-left: 2%;"  mat-stroked-button>Delete Credit Card</button>
+                    </div>
+                    <br>
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
