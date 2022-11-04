@@ -3,7 +3,7 @@ import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios, { AxiosResponse } from 'axios';
 import { AppComponent } from '../app.component';
-// test kit
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -69,7 +69,8 @@ export class LoginComponent implements OnInit {
           let currentUser = {
             username: btoa(this.usernameCtrl.value),
             password: btoa(this.passwdCtrl.value),
-            token: responseData
+            token: responseData.token,
+            role: responseData.role
           }
   
           localStorage.setItem("currentUser", JSON.stringify(currentUser));
