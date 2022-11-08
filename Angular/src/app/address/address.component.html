@@ -1,1 +1,9 @@
-<p>address works!</p>
+<app-web-banner></app-web-banner>
+<div class="addressBodyStyle">
+    <mat-card class="addressCardStyle">
+        <h1 style="text-align: center;">Add/Update Address</h1>
+        <form>
+            <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+        </form>
+    </mat-card>
+</div>

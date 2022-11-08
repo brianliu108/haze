@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
 namespace haze.Controllers
@@ -31,10 +34,13 @@ namespace haze.Controllers
 
 
         [HttpGet("/GetUser")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult<User>> GetUser()
         {
-            var user = await _hazeContext.Users.FirstOrDefaultAsync();
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
             if (user == null)
                 return BadRequest("User not found!");
             return Ok(user);
@@ -311,40 +317,26 @@ namespace haze.Controllers
         [Authorize(Roles="User")]
         public async Task<IActionResult> PaymentInfoUpdate([FromBody] PaymentInfo paymentInfo)
         {
-            int userId = 0;
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            
             try
             {
-                if (HttpContext.User != null && HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault() != null)
-                {
-                    userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-                }
-                if (userId == 0)
-                {
-                    return BadRequest("User not found!");
-                }
+                User user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                    return NotFound("User not found!");
+                PaymentInfo userPaymentInfo = user.PaymentInfos.Where(p => p.Id == paymentInfo.Id).FirstOrDefault();
+                if (userPaymentInfo == null)
+                    return NotFound("The given payment info wasn't found!");
+                userPaymentInfo.CreditCardNumber = paymentInfo.CreditCardNumber;
+                userPaymentInfo.ExpiryDate = paymentInfo.ExpiryDate;
+                userPaymentInfo.BillingAddress = paymentInfo.BillingAddress;
+                userPaymentInfo.ShippingAddress = paymentInfo.ShippingAddress;
+                await _hazeContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                return BadRequest("Error " + e);
-
+                return BadRequest("Error " + e.Message);
             }
-
-            User user = await _hazeContext.Users.Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
-
-            if (user == null)
-                return BadRequest("User not found!");
-
-            if (user.PaymentInfos.Count() == 0)
-            {
-                return BadRequest("Payment Info not found!");
-            }
-
-            PaymentInfo pInfo = user.PaymentInfos.Where(p => p.Id == paymentInfo.Id).First();
-
-            pInfo = paymentInfo;
-
-
-            await _hazeContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -397,7 +389,21 @@ namespace haze.Controllers
         [Authorize(Roles = "User")]
         public IActionResult TestAuthRoute()
         {
-            var test = HttpContext.User;
+            SmtpClient smtpClient = new SmtpClient("haze.brianliu.ca", 587);
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new System.Net.NetworkCredential("mail@haze.brianliu.ca", "Initial1");
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+
+            //Setting From , To and CC
+            mail.From = new MailAddress("mail@haze.brianliu.ca", "Test");
+            mail.To.Add(new MailAddress("bliu3847@conestogac.on.ca"));
+        
+            ServicePointManager.ServerCertificateValidationCallback = 
+                (sender, certificate, chain, sslPolicyErrors) => true;
+        
+            smtpClient.Send(mail);
 
             return Ok();
         }
