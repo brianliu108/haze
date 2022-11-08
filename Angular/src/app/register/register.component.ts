@@ -12,7 +12,10 @@ export class RegisterComponent implements OnInit {
 
   siteKey: string;
   captchaComplete: boolean = false;
-  errors:Array<any> = [];
+  errors: Array<any> = [];
+
+  success: boolean = false;
+
   constructor(
     private appComponent: AppComponent
   ) {
@@ -25,7 +28,7 @@ export class RegisterComponent implements OnInit {
   emailCtrl = new FormControl(null, [Validators.required, Validators.email]);
   passwdCtrl = new FormControl(null, [Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/), Validators.required]);
   registerGroup: FormGroup = new FormGroup({ email: this.emailCtrl, passwd: this.passwdCtrl });
-  
+
   async attemptCreate() {
     if (this.validateForm()) {
       try {
@@ -36,17 +39,22 @@ export class RegisterComponent implements OnInit {
         }
         const response = await axios.post('https://localhost:7105/Register', registerInfo);
         console.log(response.data)
-        
+
         if (response.status = 200) {
-          this.appComponent.navigate("");
+          this.showSuccess();
+          setTimeout(() => {
+            this.routeToLogin();
+          }, 3000);
         }
-        this.appComponent.navigate("")
-      } catch (error:any) {
+        else if (response.status != 200) {
+          this.showFailure();
+        }
+      } catch (error: any) {
         if (error.response.data.errors) {
           this.errors = error.response.data.errors;
           console.log(this.errors);
-        }  
-      } 
+        }
+      }
     }
   }
 
@@ -59,6 +67,14 @@ export class RegisterComponent implements OnInit {
     if (this.captchaComplete && this.registerGroup.valid)
       return true;
     return false;
+  }
+
+  showSuccess() {
+    this.success = true;
+  }
+
+  showFailure() {
+    this.errors.push("Unsuccessfull registration attempt, please try again.");
   }
 
   routeToLogin() {

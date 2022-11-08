@@ -6,6 +6,7 @@
         <br>
         <form [formGroup]="registerGroup">
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Account successfully registered! Routing to login page</p>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Username</mat-label>
                 <input matInput [formControl]="usernameCtrl">
