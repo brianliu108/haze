@@ -11,6 +11,7 @@ import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansi
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StoreComponent } from './store/store.component';
+import {MatListModule} from '@angular/material/list';
 import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
@@ -57,7 +59,9 @@ import { AddressComponent } from './address/address.component';
     MatNativeDateModule,
     MatCheckboxModule,
     RecaptchaFormsModule,
-    RecaptchaModule
+    RecaptchaModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

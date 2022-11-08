@@ -9,7 +9,6 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
   firstNameCtrl: FormControl = new FormControl();
   lastNameCtrl: FormControl = new FormControl();
   genderCtrl: FormControl = new FormControl();
@@ -18,15 +17,14 @@ export class ProfileComponent implements OnInit {
   private token: any;
   private requestInfo: any;
 
+  profileGroup: FormGroup;
+
   public updatingCard: boolean = false;
 
-  creditCardNumCtrl: FormControl = new FormControl(null, [Validators.required,
-  Validators.pattern("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$")]);
-  expiryCtrl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(`^[0-9][0-9][/][0-9][0-9]$`)]);
-  billingAddressCtrl: FormControl = new FormControl(null, Validators.required);
-  shippingAddressCtrl: FormControl = new FormControl();
 
-  profileGroup: FormGroup;
+  creditCardNumCtrl: FormControl = new FormControl(null, [Validators.required,Validators.pattern("^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$")]);
+  expiryCtrl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(`^[0-9][0-9][/][0-9][0-9]$`)]);
+  cardGroup: FormGroup;
 
   currentCards: Array<any>;
   currentCard: any;
@@ -38,6 +36,12 @@ export class ProfileComponent implements OnInit {
   updatingCreditCard(item: any) {
     if (this.updatingCard == false) {
       this.updatingCard = true;
+      this.cardGroup = new FormGroup({
+        creditCardNum: this.creditCardNumCtrl,
+        expiry: this.expiryCtrl
+      });
+      this.creditCardNumCtrl.setValue(item.creditCardNumber);
+      this.expiryCtrl.setValue(item.expiryDate);
     }
     else {
       this.updatingCard = false;
@@ -72,6 +76,7 @@ export class ProfileComponent implements OnInit {
         newsLetter: this.newsletterCtrl
       });
     } catch (err) {
+      console.error(err);
       this.appComponent.navigate('store');
     }
 
@@ -103,6 +108,10 @@ export class ProfileComponent implements OnInit {
     this.appComponent.navigate("payment");
   }
 
+  navigateAddress(){
+    this.appComponent.navigate("address");
+  }
+
   async getCards() {
     try {
       const response = await axios.get('https://localhost:7105/PaymentInfo', this.requestInfo);
@@ -121,23 +130,23 @@ export class ProfileComponent implements OnInit {
     let updatedInfo: any = {
       "id": this.currentCard.id,
       "creditCardNumber": this.creditCardNumCtrl.value,
-      "expiryDate": this.expiryCtrl.value,
-      "billingAddress": this.billingAddressCtrl.value,
-      "shippingAddress": this.shippingAddressCtrl.value
+      "expiryDate": this.expiryCtrl.value
     };
 
-    try {
-      const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
+    console.log(updatedInfo);
 
-      if (response.status == 200) {
-        alert("Update successful");
-        this.getCards();
-        this.updatingCard = false;
-        this.currentCard = null;
-      }
-      else {
-        alert("Update unsuccessful");
-      }
+    try {
+      // const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
+
+      // if (response.status == 200) {
+      //   alert("Update successful");
+      //   this.getCards();
+      //   this.updatingCard = false;
+      //   this.currentCard = null;
+      // }
+      // else {
+      //   alert("Update unsuccessful");
+      // }
     } catch (error) {
       console.error(error);
     }
