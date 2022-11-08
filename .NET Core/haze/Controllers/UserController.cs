@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
@@ -397,7 +399,21 @@ namespace haze.Controllers
         [Authorize(Roles = "User")]
         public IActionResult TestAuthRoute()
         {
-            var test = HttpContext.User;
+            SmtpClient smtpClient = new SmtpClient("haze.brianliu.ca", 587);
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new System.Net.NetworkCredential("mail@haze.brianliu.ca", "Initial1");
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+
+            //Setting From , To and CC
+            mail.From = new MailAddress("mail@haze.brianliu.ca", "Test");
+            mail.To.Add(new MailAddress("bliu3847@conestogac.on.ca"));
+        
+            ServicePointManager.ServerCertificateValidationCallback = 
+                (sender, certificate, chain, sslPolicyErrors) => true;
+        
+            smtpClient.Send(mail);
 
             return Ok();
         }
