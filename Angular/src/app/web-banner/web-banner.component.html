@@ -1,6 +1,12 @@
 <div class="normalBanner">
     <section class="webBannerContainer">
       <div class="websiteBannerContent">
+        <div class="buttonSpot">
+          <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon">
+            <mat-icon style="color: white;">menu</mat-icon>
+          </button>
+        </div>
         <div class="title">
           <button mat-button (click)="navigateStore()"><h1>Haze</h1></button>
         </div>
@@ -17,3 +23,34 @@
       </div>
     </section>
   </div>
+  <mat-drawer-container class="containerStyle">
+    <mat-drawer class="sideNavDrawer" #drawer mode="over" opened="true">
+      <mat-nav-list class="sideNavList">
+        <mat-list-item>
+          <a mat-list-item  (click)="drawer.toggle()">Option 1</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item>
+          <a mat-list-item routerLink="leases" (click)="drawer.toggle()">Option 2</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item>
+          <a mat-list-item routerLink="myDocuments" (click)="drawer.toggle()">Option 3</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a mat-list-item routerLink="customers" (click)="drawer.toggle()">Option 4</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item>
+          <a mat-list-item routerLink="outstanding" (click)="drawer.toggle()">Option 5</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a mat-list-item routerLink="outstanding" (click)="drawer.toggle()">Option 6</a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-nav-list>
+    </mat-drawer>
+  </mat-drawer-container>

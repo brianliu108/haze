@@ -1,52 +1,76 @@
-:host{
-    .normalBanner {
-        height: 10vh;
-        width: auto;
-        background-color: whitesmoke;
-    
-        .websiteBannerContent {
-          display: flex;
-    
-          background-image: url(https://img.freepik.com/free-vector/black-particles-floor-banner-design_1017-17499.jpg?w=1380&t=st=1660838703~exp=1660839303~hmac=0c39f53852bfd7fdb2492f24c0e222a362a686e3d5e915d786c2e342ce066c97);
-          //background-image: url(https://as1.ftcdn.net/v2/jpg/02/56/17/36/1000_F_256173635_1o4qBkwIYhE3npcDdqHthjoP4Gbx8In0.jpg);
-          //background-image: url(https://as1.ftcdn.net/v2/jpg/03/97/02/76/1000_F_397027667_A43ndSbODOB8mrbYuzV8OqtYjk0bXwTX.jpg);
-          //background-image: url(https://t4.ftcdn.net/jpg/01/68/03/03/240_F_168030344_wFXubjvhzg5dIAsoElctvK12vJFcXolK.jpg);
-          //background-image: url(https://as2.ftcdn.net/v2/jpg/02/83/31/69/1000_F_283316930_AA2bHYmJsxG1pUL9tnCWXmuHohzyGG3G.jpg);
-          background-position: bottom;
-          background-size: cover;
-    
-          //background-color: rgba(40,47,57,255);
-          height: 10vh;
-          min-height: 10vh;
-    
-          h1 {
-            text-transform: uppercase;
-            color: white;
-            display: flex;
-            font-size: 30px;
-            font-weight: bold;
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 20px 0;
-            padding-bottom: 0%;
-          }
-    
-          .title {
-            display: flex;
-            margin: 0 auto;
-            align-items: center;
-          }
-    
-          .buttons {
-            display: flex;
-            margin: auto 0;
-            padding-right: 1%;
-          }
-    
-          .icon {
-            transform: scale(2);
-            color: white;
-            vertical-align: middle;
-          }
-        }
+:host {
+  .normalBanner {
+    height: 10vh;
+    width: auto;
+    background-color: whitesmoke;
+
+    .websiteBannerContent {
+      display: flex;
+
+      background-image: url(https://img.freepik.com/free-vector/black-particles-floor-banner-design_1017-17499.jpg?w=1380&t=st=1660838703~exp=1660839303~hmac=0c39f53852bfd7fdb2492f24c0e222a362a686e3d5e915d786c2e342ce066c97);
+      background-position: bottom;
+      background-size: cover;
+
+      height: 10vh;
+      min-height: 10vh;
+
+      h1 {
+        text-transform: uppercase;
+        color: white;
+        display: flex;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 20px 0;
+        padding-bottom: 0%;
       }
+
+
+
+      .title {
+        display: flex;
+        margin: 0 auto;
+        align-items: center;
+      }
+
+      .buttons {
+        display: flex;
+        margin: auto 0;
+        padding-right: 1%;
+      }
+
+      .icon {
+        transform: scale(2);
+        color: white;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  mat-drawer-container {
+    flex: 1;
+
+    mat-drawer-content {
+      background: lightgray;
+      width: 100%;
+    }
+  }
+
+  .containerStyle {
+    background-color: lightgray;
+
+    .sideNavDrawer {
+      background: rgb(100, 100, 100);
+      min-width: 30%;
+      height: 100%;
+
+      a {
+        color: lightgray;
+      }
+
+      .sideNavList {
+        min-height: 90vh;
+      }
+    }
+  }
 }

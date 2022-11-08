@@ -53,57 +53,49 @@
                             <input value="{{item.expiryDate}}" [disabled]="!updatingCard" matInput>
                             <mat-error *ngIf="lastNameCtrl.hasError('required')">Last Name is required.</mat-error>
                         </mat-form-field>
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Billing Address</mat-label>
-                            <input value="{{item.billingAddress}}" [disabled]="!updatingCard" matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Shipping Address</mat-label>
-                            <input value="{{item.shippingAddress}}" [disabled]="!updatingCard" matInput>
-                        </mat-form-field>
                         <br>
                         <div style="width: 100%; display: flex;">
                             <button style="flex: 1; margin-right: 2%; margin-left: 2%;"
                                 (click)="updatingCreditCard(item)" mat-stroked-button>Update Credit Card</button>
-                            <button (click)="deleteCard(item)" style="flex: 1; margin-right: 2%; margin-left: 2%;" mat-stroked-button>Delete Credit
+                            <button (click)="deleteCard(item)" style="flex: 1; margin-right: 2%; margin-left: 2%;"
+                                mat-stroked-button>Delete Credit
                                 Card</button>
                         </div>
                         <br>
                     </div>
                     <div *ngIf="updatingCard == true">
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Card Number</mat-label>
-                            <input [formControl]="creditCardNumCtrl" [disabled]="!updatingCard" matInput>
-                            <mat-error *ngIf="firstNameCtrl.hasError('required')">First Name is required.</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Expiration Date</mat-label>
-                            <input [formControl]="expiryCtrl" [disabled]="!updatingCard" matInput>
-                            <mat-error *ngIf="lastNameCtrl.hasError('required')">Last Name is required.</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Billing Address</mat-label>
-                            <input [formControl]="billingAddressCtrl" [disabled]="!updatingCard" matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="infoInputs">
-                            <mat-label>Shipping Address</mat-label>
-                            <input [formControl]="shippingAddressCtrl" [disabled]="!updatingCard" matInput>
-                        </mat-form-field>
-                        <br>
-                        <div style="width: 100%; height: auto; display: flex;" *ngIf="updatingCard">
-                            <button mat-stroked-button style="width: 30%; flex: 1; margin-left: 25%; margin-right: 5%;"
-                                (click)="submitUpdateCall()">Submit Changes</button>
-                            <button mat-stroked-button style="width: 30%; flex: 1; margin-left: 5%; margin-right: 25%;"
-                                (click)="cancelChanges()">Cancel</button>
-                        </div>
+                        <form [formGroup]="cardGroup">
+                            <mat-form-field appearance="fill" class="infoInputs">
+                                <mat-label>Card Number</mat-label>
+                                <input [formControl]="creditCardNumCtrl" matInput>
+                                <mat-error *ngIf="creditCardNumCtrl.hasError('required')">Credit card is required</mat-error>
+                                <mat-error *ngIf="creditCardNumCtrl.hasError('pattern')">Please check your credit card</mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" class="infoInputs">
+                                <mat-label>Expiration Date</mat-label>
+                                <input [formControl]="expiryCtrl" matInput>
+                                <mat-error *ngIf="expiryCtrl.hasError('required')">Expiry is required</mat-error>
+                                <mat-error *ngIf="expiryCtrl.hasError('pattern')">Please check your expiry</mat-error>
+                            </mat-form-field>
+                            <br>
+                            <div style="width: 100%; height: auto; display: flex;" *ngIf="updatingCard">
+                                <button mat-stroked-button
+                                    style="width: 30%; flex: 1; margin-left: 25%; margin-right: 5%;"
+                                    (click)="submitUpdateCall()">Submit Changes</button>
+                                <button mat-stroked-button
+                                    style="width: 30%; flex: 1; margin-left: 5%; margin-right: 25%;"
+                                    (click)="cancelChanges()">Cancel</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
         <br>
         <br>
-        <button mat-stroked-button (click)="navigatePayment()" style="margin-left: 85%;">Add Payment Options</button>
+        <div style="display: flex;">
+            <button mat-stroked-button (click)="navigatePayment()" style="margin-left: 60%; margin-right: 5%; flex: 1;">Add Payment Options</button>
+            <button mat-stroked-button (click)="navigateAddress()" style="flex: 1;">Address Info</button>
+        </div>
     </mat-card>
 </div>
