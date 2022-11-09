@@ -46,31 +46,4 @@
       }
     }
   }
-
-  mat-drawer-container {
-    flex: 1;
-
-    mat-drawer-content {
-      background: lightgray;
-      width: 100%;
-    }
-  }
-
-  .containerStyle {
-    background-color: lightgray;
-
-    .sideNavDrawer {
-      background: rgb(100, 100, 100);
-      min-width: 30%;
-      height: 100%;
-
-      a {
-        color: lightgray;
-      }
-
-      .sideNavList {
-        min-height: 90vh;
-      }
-    }
-  }
 }

@@ -1,0 +1,139 @@
+:host {
+    /*
+    .mainBody {
+        height: 84vh;
+        width: auto;
+
+        .smallBanner {
+            height: 6%;
+            display: flex;
+
+            .example-icon{
+                transform: scale(1.5);
+                
+            }
+        }
+
+        .drawerBody{
+            
+            mat-drawer-container {
+                flex: 1;
+
+                mat-drawer-content {
+                    background: lightgray;
+                    width: 100%;
+                }
+            }
+
+            .containerStyle {
+                background-color: lightgray;
+
+                .sideNavDrawer {
+                    margin-top: 10%;
+                    min-width: 30%;
+                    height: 100%;
+                    border: 2px solid pink;
+
+                    a {
+                        color: lightgray;
+                    }
+
+                    .sideNavList {
+                        min-height: 90vh;
+                    }
+                }
+            }
+        }
+    }
+
+    .storeBody {
+        width: 100%;
+        height: 100%;
+        background-color: lightblue;
+
+        .category {
+            width: 100%;
+            height: 20%;
+            background-color: red;
+        }
+    }
+    */
+
+    .setHeight {
+        display: flex;
+        flex-direction: column;
+        min-height: 90vh;
+        background-color: darkgray;
+
+        mat-drawer-container {
+            flex: 1;
+
+            mat-drawer-content {
+                background: lightgray;
+                width: 100%;
+            }
+        }
+
+        .containerStyle {
+            background-color: lightgray;
+
+            .sideNavDrawer {
+                background: rgb(100, 100, 100);
+                height: auto;
+
+
+                a {
+                    color: lightgray;
+                }
+
+                .sideNavList {
+                    min-height: 60vh;
+                }
+            }
+        }
+
+        .mat-toolbar-single-row {
+            background: rgb(56, 55, 55);
+            padding-left: 0.5%;
+        }
+
+        .mat-divider-vertical {
+            height: 100%;
+            width: 0 !important;
+            position: inherit !important;
+            border: .5px solid black;
+            margin-right: .5%;
+            margin-left: .5%;
+        }
+
+        .sideNavList.list-horizontal {
+            padding: 0;
+            float: right;
+
+            .mat-list-item {
+                display: inline-block;
+            }
+        }
+
+        .menuOptionSection {
+            text-align: center;
+            overflow: hidden;
+
+            h5 {
+                color: lightgray;
+            }
+        }
+
+        .marginRight {
+            padding-right: 5%;
+        }
+
+        .widthAuto {
+            margin: 0 auto;
+        }
+
+        .buttonSpot {
+            overflow: hidden;
+        }
+    }
+}
