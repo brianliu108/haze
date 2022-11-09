@@ -17,5 +17,7 @@ namespace haze.DataAccess
         public DbSet<FavouritePlatform> FavouritePlatforms { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPlatform> ProductPlatforms { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
     }
 }
