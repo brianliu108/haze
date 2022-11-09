@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'Haze';
-
+  readonly apiHost = "https://localhost:7105"
   constructor(
     public router: Router
   ){ }
