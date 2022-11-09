@@ -97,9 +97,9 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpGet("/DeleteEvent/{Id}")]
+        [HttpGet("/DeleteProduct/{Id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> DeleteEvent(int Id)
+        public async Task<ActionResult> DeleteProduct(int Id)
         {
             var e = await _hazeContext.Events
                 .Include(x => x.Products).ThenInclude(x => x.Categories)
@@ -115,9 +115,9 @@ namespace haze.Controllers
             return Ok(e);
         }
 
-        [HttpPut("/UpdateEvent")]
+        [HttpPut("/UpdateProduct")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateEvent([FromBody] Event e)
+        public async Task<IActionResult> UpdateProduct([FromBody] Event e)
         {
             Event eToUpdate= _hazeContext.Events.Where(p => p.Id == e.Id).First();
 
