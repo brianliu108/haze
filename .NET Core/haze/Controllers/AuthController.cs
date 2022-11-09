@@ -80,5 +80,39 @@ namespace haze.Controllers
             await _hazeContext.SaveChangesAsync();
             return Ok();
         }
+        
+        [HttpPost("/RegisterAdmin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] User? user)
+        {            
+            if (user == null || user.Username == null || user.Password == null)
+                return BadRequest();
+            List<string> errors = new List<string>();
+            Regex passwordRegex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+            var usernameQuery = await _hazeContext.Users.Where(x => x.Username == user.Username).FirstOrDefaultAsync();
+            var emailQuery = await _hazeContext.Users.Where(x => x.Email == user.Email).FirstOrDefaultAsync();
+            if (usernameQuery != null)
+                errors.Add("The username is already taken!");
+            if (emailQuery != null)
+                errors.Add("The email is already in use!");
+            if (!passwordRegex.IsMatch(user.Password))
+                errors.Add("Password must be minimum eight characters, at least one letter and one number!");
+
+            if (errors.Count > 0)
+            {
+                var response = new
+                {
+                    Errors = errors
+                };
+                if (errors.Contains("The username is already taken!") || errors.Contains("The email is already in use!"))
+                    return Conflict(response);
+                return BadRequest(response);
+            }
+            user.RoleName = "User";
+            user.Verified = false;
+            user.Newsletter = true;
+            _hazeContext.Users.Add(user);
+            await _hazeContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

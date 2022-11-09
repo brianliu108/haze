@@ -4,6 +4,17 @@
         <h1 style="text-align: center;">Add/Update Address</h1>
         <form>
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Shipping Address</mat-label>
+                <input matInput [formControl]="streetAddressCtrl">
+                <mat-error *ngIf="streetAddressCtrl.hasError('required')">Shipping address is required</mat-error>
+            </mat-form-field>
+            <!-- <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Billing Address (Leave empty if same as Shipping Address)</mat-label>
+                <input matInput [formControl]="billingAddressCtrl">                
+            </mat-form-field> -->
         </form>
+        <br><br>
+        <button mat-stroked-button class="buttonStyle">Register</button>
     </mat-card>
 </div>
