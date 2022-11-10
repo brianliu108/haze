@@ -1,0 +1,42 @@
+<div class="loginBody">
+    <mat-card class="loginCard">
+        <img src="assets/haze-logo.png" alt="Haze Png" class="imageStyle">
+        <br>
+        <h1 style="text-align: center; font-weight: bold;">Create Game</h1>
+        <br>
+        <form [formGroup]="gameGroup">
+            <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Admin successfully registered! Routing to store page</p>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Product name</mat-label>
+                <input matInput [formControl]="productNameCtrl">
+                <mat-error *ngIf="productNameCtrl.hasError('required')">Product name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Category</mat-label>
+                <input id="lastNameCtrl" matInput [formControl]="categoryCtrl">
+                <mat-error *ngIf="categoryCtrl.hasError('required')">Category is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Platform</mat-label>
+                <input id="passwdCtrl" matInput type="password" [formControl]="platformCtrl">
+                <mat-error *ngIf="platformCtrl.hasError('required')">Password is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Description</mat-label>
+                <input matInput [formControl]="descriptionCtrl">
+                <mat-error>Birth date is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Price</mat-label>
+                <input matInput [formControl]="priceCtrl" >
+                <mat-error>Price is required</mat-error>
+            </mat-form-field>
+            <br>
+            <div style="display: flex;">
+                <button mat-stroked-button (click)="attemptCreate()" class="buttonStyle" style="flex: 1; max-width: 50%;">Submit</button>
+                <button mat-stroked-button (click)="routeToStore()" style="flex: 1; max-width: 10%; position: absolute;">Cancel</button>
+            </div>
+        </form>
+    </mat-card>
+</div>

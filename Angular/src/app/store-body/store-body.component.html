@@ -48,6 +48,11 @@
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item [routerLink]="['/createGame']" (click)="drawer.toggle()">Create Game</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
           <a mat-list-item (click)="drawer.toggle()">Create/Manage Events</a>
         </mat-list-item>
         <mat-divider>
