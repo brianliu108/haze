@@ -39,7 +39,7 @@
         <mat-divider>
         </mat-divider>
         <br>
-        <h2 style="text-align: center;">Admin Options</h2>
+        <h2 style="text-align: center;" *ngIf="userData.role == 'Admin'">Admin Options</h2>
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
