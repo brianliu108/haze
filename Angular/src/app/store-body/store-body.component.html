@@ -1,48 +1,72 @@
 <div class="setHeight">
-    <mat-toolbar>
-      <div class="buttonSpot">
-        <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
-          aria-label="Example icon-button with menu icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-      <mat-divider vertical></mat-divider>
-      <div class="menuOptionSection widthAuto">
-        <button mat-button (click)="drawer.close()">
-          <h5>Store</h5>
-        </button>
-      </div>
-      <mat-divider vertical></mat-divider>
-      <div class="menuOptionSection widthAuto">
-        <button mat-button (click)="drawer.close()">
-          <h5>Events</h5>
-        </button>
-      </div>
-      <mat-divider vertical></mat-divider>
-      <div class="menuOptionSection widthAuto">
-        <button mat-button (click)="drawer.close()">
-          <h5>Social</h5>
-        </button>
-      </div>
-    </mat-toolbar>
-    <mat-drawer-container class="containerStyle">
-      <mat-drawer class="sideNavDrawer" #drawer mode="over" opened="false">
-        <mat-nav-list class="sideNavList">
-          <mat-list-item>
-            <a mat-list-item (click)="drawer.toggle()">option 1</a>
-          </mat-list-item>
-          <mat-divider>
-          </mat-divider>
-          <mat-list-item *ngIf="userData.role == 'Admin'">
-            <a mat-list-item (click)="drawer.toggle()">Admin option 1</a>
-          </mat-list-item>
-        </mat-nav-list>
-      </mat-drawer>
-      <mat-drawer-content>
+  <mat-toolbar>
+    <div class="buttonSpot">
+      <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <mat-divider vertical></mat-divider>
+    <div class="menuOptionSection widthAuto">
+      <button mat-button (click)="drawer.close()">
+        <h5>Store</h5>
+      </button>
+    </div>
+    <mat-divider vertical></mat-divider>
+    <div class="menuOptionSection widthAuto">
+      <button mat-button (click)="drawer.close()">
+        <h5>Events</h5>
+      </button>
+    </div>
+    <mat-divider vertical></mat-divider>
+    <div class="menuOptionSection widthAuto">
+      <button mat-button (click)="drawer.close()">
+        <h5>Social</h5>
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-drawer-container class="containerStyle">
+    <mat-drawer class="sideNavDrawer" #drawer mode="over" opened="false">
+      <mat-nav-list class="sideNavList">
+        <mat-list-item>
+          <a mat-list-item (click)="drawer.toggle()">View Game Library</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item>
+          <a mat-list-item (click)="drawer.toggle()">View Wish List</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <br>
+        <h2 style="text-align: center;">Admin Options</h2>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item (click)="drawer.toggle()">Create Admin Account</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item (click)="drawer.toggle()">Create/Manage Events</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item (click)="drawer.toggle()">View/Approve User Reviews</a>
+        </mat-list-item>
+        <mat-divider>
+        </mat-divider>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item (click)="drawer.toggle()">Generate Reports</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
 
-      </mat-drawer-content>
-    </mat-drawer-container>
-  </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
 <!--
 <div class="mainBody">
     <div class="smallBanner">
