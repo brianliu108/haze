@@ -23,7 +23,7 @@ namespace haze.Controllers
             _hazeContext = hazeContext;
         }
 
-        [HttpGet("GetProducts")]
+        [HttpGet("Products")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
@@ -32,23 +32,20 @@ namespace haze.Controllers
                 .ToListAsync());
         }
 
-        [HttpGet("/GetProduct/{Id}")]
+        [HttpGet("/Product/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Product>> GetProduct(int Id)
         {
-            try
-            {
-                Product product = await _hazeContext.Products
-                    .Include(x => x.Categories).ThenInclude(x => x.Id).Where(x => x.Id == Id).FirstOrDefaultAsync();
-                return Ok(product);
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                    .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if(product == null)
+                return BadRequest("Product dont exist!");
+            return Ok(product);
         }
 
-        [HttpPost("/AddProduct")]
+        [HttpPost("/Product")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddProduct([FromBody] ProductJSON prod)
         {
@@ -56,40 +53,39 @@ namespace haze.Controllers
             {
                 Price = prod.Price,
                 ProductName = prod.ProductName,
-                Description = prod.Description
+                Description = prod.Description,
+                Categories = new List<ProductCategory>(),
+                Platforms = new List<ProductPlatform>()
             };
 
             _hazeContext.Products.Add(product);
 
             // Save product
-            await _hazeContext.SaveChangesAsync();
 
             // Check if products options exist
             for (int i = 0; i < prod.CategoryIds.Count; i++)
             {
-                var category = await _hazeContext.Categories.Where(x => x.Id == prod.CategoryIds[i]).FirstOrDefaultAsync();
+                var categoryBlya = await _hazeContext.Categories.Where(x => x.Id == prod.CategoryIds[i]).FirstOrDefaultAsync();
 
-                if (category == null)
+                if (categoryBlya == null)
                     return BadRequest("Category not found!");
 
-                _hazeContext.ProductCategories.Add(new ProductCategory
+                product.Categories.Add(new ProductCategory
                 {
-                    сategory = category,
-                    Id = product.Id
+                    сategory = categoryBlya
                 });
             }
 
             for (int i = 0; i < prod.PlatformIds.Count; i++)
             {
-                var platform = await _hazeContext.Platforms.Where(x => x.Id == prod.PlatformIds[i]).FirstOrDefaultAsync();
+                var platformBlya = await _hazeContext.Platforms.Where(x => x.Id == prod.PlatformIds[i]).FirstOrDefaultAsync();
 
-                if (platform == null)
+                if (platformBlya == null)
                     return BadRequest("Platform not found!");
 
-                _hazeContext.ProductPlatforms.Add(new ProductPlatform
+                product.Platforms.Add(new ProductPlatform
                 {
-                    platform = platform,
-                    Id = product.Id
+                    platform = platformBlya
                 });
             }
 
@@ -99,31 +95,77 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpGet("/DeleteProduct/{Id}")]
+        [HttpDelete("/Product/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProduct(int Id)
         {
-            var e = await _hazeContext.Events
-                .Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
-                .Where(x => x.Id == Id).FirstOrDefaultAsync();
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                    .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (product == null)
+                return BadRequest("Product dont exist!");
 
-            if (e == null)
-                return BadRequest("Event not found!");
-
-            _hazeContext.Events.Remove(e);
+            _hazeContext.Products.Remove(product);
             await _hazeContext.SaveChangesAsync();
 
-            return Ok(e);
+            return Ok();
         }
 
-        [HttpPut("/UpdateProduct")]
+        [HttpPut("/Product")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProduct([FromBody] Event e)
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductJSON prod)
         {
-            Event eToUpdate= _hazeContext.Events.Where(p => p.Id == e.Id).First();
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                .Where(x => x.Id == prod.Id).FirstOrDefaultAsync();
 
-            eToUpdate = e;
+            product = new Product
+            {
+                Price = prod.Price,
+                ProductName = prod.ProductName,
+                Description = prod.Description,
+                Categories = new List<ProductCategory>(),
+                Platforms = new List<ProductPlatform>()
+            };
+
+
+
+            while (true)
+            {
+
+            }
+
+            if (product == null)
+                return BadRequest("Product dont exist!");
+
+            // Check if products options exist
+            for (int i = 0; i < prod.CategoryIds.Count; i++)
+            {
+                var categoryBlya = await _hazeContext.Categories.Where(x => x.Id == prod.CategoryIds[i]).FirstOrDefaultAsync();
+
+                if (categoryBlya == null)
+                    return BadRequest("Category not found!");
+
+                product.Categories.Add(new ProductCategory
+                {
+                    сategory = categoryBlya
+                });
+            }
+
+            for (int i = 0; i < prod.PlatformIds.Count; i++)
+            {
+                var platformBlya = await _hazeContext.Platforms.Where(x => x.Id == prod.PlatformIds[i]).FirstOrDefaultAsync();
+
+                if (platformBlya == null)
+                    return BadRequest("Platform not found!");
+
+                product.Platforms.Add(new ProductPlatform
+                {
+                    platform = platformBlya
+                });
+            }
 
             await _hazeContext.SaveChangesAsync();
 

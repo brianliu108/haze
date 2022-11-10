@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using haze.DataAccess;
 
@@ -11,9 +12,10 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    partial class HazeContextModelSnapshot : ModelSnapshot
+    [Migration("20221110184814_MigrationName2")]
+    partial class MigrationName2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,42 +23,6 @@ namespace haze.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("haze.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalZipCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UnitApt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
 
             modelBuilder.Entity("haze.Models.Category", b =>
                 {
@@ -154,11 +120,19 @@ namespace haze.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("BillingAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreditCardNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExpiryDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -272,9 +246,6 @@ namespace haze.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BillingAddressId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
@@ -302,9 +273,6 @@ namespace haze.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ShippingAddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -313,10 +281,6 @@ namespace haze.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BillingAddressId");
-
-                    b.HasIndex("ShippingAddressId");
 
                     b.ToTable("Users");
                 });
@@ -393,21 +357,6 @@ namespace haze.Migrations
                         .IsRequired();
 
                     b.Navigation("platform");
-                });
-
-            modelBuilder.Entity("haze.Models.User", b =>
-                {
-                    b.HasOne("haze.Models.Address", "BillingAddress")
-                        .WithMany()
-                        .HasForeignKey("BillingAddressId");
-
-                    b.HasOne("haze.Models.Address", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId");
-
-                    b.Navigation("BillingAddress");
-
-                    b.Navigation("ShippingAddress");
                 });
 
             modelBuilder.Entity("haze.Models.Event", b =>
