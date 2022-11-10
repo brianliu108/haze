@@ -329,8 +329,6 @@ namespace haze.Controllers
                     return NotFound("The given payment info wasn't found!");
                 userPaymentInfo.CreditCardNumber = paymentInfo.CreditCardNumber;
                 userPaymentInfo.ExpiryDate = paymentInfo.ExpiryDate;
-                userPaymentInfo.BillingAddress = paymentInfo.BillingAddress;
-                userPaymentInfo.ShippingAddress = paymentInfo.ShippingAddress;
                 await _hazeContext.SaveChangesAsync();
             }
             catch (Exception e)
