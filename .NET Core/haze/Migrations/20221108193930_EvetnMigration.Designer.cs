@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using haze.DataAccess;
 
@@ -11,9 +12,10 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    partial class HazeContextModelSnapshot : ModelSnapshot
+    [Migration("20221108193930_EvetnMigration")]
+    partial class EvetnMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,39 +36,9 @@ namespace haze.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("haze.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("EndDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("haze.Models.FavouriteCategory", b =>
@@ -161,81 +133,9 @@ namespace haze.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Platforms");
-                });
-
-            modelBuilder.Entity("haze.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("haze.Models.ProductCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductCategories");
-                });
-
-            modelBuilder.Entity("haze.Models.ProductPlatform", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("PlatformId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductPlatforms");
                 });
 
             modelBuilder.Entity("haze.Models.User", b =>
@@ -285,13 +185,6 @@ namespace haze.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("haze.Models.Category", b =>
-                {
-                    b.HasOne("haze.Models.Product", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId");
-                });
-
             modelBuilder.Entity("haze.Models.FavouriteCategory", b =>
                 {
                     b.HasOne("haze.Models.Category", "Category")
@@ -327,32 +220,6 @@ namespace haze.Migrations
                     b.HasOne("haze.Models.User", null)
                         .WithMany("PaymentInfos")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("haze.Models.Platform", b =>
-                {
-                    b.HasOne("haze.Models.Product", null)
-                        .WithMany("Platforms")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("haze.Models.Product", b =>
-                {
-                    b.HasOne("haze.Models.Event", null)
-                        .WithMany("Products")
-                        .HasForeignKey("EventId");
-                });
-
-            modelBuilder.Entity("haze.Models.Event", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("haze.Models.Product", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Platforms");
                 });
 
             modelBuilder.Entity("haze.Models.User", b =>
