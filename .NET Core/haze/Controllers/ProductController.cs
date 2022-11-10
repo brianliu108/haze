@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using System.Net.NetworkInformation;
+using Microsoft.CodeAnalysis;
 
 namespace haze.Controllers
 {
@@ -33,21 +34,22 @@ namespace haze.Controllers
 
         [HttpGet("/GetProduct/{Id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Event>> GetProduct(int Id)
+        public async Task<ActionResult<Product>> GetProduct(int Id)
         {
-            var e = await _hazeContext.Products
-                .Include(x => x.Categories).ThenInclude(x => x.Id)
-                .Include(x => x.Platforms).ThenInclude(x => x.Id)
-                .Where(x => x.Id == Id).FirstOrDefaultAsync();
-
-            if (e == null)
-                return BadRequest("Event not found!");
-
-            return Ok(e);
+            try
+            {
+                Product product = await _hazeContext.Products
+                    .Include(x => x.Categories).ThenInclude(x => x.Id).Where(x => x.Id == Id).FirstOrDefaultAsync();
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("/AddProduct")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddProduct([FromBody] ProductJSON prod)
         {
             Product product = new Product
@@ -72,8 +74,8 @@ namespace haze.Controllers
 
                 _hazeContext.ProductCategories.Add(new ProductCategory
                 {
-                    CategoryId = category.Id,
-                    ProductId = product.Id
+                    сategory = category,
+                    Id = product.Id
                 });
             }
 
@@ -86,8 +88,8 @@ namespace haze.Controllers
 
                 _hazeContext.ProductPlatforms.Add(new ProductPlatform
                 {
-                    PlatformId = platform.Id,
-                    ProductId = product.Id
+                    platform = platform,
+                    Id = product.Id
                 });
             }
 
