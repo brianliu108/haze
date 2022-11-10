@@ -28,7 +28,8 @@ namespace haze.Controllers
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
             return Ok(await _hazeContext.Products
-                .Include(x => x.Categories).Include(x => x.Platforms)
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                .Include(x => x.Platforms).ThenInclude(x => x.platform)
                 .ToListAsync());
         }
 
