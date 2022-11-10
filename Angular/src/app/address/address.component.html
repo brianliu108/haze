@@ -5,15 +5,6 @@
         <form>
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Billing address</mat-label>
-                <input matInput [formControl]="billingAddressCtrl">
-                <mat-error>Billing address is required</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Shipping address (leave blank if same as billing address)</mat-label>
-                <input matInput [formControl]="shippingAddressCtrl">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Street address or PO Box</mat-label>
                 <input matInput [formControl]="homeAddressCtrl">
                 <mat-error>Street address is required</mat-error>
@@ -29,21 +20,34 @@
                 <mat-error *ngIf="phoneNumCtrl.hasError('pattern')">Must be valid phone number</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Country</mat-label>
+                <mat-select [formControl]="countryCtrl">
+                    <mat-option *ngFor="let item of countries" [value]="item">{{item}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>City</mat-label>
                 <input matInput [formControl]="cityCtrl">
                 <mat-error>City is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet">
+            <mat-form-field appearance="fill" class="inputSet" *ngIf="countryCtrl.value == 'Canada'">
                 <mat-label>Province</mat-label>
-                <mat-select [formControl]="provinceCtrl">
+                <mat-select [formControl]="provinceOrStateCtrl">
                     <mat-option *ngFor="let item of provinces;" [value]="item">{{item}}</mat-option>
+                </mat-select>
+                <mat-error>Province is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet" *ngIf="countryCtrl.value == 'United States'">
+                <mat-label>State</mat-label>
+                <mat-select [formControl]="provinceOrStateCtrl">
+                    <mat-option *ngFor="let item of states;" [value]="item">{{item}}</mat-option>
                 </mat-select>
                 <mat-error>Province is required</mat-error>
             </mat-form-field>
         </form>
         <br><br>
         <div style="display: flex;">
-            <button mat-stroked-button class="buttonStyle">Submit</button>
+            <button mat-stroked-button (click)="attemptSubmit()" class="buttonStyle">Submit</button>
             <button mat-stroked-button (click)="routeToProfile()">Back to profile</button>
         </div>
     </mat-card>
