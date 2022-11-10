@@ -238,7 +238,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/PaymentInfo")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<ActionResult<List<PaymentInfo>>> GetPaymentInfo()
         {
             int userIdHTTP = 0;
@@ -271,7 +271,7 @@ namespace haze.Controllers
         }
 
         [HttpPost("/PaymentInfo")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<IActionResult> AddPaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
             Regex expiryRegex = new Regex(@"^[\d][\d][\/][\d][\d]$");
@@ -314,7 +314,7 @@ namespace haze.Controllers
         }
 
         [HttpPut("/PaymentInfo")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<IActionResult> PaymentInfoUpdate([FromBody] PaymentInfo paymentInfo)
         {
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
@@ -340,7 +340,7 @@ namespace haze.Controllers
         }
 
         [HttpDelete("/PaymentInfo")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<IActionResult> DeletePaymentInfo([FromBody] PaymentInfo paymentInfo)
         {
             int userId = 0;
