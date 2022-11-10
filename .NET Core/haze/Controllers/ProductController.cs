@@ -122,24 +122,24 @@ namespace haze.Controllers
                 .Include(x => x.Platforms).ThenInclude(x => x.platform)
                 .Where(x => x.Id == prod.Id).FirstOrDefaultAsync();
 
-            product = new Product
-            {
-                Price = prod.Price,
-                ProductName = prod.ProductName,
-                Description = prod.Description,
-                Categories = new List<ProductCategory>(),
-                Platforms = new List<ProductPlatform>()
-            };
-
-
-
-            while (true)
-            {
-
-            }
-
             if (product == null)
                 return BadRequest("Product dont exist!");
+
+            for (int i = 0; i < product.Categories.Count; i++)
+            {
+                _hazeContext.ProductCategories.Remove(product.Categories[i]);
+            }
+
+            for (int i = 0; i < product.Platforms.Count; i++)
+            {
+                _hazeContext.ProductPlatforms.Remove(product.Platforms[i]);
+            }
+
+            product.Price = prod.Price;
+            product.ProductName = prod.ProductName;
+            product.Description = prod.Description;
+            product.Platforms = new List<ProductPlatform>();
+            product.Categories = new List<ProductCategory>();
 
             // Check if products options exist
             for (int i = 0; i < prod.CategoryIds.Count; i++)
@@ -172,6 +172,5 @@ namespace haze.Controllers
 
             return Ok();
         }
-
     }
 }
