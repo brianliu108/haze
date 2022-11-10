@@ -56,7 +56,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/UserPreferences")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public async Task<IActionResult> GetUserPreferences()
         {
             try
@@ -88,7 +88,7 @@ namespace haze.Controllers
         }
 
         [HttpPatch("/UserPreferences")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public async Task<IActionResult> UpdateUserPreferences([FromBody] UserPreferencesJSON preferencesJson)
         {
             try
