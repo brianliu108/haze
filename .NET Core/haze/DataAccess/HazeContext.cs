@@ -19,5 +19,6 @@ namespace haze.DataAccess
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPlatform> ProductPlatforms { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

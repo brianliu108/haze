@@ -63,23 +63,23 @@ namespace haze.Controllers
             {
                 var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
                 var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
-                UpdateUserPreferences preferences = new UpdateUserPreferences();
+                UserPreferencesJSON preferencesJson = new UserPreferencesJSON();
                 if (user.FavouritePlatforms != null && user.FavouritePlatforms.Count > 0)
                 {
                     foreach (var platform in user.FavouritePlatforms)
                     {
-                        preferences.PlatformIds.Add(platform.Platform.Id);
+                        preferencesJson.PlatformIds.Add(platform.Platform.Id);
                     }
                 }
                 if (user.FavouriteCategories != null && user.FavouriteCategories.Count > 0)
                 {
                     foreach (var category in user.FavouriteCategories)
                     {
-                        preferences.CategoryIds.Add(category.Category.Id);
+                        preferencesJson.CategoryIds.Add(category.Category.Id);
                     }
                 }
 
-                return Ok(preferences);
+                return Ok(preferencesJson);
             }
             catch
             {
@@ -89,30 +89,30 @@ namespace haze.Controllers
 
         [HttpPatch("/UserPreferences")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> UpdateUserPreferences([FromBody] UpdateUserPreferences preferences)
+        public async Task<IActionResult> UpdateUserPreferences([FromBody] UserPreferencesJSON preferencesJson)
         {
             try
             {
                 List<Category> categories = new List<Category>();
                 List<Platform> platforms = new List<Platform>();
                 List<string> errors = new List<string>();
-                if (preferences == null)
+                if (preferencesJson == null)
                     return BadRequest();
                 var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
                 var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform).Where(x => x.Id == userId).FirstOrDefaultAsync();
                 if (user == null)
                     return BadRequest();
-                if (preferences?.CategoryIds != null || preferences.CategoryIds?.Count > 0)
-                    categories = await _hazeContext.Categories.Where(x => preferences.CategoryIds.Contains(x.Id)).ToListAsync();
+                if (preferencesJson?.CategoryIds != null || preferencesJson.CategoryIds?.Count > 0)
+                    categories = await _hazeContext.Categories.Where(x => preferencesJson.CategoryIds.Contains(x.Id)).ToListAsync();
 
-                if (preferences?.PlatformIds != null || preferences?.PlatformIds?.Count > 0)
-                    platforms = await _hazeContext.Platforms.Where(x => preferences.PlatformIds.Contains(x.Id)).ToListAsync();
+                if (preferencesJson?.PlatformIds != null || preferencesJson?.PlatformIds?.Count > 0)
+                    platforms = await _hazeContext.Platforms.Where(x => preferencesJson.PlatformIds.Contains(x.Id)).ToListAsync();
 
-                if (categories.Count < preferences.CategoryIds.Count)
+                if (categories.Count < preferencesJson.CategoryIds.Count)
                     errors.Add("One or more provided Categories were not found!");
                 else if (categories.Count > 3)
                     errors.Add("Cannot add more than 3 favourite categories!");
-                if (platforms.Count < preferences.PlatformIds.Count)
+                if (platforms.Count < preferencesJson.PlatformIds.Count)
                     errors.Add("One or more provided Platforms were not found!");
                 else if (platforms.Count > 3)
                     errors.Add("Cannot add more than 3 favourite platforms!");
@@ -147,7 +147,7 @@ namespace haze.Controllers
                             user.FavouriteCategories.RemoveAt(i);
                         }
                     }
-                } else if (user.FavouriteCategories?.Count > 0 && preferences.CategoryIds.Count == 0)
+                } else if (user.FavouriteCategories?.Count > 0 && preferencesJson.CategoryIds.Count == 0)
                 {
                     user.FavouriteCategories.RemoveAll(x => x != null);
                 }
@@ -176,7 +176,7 @@ namespace haze.Controllers
                             user.FavouritePlatforms.RemoveAt(i);
                         }
                     }
-                } else if (user.FavouritePlatforms?.Count > 0 && preferences.PlatformIds.Count == 0)
+                } else if (user.FavouritePlatforms?.Count > 0 && preferencesJson.PlatformIds.Count == 0)
                 {
                     user.FavouritePlatforms.RemoveAll(x => x != null);
                 }

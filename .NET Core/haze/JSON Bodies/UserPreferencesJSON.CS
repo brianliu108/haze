@@ -1,8 +1,8 @@
 ﻿namespace haze.Models
 {
-    public class UpdateUserPreferences
+    public class UserPreferencesJSON
     {
-        public UpdateUserPreferences()
+        public UserPreferencesJSON()
         {
             PlatformIds = new List<int>();
             CategoryIds = new List<int>();

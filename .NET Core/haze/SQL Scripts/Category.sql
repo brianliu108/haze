@@ -1,5 +1,5 @@
 INSERT INTO categories (id, name)
-  values (1, 'shooter');
+  values (1, 'Shooter');
   INSERT INTO categories (id, name)
   values (2, 'Platformer');
   INSERT INTO categories (id, name)

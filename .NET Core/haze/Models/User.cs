@@ -18,5 +18,8 @@ namespace haze.Models
         public List<PaymentInfo>? PaymentInfos { get; set; }
         public List<FavouritePlatform>? FavouritePlatforms { get; set; }
         public List<FavouriteCategory>? FavouriteCategories { get; set; }
+        public Address? ShippingAddress { get; set; }
+        public Address? BillingAddress { get; set; }
+
     }
 }
