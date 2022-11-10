@@ -2,24 +2,21 @@
     <mat-card class="loginCard">
         <img src="assets/haze-logo.png" alt="Haze Png" class="imageStyle">
         <br>
-        <h1 style="text-align: center; font-weight: bold;">Register</h1>
+        <h1 style="text-align: center; font-weight: bold;">Create Admin</h1>
         <br>
         <form [formGroup]="registerGroup">
-            <p style="color:red; margin-left: 10%;" ></p>
-            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Account successfully registered! Routing to login page</p>
+            <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Admin successfully registered! Routing to store page</p>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Username</mat-label>
-                <input matInput [formControl]="usernameCtrl">
-                <mat-error *ngIf="usernameCtrl.hasError('required')">Username is required</mat-error>
+                <mat-label>First name</mat-label>
+                <input matInput [formControl]="firstNameCtrl">
+                <mat-error *ngIf="firstNameCtrl.hasError('required')">First name is required</mat-error>
             </mat-form-field>
-            <br><br>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Email</mat-label>
-                <input id="emailCtrl" matInput type="email" [formControl]="emailCtrl">
-                <mat-error *ngIf="emailCtrl.hasError('required')">Email is required</mat-error>
-                <mat-error *ngIf="emailCtrl.hasError('email')">A valid email is required</mat-error>
+                <mat-label>Last name</mat-label>
+                <input id="lastNameCtrl" matInput [formControl]="lastNameCtrl">
+                <mat-error *ngIf="lastNameCtrl.hasError('required')">Last name is required</mat-error>
             </mat-form-field>
-            <br><br>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Password</mat-label>
                 <input id="passwdCtrl" matInput type="password" [formControl]="passwdCtrl">
@@ -27,15 +24,19 @@
                 <mat-error *ngIf="passwdCtrl.hasError('pattern')">Password must be minimum eight characters, at least
                     one letter and one number</mat-error>
             </mat-form-field>
-        </form>
-        <br><br>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Birth date</mat-label>
+                <input matInput [matDatepicker]="picker" [formControl]="birthDateCtrl">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error>Birth date is required</mat-error>
+            </mat-form-field>
 
-        <button mat-stroked-button class="buttonStyle" (click)="attemptCreate()">Register</button>
-        <br>
-        <br>
-        <div style="display: flex;">
-            <button style="flex: 1; margin-right: 70%; margin-left: 10%;" mat-button (click)="routeToLogin()">Already a
-                member? Login now</button>
-        </div>
+            <br>
+            <div style="display: flex;">
+                <button mat-stroked-button (click)="attemptCreate()" class="buttonStyle" style="flex: 1; max-width: 50%;">Submit</button>
+                <button mat-stroked-button (click)="routeToStore()" style="flex: 1; max-width: 10%; position: absolute;">Cancel</button>
+            </div>
+        </form>
     </mat-card>
 </div>

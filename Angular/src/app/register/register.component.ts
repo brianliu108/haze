@@ -38,7 +38,6 @@ export class RegisterComponent implements OnInit {
           "password": this.passwdCtrl.value
         }
         const response = await axios.post('https://localhost:7105/Register', registerInfo);
-        console.log(response.data)
 
         if (response.status = 200) {
           this.showSuccess();

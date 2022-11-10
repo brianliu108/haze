@@ -33,6 +33,7 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
 import { AddressComponent } from './address/address.component';
 import { StoreBodyComponent } from './store-body/store-body.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
+import { CreateGamesComponent } from './create-games/create-games.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CreateAdminComponent } from './create-admin/create-admin.component';
     PasswordRecoveryComponent,
     AddressComponent,
     StoreBodyComponent,
-    CreateAdminComponent
+    CreateAdminComponent,
+    CreateGamesComponent
   ],
   imports: [
     BrowserModule,
