@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'address',
     component: AddressComponent
+  },
+  {
+    path: 'createAdmin',
+    component: CreateAdminComponent
   }
 ];
 

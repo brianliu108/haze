@@ -16,15 +16,6 @@
                     <mat-error *ngIf="expiryCtrl.hasError('required')">Expiry is required</mat-error>
                     <mat-error *ngIf="expiryCtrl.hasError('pattern')">Please check your expiry</mat-error>
                 </mat-form-field>
-                <mat-form-field appearance="fill" class="paymentInputs">
-                    <mat-label>Billing Address</mat-label>
-                    <input matInput [formControl]="billingAddressCtrl">
-                    <mat-error>Billing Address is required</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="fill" class="paymentInputs">
-                    <mat-label>Shipping Address (leave blank if same as billing)</mat-label>
-                    <input matInput [formControl]="shippingAddressCtrl">
-                </mat-form-field>
             </form>
             <br>
             <br>
