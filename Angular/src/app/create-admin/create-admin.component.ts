@@ -34,7 +34,7 @@ export class CreateAdminComponent implements OnInit {
   firstNameCtrl = new FormControl(null, Validators.required);
   lastNameCtrl = new FormControl(null, Validators.required);
   passwdCtrl = new FormControl(null, [Validators.pattern(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/), Validators.required]);
-  birthDateCtrl = new FormControl(null, [Validators.required])
+  birthDateCtrl = new FormControl(null, [Validators.required]);
 
   registerGroup: FormGroup = new FormGroup({ 
     firstName: this.firstNameCtrl, 

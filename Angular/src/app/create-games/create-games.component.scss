@@ -1,0 +1,33 @@
+:host{
+    .loginBody{
+        width: 99%;
+        height: 90vh;
+        margin: 0 auto;
+        margin-top: 5%;
+
+        .loginCard{
+            margin: 0 auto;
+            color: gray;
+            width: 50%;
+            padding: 2%;
+
+            .imageStyle{
+                width: 30%;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .inputSet{
+                width: 80%;
+                margin: auto;
+                display: block;
+            }
+
+            .buttonStyle{
+                width: 50%;
+                margin: auto;
+                display: block;
+            }
+        }
+    }
+}
