@@ -208,13 +208,12 @@ namespace haze.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int>("сategoryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("сategoryId");
 
                     b.ToTable("ProductCategories");
                 });
@@ -227,13 +226,12 @@ namespace haze.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("PlatformId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int>("platformId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("platformId");
 
                     b.ToTable("ProductPlatforms");
                 });
@@ -341,6 +339,28 @@ namespace haze.Migrations
                     b.HasOne("haze.Models.Event", null)
                         .WithMany("Products")
                         .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("haze.Models.ProductCategory", b =>
+                {
+                    b.HasOne("haze.Models.Category", "сategory")
+                        .WithMany()
+                        .HasForeignKey("сategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("сategory");
+                });
+
+            modelBuilder.Entity("haze.Models.ProductPlatform", b =>
+                {
+                    b.HasOne("haze.Models.Platform", "platform")
+                        .WithMany()
+                        .HasForeignKey("platformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("platform");
                 });
 
             modelBuilder.Entity("haze.Models.Event", b =>

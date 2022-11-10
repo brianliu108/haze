@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using System.Net.NetworkInformation;
+using Microsoft.CodeAnalysis;
 
 namespace haze.Controllers
 {
@@ -73,8 +74,8 @@ namespace haze.Controllers
 
                 _hazeContext.ProductCategories.Add(new ProductCategory
                 {
-                    CategoryId = category.Id,
-                    ProductId = product.Id
+                    сategory = category,
+                    Id = product.Id
                 });
             }
 
@@ -87,8 +88,8 @@ namespace haze.Controllers
 
                 _hazeContext.ProductPlatforms.Add(new ProductPlatform
                 {
-                    PlatformId = platform.Id,
-                    ProductId = product.Id
+                    platform = platform,
+                    Id = product.Id
                 });
             }
 
