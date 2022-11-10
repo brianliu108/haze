@@ -12,7 +12,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSelectModule} from '@angular/material/select';  
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -31,6 +32,7 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { AddressComponent } from './address/address.component';
 import { StoreBodyComponent } from './store-body/store-body.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { StoreBodyComponent } from './store-body/store-body.component';
     PreferencesComponent,
     PasswordRecoveryComponent,
     AddressComponent,
-    StoreBodyComponent
+    StoreBodyComponent,
+    CreateAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { StoreBodyComponent } from './store-body/store-body.component';
     RecaptchaModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

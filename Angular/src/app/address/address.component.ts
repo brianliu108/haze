@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import axios from 'axios';
 import { AppComponent } from '../app.component';
 
@@ -10,11 +10,16 @@ import { AppComponent } from '../app.component';
 })
 export class AddressComponent implements OnInit {
   errors: Array<any> = [];
-  streetAddressCtrl = new FormControl(null, Validators.required);
-  // billingAddressCtrl = new FormControl(null);
+  homeAddressCtrl = new FormControl(null, Validators.required);
+  homeAddress2Ctrl = new FormControl(null, Validators.required);
+  shippingAddressCtrl = new FormControl(null, Validators.required);
+  billingAddressCtrl = new FormControl(null, Validators.required);
+  cityCtrl = new FormControl(null, Validators.required);
+  provinceCtrl = new FormControl(null, Validators.required);
 
   private token:any;
   private requestInfo:any;
+  provinces: Array<any> = ["Ontario","Quebec", "Northwest Territories", "Alberta", "Manitoba", "Saskatchewan", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Nunavut", "Prince Edward Island", "Yukon"];
   constructor(private appComponent: AppComponent) { }
 
   async ngOnInit() {
@@ -35,4 +40,5 @@ export class AddressComponent implements OnInit {
     }
   }
 
+  
 }
