@@ -5,38 +5,46 @@
         <form>
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Billing Address</mat-label>
+                <mat-label>Billing address</mat-label>
                 <input matInput [formControl]="billingAddressCtrl">
-                <mat-error>Shipping address is required</mat-error>
+                <mat-error>Billing address is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Shipping Address</mat-label>
+                <mat-label>Shipping address (leave blank if same as billing address)</mat-label>
                 <input matInput [formControl]="shippingAddressCtrl">
-                <mat-error>Shipping address is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Home Address</mat-label>
+                <mat-label>Street address or PO Box</mat-label>
                 <input matInput [formControl]="homeAddressCtrl">
-                <mat-error>Shipping address is required</mat-error>
+                <mat-error>Street address is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Home 2</mat-label>
+                <mat-label>Apartment, Suite, Unit, Building</mat-label>
                 <input matInput [formControl]="homeAddress2Ctrl">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Phone number</mat-label>
+                <input matInput [formControl]="phoneNumCtrl">
+                <mat-error>Phone number is required</mat-error>
+                <mat-error *ngIf="phoneNumCtrl.hasError('pattern')">Must be valid phone number</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>City</mat-label>
                 <input matInput [formControl]="cityCtrl">
-                <mat-error>Shipping address is required</mat-error>
+                <mat-error>City is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Province</mat-label>
-                <mat-select>
+                <mat-select [formControl]="provinceCtrl">
                     <mat-option *ngFor="let item of provinces;" [value]="item">{{item}}</mat-option>
                 </mat-select>
-                <mat-error>Shipping address is required</mat-error>
+                <mat-error>Province is required</mat-error>
             </mat-form-field>
         </form>
         <br><br>
-        <button mat-stroked-button class="buttonStyle">Submit</button>
+        <div style="display: flex;">
+            <button mat-stroked-button class="buttonStyle">Submit</button>
+            <button mat-stroked-button (click)="routeToProfile()">Back to profile</button>
+        </div>
     </mat-card>
 </div>
