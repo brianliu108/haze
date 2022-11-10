@@ -67,28 +67,28 @@ namespace haze.Controllers
             // Check if products options exist
             for (int i = 0; i < prod.CategoryIds.Count; i++)
             {
-                var category = await _hazeContext.Categories.Where(x => x.Id == prod.CategoryIds[i]).FirstOrDefaultAsync();
+                var categoryBlya = await _hazeContext.Categories.Where(x => x.Id == prod.CategoryIds[i]).FirstOrDefaultAsync();
 
-                if (category == null)
+                if (categoryBlya == null)
                     return BadRequest("Category not found!");
 
-                _hazeContext.ProductCategories.Add(new ProductCategory
+                await _hazeContext.ProductCategories.AddAsync(new ProductCategory
                 {
-                    сategory = category,
+                    сategory = categoryBlya,
                     Id = product.Id
                 });
             }
 
             for (int i = 0; i < prod.PlatformIds.Count; i++)
             {
-                var platform = await _hazeContext.Platforms.Where(x => x.Id == prod.PlatformIds[i]).FirstOrDefaultAsync();
+                var platformBlya = await _hazeContext.Platforms.Where(x => x.Id == prod.PlatformIds[i]).FirstOrDefaultAsync();
 
-                if (platform == null)
+                if (platformBlya == null)
                     return BadRequest("Platform not found!");
 
                 _hazeContext.ProductPlatforms.Add(new ProductPlatform
                 {
-                    platform = platform,
+                    platform = platformBlya,
                     Id = product.Id
                 });
             }
