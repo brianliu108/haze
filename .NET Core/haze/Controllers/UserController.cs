@@ -211,7 +211,7 @@ namespace haze.Controllers
         }
         
         [HttpPut("/UserProfile")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
             try
