@@ -57,7 +57,6 @@ export class CreateGamesComponent implements OnInit {
   checkAdmin() {
     let userData = JSON.parse(localStorage.getItem("currentUser")!);
     if (userData.role != 'Admin') {
-      alert("User does not have priveleges for this function!");
       this.appComponent.navigate('/store');
     }
   }

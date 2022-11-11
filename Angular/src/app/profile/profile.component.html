@@ -19,7 +19,9 @@
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Gender</mat-label>
-                        <input [formControl]="genderCtrl" matInput>
+                        <mat-select [formControl]="genderCtrl" matInput>
+                            <mat-option *ngFor="let item of genders" [value]="item">{{item}}</mat-option>
+                        </mat-select>
                         <mat-error></mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
