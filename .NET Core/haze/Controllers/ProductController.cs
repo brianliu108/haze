@@ -24,7 +24,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("Products")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
             return Ok(await _hazeContext.Products
