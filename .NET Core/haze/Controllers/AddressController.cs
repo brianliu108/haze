@@ -52,12 +52,24 @@ public class AddressController : Controller
     
     [HttpDelete("/ShippingAddress")]
     [Authorize]
-    public async Task<IActionResult> DeleteBillingAddress()
+    public async Task<IActionResult> DeleteShippingAddress()
     {
         var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
         User user = await _hazeContext.Users.Include(x => x.BillingAddress)
             .Include(x => x.ShippingAddress).Where(x => x.Id == userId).FirstOrDefaultAsync();
         _hazeContext.Addresses.Remove(user.ShippingAddress);
+        await _hazeContext.SaveChangesAsync();
+        return Ok();
+    }
+    
+    [HttpDelete("/BillingAddress")]
+    [Authorize]
+    public async Task<IActionResult> DeleteBillingAddress()
+    {
+        var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+        User user = await _hazeContext.Users.Include(x => x.BillingAddress)
+            .Include(x => x.ShippingAddress).Where(x => x.Id == userId).FirstOrDefaultAsync();
+        _hazeContext.Addresses.Remove(user.BillingAddress);
         await _hazeContext.SaveChangesAsync();
         return Ok();
     }
