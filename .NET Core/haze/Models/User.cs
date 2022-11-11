@@ -20,6 +20,7 @@ namespace haze.Models
         public List<FavouriteCategory>? FavouriteCategories { get; set; }
         public Address? ShippingAddress { get; set; }
         public Address? BillingAddress { get; set; }
-
+        public List<WishlistItem>? WishList { get; set; }
+        
     }
 }
