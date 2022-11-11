@@ -1,0 +1,30 @@
+<app-web-banner></app-web-banner>
+<div class="addressBodyStyle">
+    <mat-card class="addressCardStyle">
+        <h1 style="text-align: center;">{{selectedGame.productName}}</h1>
+        <div class="detailArea">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Game Description</mat-label>
+                <input matInput readonly value="{{selectedGame.description}}">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Price</mat-label>
+                <input matInput readonly value="{{selectedGame.price}}">
+            </mat-form-field>
+            <div style="display: flex;">
+                <button class="buttonStyle" mat-stroked-button>Add to wishlist</button>
+                <button class="buttonStyle" mat-stroked-button>Add to cart</button>
+            </div>
+        </div>
+        <br><br>
+        <button mat-stroked-button style="margin-left: 90%;" (click)="routeToStore()">Back to store</button>
+
+        <div class="adminArea" *ngIf="userData.role=='Admin'">
+            <h1 style="text-align: center;">Admin Options</h1>
+            <h3 style="text-align: center; color: green;" *ngIf="deleted == true">Product Deleted</h3>
+            <div style="display: flex;">
+                <button class="buttonStyle" (click)="deleteGame()" mat-stroked-button>Delete Game</button>
+            </div>
+        </div>
+    </mat-card>
+</div>

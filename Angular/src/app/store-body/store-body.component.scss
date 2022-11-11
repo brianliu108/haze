@@ -132,4 +132,24 @@
             overflow: hidden;
         }
     }
+
+    .mainStoreArea{
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
+        padding: 1%;
+
+        .gameCategoryArea{
+            width: 100%;
+            margin: 0 auto;
+            height: auto;
+            padding: 1%;
+            border: 2px solid black;
+
+        }
+        .gameTile{
+            margin: 1%;
+            border: 1px solid black;
+        }
+    }
 }
