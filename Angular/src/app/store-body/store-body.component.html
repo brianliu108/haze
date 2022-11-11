@@ -63,16 +63,17 @@
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
-          <a mat-list-item (click)="drawer.toggle()">Generate Reports</a>
+          <a mat-list-item [routerLink]="['/reports']" (click)="drawer.toggle()">Generate Reports</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
       <div class="mainStoreArea">
+        <h1>Available Games</h1>
         <div class="gameCategoryArea">
-          <div>
-            
-          </div>
+          <mat-grid-list cols="8" rowHeight="4:1">
+            <mat-grid-tile (click)="routeToDetails(item)" *ngFor="let item of games;" class="gameTile">{{item.productName}}</mat-grid-tile>
+          </mat-grid-list>
         </div>
       </div>
     </mat-drawer-content>

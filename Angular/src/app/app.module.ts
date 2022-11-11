@@ -14,6 +14,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';  
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -34,6 +35,7 @@ import { AddressComponent } from './address/address.component';
 import { StoreBodyComponent } from './store-body/store-body.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
+import { GameDetailsComponent } from './game-details/game-details.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { CreateGamesComponent } from './create-games/create-games.component';
     AddressComponent,
     StoreBodyComponent,
     CreateAdminComponent,
-    CreateGamesComponent
+    CreateGamesComponent,
+    GameDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ import { CreateGamesComponent } from './create-games/create-games.component';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
