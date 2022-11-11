@@ -22,7 +22,7 @@ namespace haze.Controllers
             _hazeContext = hazeContext;
         }
 
-        [HttpGet("GetEvents")]
+        [HttpGet("Events")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
@@ -31,25 +31,21 @@ namespace haze.Controllers
                 .ToListAsync());
         }
 
-        [HttpGet("/GetEvent/{Id}")]
+        [HttpGet("/Event/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Event>> GetEvent(int Id)
         {
             var e = await _hazeContext.Events
                 .Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
                 .Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             if (e == null)
                 return BadRequest("Event not found!");
 
-            //_hazeContext.Events.Remove(eventDelete);
-            //await _hazeContext.SaveChangesAsync();
-
             return Ok(e);
         }
 
-        [HttpPost("/AddEvent")]
+        [HttpPost("/Event")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddEvent([FromBody] Event e)
         {
@@ -60,7 +56,7 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpGet("/DeleteEvent/{Id}")]
+        [HttpDelete("/Event/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteEvent(int Id)
         {
@@ -78,7 +74,7 @@ namespace haze.Controllers
             return Ok(e);
         }
 
-        [HttpPut("/UpdateEvent")]
+        [HttpPut("/Event")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateEvent([FromBody] Event e)
         {

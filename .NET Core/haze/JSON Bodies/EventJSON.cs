@@ -1,13 +1,11 @@
-﻿using haze.DataAccess;
-namespace haze.Models
+﻿namespace haze.Models
 {
-    public class Event
+    public class EventJSON
     {
         public int Id { get; set; }
         public string EventName { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public List<Product> Products { get; set; }
-        public List<User> RegisteredUsers { get; set; }
     }
 }
