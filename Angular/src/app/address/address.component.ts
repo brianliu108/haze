@@ -230,7 +230,12 @@ export class AddressComponent implements OnInit {
   }
 
   revealShipping() {
-    this.showShipping = true;
+    if(this.showShipping == true){
+      this.showShipping = false;
+    }
+    else{
+      this.showShipping = true;
+    }
   }
 
   async deleteSavedShippingAddress() {
