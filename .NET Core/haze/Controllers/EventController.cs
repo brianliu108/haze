@@ -22,51 +22,71 @@ namespace haze.Controllers
             _hazeContext = hazeContext;
         }
 
-        [HttpGet("GetEvents")]
-        [Authorize(Roles = "Admin")]
+        [HttpGet("Events")]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
-            return Ok(await _hazeContext.Events.Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
+            return Ok(await _hazeContext.Events
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .ToListAsync());
         }
 
-        [HttpGet("/GetEvent/{Id}")]
-        [Authorize(Roles = "Admin")]
+        [HttpGet("/Event/{Id}")]
         public async Task<ActionResult<Event>> GetEvent(int Id)
         {
             var e = await _hazeContext.Events
-                .Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             if (e == null)
                 return BadRequest("Event not found!");
 
-            //_hazeContext.Events.Remove(eventDelete);
-            //await _hazeContext.SaveChangesAsync();
-
             return Ok(e);
         }
 
-        [HttpPost("/AddEvent")]
+        [HttpPost("/Event")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddEvent([FromBody] Event e)
+        public async Task<IActionResult> AddEvent([FromBody] EventJSON eJSON)
         {
+            Event e = new Event
+            {
+                EventName = eJSON.EventName,
+                StartDate = eJSON.StartDate,
+                EndDate = eJSON.EndDate,
+                Products = new List<EventProduct>(),
+                RegisteredUsers = new List<EventUser>(),
+            };
+
             _hazeContext.Events.Add(e);
+
+            // Check if products options exist
+            for (int i = 0; i < eJSON.ProductIds.Count; i++)
+            {
+                var eProd = await _hazeContext.Products.Where(x => x.Id == eJSON.ProductIds[i]).FirstOrDefaultAsync();
+
+                if (eProd == null)
+                    return BadRequest("Product not found!");
+
+                e.Products.Add(new EventProduct
+                {
+                    Product = eProd
+                });
+            }
+
 
             await _hazeContext.SaveChangesAsync();
 
             return Ok();
         }
 
-        [HttpGet("/DeleteEvent/{Id}")]
+        [HttpDelete("/Event/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteEvent(int Id)
         {
             var e = await _hazeContext.Events
-                .Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             if (e == null)
@@ -78,7 +98,7 @@ namespace haze.Controllers
             return Ok(e);
         }
 
-        [HttpPut("/UpdateEvent")]
+        [HttpPut("/Event")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateEvent([FromBody] Event e)
         {
