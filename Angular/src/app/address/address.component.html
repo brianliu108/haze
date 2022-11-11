@@ -3,47 +3,104 @@
     <mat-card class="addressCardStyle">
         <h1 style="text-align: center;">Add/Update Address</h1>
         <form>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Address successfully Stored! Routing to profile page</p>
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
+            <h2 style="margin-left: 10%;">Billing Address</h2>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Street address or PO Box</mat-label>
-                <input matInput [formControl]="homeAddressCtrl">
+                <input matInput [formControl]="billingHomeAddressCtrl">
                 <mat-error>Street address is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Apartment, Suite, Unit, Building</mat-label>
-                <input matInput [formControl]="homeAddress2Ctrl">
+                <input matInput [formControl]="billingHomeAddress2Ctrl">
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Phone number: (123)-123-1234</mat-label>
-                <input matInput [formControl]="phoneNumCtrl">
+                <input matInput [formControl]="billingPhoneNumCtrl">
                 <mat-error>Phone number is required</mat-error>
-                <mat-error *ngIf="phoneNumCtrl.hasError('pattern')">Must be valid phone number</mat-error>
+                <mat-error *ngIf="billingPhoneNumCtrl.hasError('pattern')">Must be valid phone number</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Country</mat-label>
-                <mat-select [formControl]="countryCtrl">
+                <mat-select [formControl]="billingCountryCtrl">
                     <mat-option *ngFor="let item of countries" [value]="item">{{item}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>City</mat-label>
-                <input matInput [formControl]="cityCtrl">
+                <input matInput [formControl]="billingCityCtrl">
                 <mat-error>City is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet" *ngIf="countryCtrl.value == 'Canada'">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Postal/Zip code</mat-label>
+                <input matInput [formControl]="billingPostalZipCodeCtrl">
+                <mat-error>Postal/Zip code is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet" *ngIf="billingCountryCtrl.value == 'Canada'">
                 <mat-label>Province</mat-label>
-                <mat-select [formControl]="provinceOrStateCtrl">
+                <mat-select [formControl]="billingProvinceOrStateCtrl">
                     <mat-option *ngFor="let item of provinces;" [value]="item">{{item}}</mat-option>
                 </mat-select>
                 <mat-error>Province is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet" *ngIf="countryCtrl.value == 'United States'">
+            <mat-form-field appearance="fill" class="inputSet" *ngIf="billingCountryCtrl.value == 'United States'">
                 <mat-label>State</mat-label>
-                <mat-select [formControl]="provinceOrStateCtrl">
+                <mat-select [formControl]="billingProvinceOrStateCtrl">
                     <mat-option *ngFor="let item of states;" [value]="item">{{item}}</mat-option>
                 </mat-select>
-                <mat-error>Province is required</mat-error>
+                <mat-error>State is required</mat-error>
             </mat-form-field>
+            <button mat-stroked-button class="buttonStyle"  (click)="deleteSavedBillingAddress()">Delete Saved Billing Address</button>
+            <br><br>
+            <mat-checkbox style="margin-left: 10%;" (click)="revealShipping()" [checked]="showShipping">
+                Click if Shipping Address is different from billing
+            </mat-checkbox>
+            <br><br><br>
+            <div *ngIf="showShipping == true">
+                <h2 style="margin-left: 10%;">Shipping Address</h2>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Street address or PO Box</mat-label>
+                    <input matInput [formControl]="shippingHomeAddressCtrl">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Apartment, Suite, Unit, Building</mat-label>
+                    <input matInput [formControl]="shippingHomeAddress2Ctrl">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Phone number: (123)-123-1234</mat-label>
+                    <input matInput [formControl]="shippingPhoneNumCtrl">
+                    <mat-error>Phone number is required</mat-error>
+                    <mat-error *ngIf="shippingPhoneNumCtrl.hasError('pattern')">Must be valid phone number</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Country</mat-label>
+                    <mat-select [formControl]="shippingCountryCtrl">
+                        <mat-option *ngFor="let item of countries" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>City</mat-label>
+                    <input matInput [formControl]="shippingCityCtrl">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Postal/Zip code</mat-label>
+                    <input matInput [formControl]="shippingPostalZipCodeCtrl">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet" *ngIf="shippingCountryCtrl.value == 'Canada'">
+                    <mat-label>Province</mat-label>
+                    <mat-select [formControl]="shippingProvinceOrStateCtrl">
+                        <mat-option *ngFor="let item of provinces;" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet" *ngIf="shippingCountryCtrl.value == 'United States'">
+                    <mat-label>State</mat-label>
+                    <mat-select [formControl]="shippingProvinceOrStateCtrl">
+                        <mat-option *ngFor="let item of states;" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button class="buttonStyle" (click)="deleteSavedShippingAddress()">Delete Saved Shipping Address</button>
+            </div>
         </form>
         <br><br>
         <div style="display: flex;">
