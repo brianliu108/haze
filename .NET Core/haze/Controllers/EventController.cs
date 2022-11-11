@@ -51,7 +51,6 @@ namespace haze.Controllers
         {
             Event e = new Event
             {
-                Id = 123213,
                 EventName = eJSON.EventName,
                 StartDate = eJSON.StartDate,
                 EndDate = eJSON.EndDate,
