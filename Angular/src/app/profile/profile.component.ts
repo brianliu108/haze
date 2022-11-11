@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit {
   currentCards: Array<any>;
   currentCard: any;
 
+  genders: Array<any> = ["Male", "Female", "Prefer not to say"];
+
   constructor(
     private appComponent: AppComponent
   ) { }
@@ -101,7 +103,7 @@ export class ProfileComponent implements OnInit {
 
     await axios.put("https://localhost:7105/UserProfile", requestBody, this.requestInfo);
 
-    this.appComponent.navigate('store');
+    window.location.reload();
   }
 
   navigatePayment() {
@@ -133,20 +135,14 @@ export class ProfileComponent implements OnInit {
       "expiryDate": this.expiryCtrl.value
     };
 
-    console.log(updatedInfo);
-
     try {
-      // const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
+      const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
 
-      // if (response.status == 200) {
-      //   alert("Update successful");
-      //   this.getCards();
-      //   this.updatingCard = false;
-      //   this.currentCard = null;
-      // }
-      // else {
-      //   alert("Update unsuccessful");
-      // }
+      if (response.status == 200) {
+        this.getCards();
+        this.updatingCard = false;
+        this.currentCard = null;
+      }
     } catch (error) {
       console.error(error);
     }
@@ -166,11 +162,7 @@ export class ProfileComponent implements OnInit {
       });
 
       if (response.status == 200) {
-        alert("Deletion successful");
         this.getCards();
-      }
-      else {
-        alert("Deletion unsuccessful");
       }
     } catch (error) {
       console.error(error);

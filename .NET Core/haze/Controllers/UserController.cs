@@ -29,7 +29,7 @@ namespace haze.Controllers
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
-                .Include(x => x.PaymentInfos).ToListAsync());
+                .Include(x => x.PaymentInfos).Include(x => x.BillingAddress).Include(x => x.ShippingAddress).ToListAsync());
         }
 
 
@@ -40,7 +40,8 @@ namespace haze.Controllers
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
                 .Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
-                .Include(x => x.PaymentInfos).Where(x => x.Id == userId).FirstOrDefaultAsync();
+                .Include(x => x.PaymentInfos).Where(x => x.Id == userId)
+                .Include(x => x.BillingAddress).Include(x => x.ShippingAddress).FirstOrDefaultAsync();
             if (user == null)
                 return BadRequest("User not found!");
             return Ok(user);
@@ -211,7 +212,7 @@ namespace haze.Controllers
         }
         
         [HttpPut("/UserProfile")]
-        [Authorize(Roles="User")]
+        [Authorize]
         public async Task<IActionResult> ProfileUpdate(User request)
         {
             try
