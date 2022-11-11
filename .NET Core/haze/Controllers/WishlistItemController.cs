@@ -37,6 +37,8 @@ public class WishlistItemController : Controller
         Product product = await _hazeContext.Products.Where(x => x.Id == productIdJson.ProductId).FirstOrDefaultAsync();
         if (product == null)
             return NotFound("Product not found");
+        if (wishlist.Where(x => x.Product.Id == product.Id).FirstOrDefault() != null)
+            return BadRequest("The product is already in the wishlist");
         wishlist.Add(new WishlistItem()
         {
             Product = product
