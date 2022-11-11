@@ -95,16 +95,44 @@ namespace haze.Controllers
             _hazeContext.Events.Remove(e);
             await _hazeContext.SaveChangesAsync();
 
-            return Ok(e);
+            return Ok();
         }
 
         [HttpPut("/Event")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateEvent([FromBody] Event e)
+        public async Task<IActionResult> UpdateEvent([FromBody] EventJSON eJSON)
         {
-            Event eToUpdate= _hazeContext.Events.Where(p => p.Id == e.Id).First();
+            Event e = await _hazeContext.Events
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
+                .Where(x => x.Id == eJSON.Id).FirstOrDefaultAsync();
 
-            eToUpdate = e;
+            if (e == null)
+                return BadRequest("Еvent dont exist!");
+
+            for (int i = 0; i < e.Products.Count; i++)
+            {
+                _hazeContext.EventProducts.Remove(e.Products[i]);
+            }
+
+            e.EventName = eJSON.EventName;
+            e.StartDate = eJSON.StartDate;
+            e.EndDate = eJSON.EndDate;
+            e.Products = new List<EventProduct>();
+
+            // Check if products options exist
+            for (int i = 0; i < eJSON.ProductIds.Count; i++)
+            {
+                var eProd = await _hazeContext.Products.Where(x => x.Id == eJSON.ProductIds[i]).FirstOrDefaultAsync();
+
+                if (eProd == null)
+                    return BadRequest("Product not found!");
+
+                e.Products.Add(new EventProduct
+                {
+                    Product = eProd
+                });
+            }
 
             await _hazeContext.SaveChangesAsync();
 
