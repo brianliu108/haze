@@ -1,5 +1,4 @@
-﻿using haze.DataAccess;
-namespace haze.Models
+﻿namespace haze.Models
 {
     public class Event
     {

@@ -51,6 +51,7 @@ namespace haze.Controllers
         {
             Event e = new Event
             {
+                Id = 123213,
                 EventName = eJSON.EventName,
                 StartDate = eJSON.StartDate,
                 EndDate = eJSON.EndDate,
@@ -58,6 +59,7 @@ namespace haze.Controllers
                 RegisteredUsers = new List<EventUser>(),
             };
 
+            _hazeContext.Events.Add(e);
 
             // Check if products options exist
             for (int i = 0; i < eJSON.ProductIds.Count; i++)
@@ -73,7 +75,6 @@ namespace haze.Controllers
                 });
             }
 
-            _hazeContext.Events.Add(e);
 
             await _hazeContext.SaveChangesAsync();
 
