@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using haze.DataAccess;
 
@@ -11,9 +12,10 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    partial class HazeContextModelSnapshot : ModelSnapshot
+    [Migration("20221111194706_MigrationName123")]
+    partial class MigrationName123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,24 +118,6 @@ namespace haze.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("EventProducts");
-                });
-
-            modelBuilder.Entity("haze.Models.EventUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("RegisteredUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegisteredUserId");
-
-                    b.ToTable("EventUsers");
                 });
 
             modelBuilder.Entity("haze.Models.FavouriteCategory", b =>
@@ -394,17 +378,6 @@ namespace haze.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("haze.Models.EventUser", b =>
-                {
-                    b.HasOne("haze.Models.User", "RegisteredUser")
-                        .WithMany()
-                        .HasForeignKey("RegisteredUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RegisteredUser");
                 });
 
             modelBuilder.Entity("haze.Models.FavouriteCategory", b =>

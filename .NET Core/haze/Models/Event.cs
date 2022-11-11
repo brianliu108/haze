@@ -7,7 +7,7 @@ namespace haze.Models
         public string EventName { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
-        public List<Product> Products { get; set; }
-        public List<User> RegisteredUsers { get; set; }
+        public List<EventProduct> Products { get; set; }
+        public List<EventUser> RegisteredUsers { get; set; }
     }
 }

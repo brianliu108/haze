@@ -23,20 +23,20 @@ namespace haze.Controllers
         }
 
         [HttpGet("Events")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
-            return Ok(await _hazeContext.Events.Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
+            return Ok(await _hazeContext.Events
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .ToListAsync());
         }
 
         [HttpGet("/Event/{Id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Event>> GetEvent(int Id)
         {
             var e = await _hazeContext.Events
-                .Include(x => x.Products).ThenInclude(x => x.Categories)
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             if (e == null)
@@ -47,8 +47,32 @@ namespace haze.Controllers
 
         [HttpPost("/Event")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddEvent([FromBody] Event e)
+        public async Task<IActionResult> AddEvent([FromBody] EventJSON eJSON)
         {
+            Event e = new Event
+            {
+                EventName = eJSON.EventName,
+                StartDate = eJSON.StartDate,
+                EndDate = eJSON.EndDate,
+                Products = new List<EventProduct>(),
+                RegisteredUsers = new List<EventUser>(),
+            };
+
+
+            // Check if products options exist
+            for (int i = 0; i < eJSON.ProductIds.Count; i++)
+            {
+                var eProd = await _hazeContext.Products.Where(x => x.Id == eJSON.ProductIds[i]).FirstOrDefaultAsync();
+
+                if (eProd == null)
+                    return BadRequest("Product not found!");
+
+                e.Products.Add(new EventProduct
+                {
+                    Product = eProd
+                });
+            }
+
             _hazeContext.Events.Add(e);
 
             await _hazeContext.SaveChangesAsync();
@@ -61,8 +85,8 @@ namespace haze.Controllers
         public async Task<ActionResult> DeleteEvent(int Id)
         {
             var e = await _hazeContext.Events
-                .Include(x => x.Products).ThenInclude(x => x.Categories)
-                .Include(x => x.Products).ThenInclude(x => x.Platforms)
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
                 .Where(x => x.Id == Id).FirstOrDefaultAsync();
 
             if (e == null)
