@@ -136,17 +136,17 @@ export class ProfileComponent implements OnInit {
     console.log(updatedInfo);
 
     try {
-      // const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
+      const response = await axios.put('https://localhost:7105/PaymentInfo', updatedInfo, this.requestInfo);
 
-      // if (response.status == 200) {
-      //   alert("Update successful");
-      //   this.getCards();
-      //   this.updatingCard = false;
-      //   this.currentCard = null;
-      // }
-      // else {
-      //   alert("Update unsuccessful");
-      // }
+      if (response.status == 200) {
+        alert("Update successful");
+        this.getCards();
+        this.updatingCard = false;
+        this.currentCard = null;
+      }
+      else {
+        alert("Update unsuccessful");
+      }
     } catch (error) {
       console.error(error);
     }

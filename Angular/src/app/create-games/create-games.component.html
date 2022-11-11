@@ -6,36 +6,61 @@
         <br>
         <form [formGroup]="gameGroup">
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
-            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Admin successfully registered! Routing to store page</p>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Game successfully created! Routing to store page</p>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Product name</mat-label>
                 <input matInput [formControl]="productNameCtrl">
                 <mat-error *ngIf="productNameCtrl.hasError('required')">Product name is required</mat-error>
             </mat-form-field>
+            <!--
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Category</mat-label>
-                <input id="lastNameCtrl" matInput [formControl]="categoryCtrl">
+                <mat-select [formControl]="categoryCtrl">
+                    <mat-option *ngFor="let item of categories" [value]="item.name">{{item.name}}</mat-option>
+                </mat-select>
                 <mat-error *ngIf="categoryCtrl.hasError('required')">Category is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Platform</mat-label>
-                <input id="passwdCtrl" matInput type="password" [formControl]="platformCtrl">
-                <mat-error *ngIf="platformCtrl.hasError('required')">Password is required</mat-error>
+                <mat-checkbox [formControl]="platformCtrl" *ngFor="let item of platforms">
+                    {{item.name}}
+                </mat-checkbox>
+                <mat-select [formControl]="platformCtrl">
+                    <mat-option *ngFor="let item of platforms" [value]="item.name">{{item.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="platformCtrl.hasError('required')">Platform is required</mat-error>
             </mat-form-field>
+            -->
+            <div style="margin-left: 10%;">
+                <h3>Categories</h3>
+                <mat-checkbox class="inputSet" [formControl]="categoryCtrl" (click)="addToCategories(item)" *ngFor="let item of categories">
+                    {{item.name}}
+                </mat-checkbox>
+            </div>
+            <br>
+            <div style="margin-left: 10%;">
+                <h3>Platform</h3>
+                <mat-checkbox class="inputSet" [formControl]="platformCtrl" (click)="addToPlatforms(item)" *ngFor="let item of platforms">
+                    {{item.name}}
+                </mat-checkbox>
+            </div>
+            <br>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Description</mat-label>
                 <input matInput [formControl]="descriptionCtrl">
-                <mat-error>Birth date is required</mat-error>
+                <mat-error>Description is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Price</mat-label>
-                <input matInput [formControl]="priceCtrl" >
+                <input matInput [formControl]="priceCtrl">
                 <mat-error>Price is required</mat-error>
             </mat-form-field>
             <br>
             <div style="display: flex;">
-                <button mat-stroked-button (click)="attemptCreate()" class="buttonStyle" style="flex: 1; max-width: 50%;">Submit</button>
-                <button mat-stroked-button (click)="routeToStore()" style="flex: 1; max-width: 10%; position: absolute;">Cancel</button>
+                <button mat-stroked-button (click)="createGame()" class="buttonStyle"
+                    style="flex: 1; max-width: 50%;">Submit</button>
+                <button mat-stroked-button (click)="routeToStore()"
+                    style="flex: 1; max-width: 10%; position: absolute;">Cancel</button>
             </div>
         </form>
     </mat-card>
