@@ -21,13 +21,13 @@ export class AddressComponent implements OnInit {
   success: boolean = false;
   showShipping: boolean = false;
 
-  shippingHomeAddressCtrl = new FormControl(null);
-  shippingHomeAddress2Ctrl = new FormControl(null);
-  shippingCountryCtrl = new FormControl(null);
-  shippingPhoneNumCtrl = new FormControl(null, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/));
-  shippingCityCtrl = new FormControl(null);
-  shippingPostalZipCodeCtrl = new FormControl(null);
-  shippingProvinceOrStateCtrl = new FormControl(null);
+  shippingHomeAddressCtrl = new FormControl(null, Validators.required);
+  shippingHomeAddress2Ctrl = new FormControl(null, Validators.required);
+  shippingCountryCtrl = new FormControl(null, Validators.required);
+  shippingPhoneNumCtrl = new FormControl(null, [Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]);
+  shippingCityCtrl = new FormControl(null, Validators.required);
+  shippingPostalZipCodeCtrl = new FormControl(null, Validators.required);
+  shippingProvinceOrStateCtrl = new FormControl(null, Validators.required);
 
   storedBillingAddress: any;
   storedShippingAddress: any;
@@ -163,6 +163,9 @@ export class AddressComponent implements OnInit {
       this.shippingCountryCtrl.setValue(this.storedShippingAddress.country);
       this.shippingProvinceOrStateCtrl.setValue(this.storedShippingAddress.provinceState);
       this.showShipping = true;
+    }
+    else{
+      this.showShipping = false;
     }
   }
 
