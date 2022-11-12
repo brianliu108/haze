@@ -38,6 +38,8 @@ import { CreateGamesComponent } from './create-games/create-games.component';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 
+import { ReportsComponent } from './reports/reports.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,11 @@ import { CreateEventsComponent } from './create-events/create-events.component';
     CreateAdminComponent,
     CreateGamesComponent,
     GameDetailsComponent,
+
     CreateEventsComponent
+
+    ReportsComponent
+
   ],
   imports: [
     BrowserModule,
