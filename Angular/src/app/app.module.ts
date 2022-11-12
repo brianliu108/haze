@@ -56,9 +56,16 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     CreateAdminComponent,
     CreateGamesComponent,
     GameDetailsComponent,
+<<<<<<< HEAD
     CreateEventsComponent,
     ReportsComponent,
     EventDetailsComponent
+=======
+
+    CreateEventsComponent,
+
+    ReportsComponent
+>>>>>>> 37d33e8bbde36c09dc81094b1f2163492e784a13
 
   ],
   imports: [
