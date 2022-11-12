@@ -13,6 +13,12 @@ export class StoreBodyComponent implements OnInit {
   private requestInfo: any;
 
   games: Array<any> = [];
+  wishlistGames: Array<any> = [];
+  events: Array<any> = [];
+
+  displayGames: boolean = true;
+  displayWishList: boolean = false;  
+  displayEvents: boolean = false;
 
   constructor(
     private appComponent: AppComponent
@@ -31,6 +37,8 @@ export class StoreBodyComponent implements OnInit {
     };
 
     this.getGames();
+    this.getWishList();
+    this.getEvents();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
   }
 
@@ -51,5 +59,49 @@ export class StoreBodyComponent implements OnInit {
   routeToDetails(item: any){
     localStorage.setItem('selectedGame', JSON.stringify(item));
     this.appComponent.navigate('/gameDetails');
+  }
+
+  setDisplayWishList(){
+    this.displayWishList = true;
+    this.displayGames = false;    
+    this.displayEvents = false;
+  }
+
+  setDisplayStore(){
+    this.displayWishList = false;
+    this.displayGames = true;
+    this.displayEvents = false;
+  }
+
+  setDisplayEvents(){
+    this.displayWishList = false;
+    this.displayGames = false;
+    this.displayEvents = true;
+  }
+
+  async getWishList(){
+    try{
+      let getWishlistGamesCall = await axios.get(this.appComponent.apiHost + "/WishList",  this.requestInfo);
+
+      if(getWishlistGamesCall.status == 200){
+        this.wishlistGames = getWishlistGamesCall.data;
+      }
+    }
+    catch(err: any){
+      console.error(err);
+    }
+  }
+
+  async getEvents(){
+    try{
+      let getEventsGamesCall = await axios.get(this.appComponent.apiHost + "/Events",  this.requestInfo);
+
+      if(getEventsGamesCall.status == 200){
+        this.events = getEventsGamesCall.data;
+      }
+    }
+    catch(err: any){
+      console.error(err);
+    }
   }
 }
