@@ -57,7 +57,7 @@ import { ReportsComponent } from './reports/reports.component';
     CreateGamesComponent,
     GameDetailsComponent,
 
-    CreateEventsComponent
+    CreateEventsComponent,
 
     ReportsComponent
 
