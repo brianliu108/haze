@@ -33,20 +33,20 @@ namespace haze.Controllers
                 .ToListAsync());
         }
 
-        [HttpGet("/Product/{Id}")]
+        [HttpGet("/Products/{id:int}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Product>> GetProduct(int Id)
+        public async Task<ActionResult<Product>> GetProduct(int id)
         {
             Product product = await _hazeContext.Products
                 .Include(x => x.Categories).ThenInclude(x => x.сategory)
                     .Include(x => x.Platforms).ThenInclude(x => x.platform)
-                    .Where(x => x.Id == Id).FirstOrDefaultAsync();
+                    .Where(x => x.Id == id).FirstOrDefaultAsync();
             if(product == null)
                 return BadRequest("Product dont exist!");
             return Ok(product);
         }
 
-        [HttpPost("/Product")]
+        [HttpPost("/Products")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddProduct([FromBody] ProductJSON prod)
         {
@@ -96,7 +96,7 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpDelete("/Product/{Id}")]
+        [HttpDelete("/Products/{Id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProduct(int Id)
         {
@@ -113,7 +113,7 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpPut("/Product")]
+        [HttpPut("/Products")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductJSON prod)
         {
