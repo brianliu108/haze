@@ -23,6 +23,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("Events")]
+        [Authorize]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
             return Ok(await _hazeContext.Events
@@ -32,6 +33,7 @@ namespace haze.Controllers
         }
 
         [HttpGet("/Event/{Id}")]
+        [Authorize]
         public async Task<ActionResult<Event>> GetEvent(int Id)
         {
             var e = await _hazeContext.Events
@@ -139,5 +141,45 @@ namespace haze.Controllers
             return Ok();
         }
 
+        [HttpPost("/RegisterForEvent/{eventId}")]
+        [Authorize]
+        public async Task<IActionResult> RegisterForEvent(int eventId)
+        {
+            Event e = await _hazeContext.Events
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
+                .Where(x => x.Id == eventId).FirstOrDefaultAsync();
+
+            if (e == null)
+                return BadRequest("Event not found");
+
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Where(x => x.Id == userId)
+                .Include(x => x.BillingAddress).Include(x => x.ShippingAddress).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User not found");
+
+            var userToRemove = e.RegisteredUsers.Where(e => e.RegisteredUser.Id == userId).FirstOrDefault();
+
+            if (userToRemove == null)
+            {
+                e.RegisteredUsers.Add(new EventUser
+                {
+                    RegisteredUser = user
+                });
+            }
+            else
+            {
+                e.RegisteredUsers.Remove(userToRemove);
+            }
+
+
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
