@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { AppComponent } from '../app.component';
+import jwt_decode from "jwt-decode";
+import { decode } from 'querystring';
 
 @Component({
   selector: 'app-reports',
@@ -15,6 +17,10 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
+    let decodedToken:any = jwt_decode(this.token);
+    console.log(decodedToken);
+    if (decodedToken.role != "Admin") 
+      return this.appComponent.navigate("store")    
     if (!this.token)
       return this.appComponent.navigate("");
     this.requestInfo = {
@@ -26,12 +32,12 @@ export class ReportsComponent implements OnInit {
   
   async generateGameListReport() {
     this.errors = []
-    let headerList: Array<Array<string>> = [["productName", ""], ["categories", "сategory", "name"], ["platforms", "platform", "name"], ["description", ""], ["price", ""], ["coverImgUrl", ""]];
-    let headerDisplay: Array<string> = ["Product Name", "Categories", "Platforms", "Description", "Price", "Cover Image URL"];
+    let headerList: Array<Array<string>> = [["id", ""], ["productName", ""], ["categories", "сategory", "name"], ["platforms", "platform", "name"], ["description", ""], ["price", ""], ["coverImgUrl", ""]];
+    let headerDisplay: Array<string> = ["Product ID", "Product Name", "Categories", "Platforms", "Description", "Price", "Cover Image URL"];
+    let fileName = "GameListReport.csv"
     try {
       let response = await axios.get(this.appComponent.apiHost + "/Products", this.requestInfo);
-      let responseJson = JSON.stringify(response.data)
-      this.downloadFile(response.data, headerList, headerDisplay);
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
 
     } catch (e) {
       this.errors.push(e);
@@ -45,7 +51,18 @@ export class ReportsComponent implements OnInit {
   }
 
   async generateMemberListReport() {
-
+    this.errors = []
+    let headerList: Array<Array<string>> = [["email", ""], ["username", ""], ["firstName", ""], 
+    ["lastName", ""], ["gender", ""], ["birthDate", ""], ["verified", ""], ["newsletter", ""], ["roleName"]];
+    let headerDisplay: Array<string> = ["Email", "Username", "First Name", "Last Name", "Gender",
+    "Birth Date", "Verified", "Newsletter", "Role Name"];
+    let fileName: string = "MemberListReport.csv";
+    try {
+      let response = await axios.get(this.appComponent.apiHost + "/GetUsers", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateMemberDetailReport() {
@@ -53,14 +70,23 @@ export class ReportsComponent implements OnInit {
   }
 
   async generateWishlistReport() {
-
+    this.errors = []
+    let headerList: Array<Array<string>> = [["productName", ""], ["numberOfTimesWishlisted", ""]];
+    let headerDisplay: Array<string> = ["Product Name", "Number of Times Wishlisted"];
+    let fileName: string = "WishListReport.csv";
+    try {
+      let response = await axios.get(this.appComponent.apiHost + "/Reports/Wishlist", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateSalesReport() {
 
   }
 
-  downloadFile(data: any, arrHeader: Array<any>, arrHeaderDisplay: Array<any>) {
+  downloadFile(data: any, arrHeader: Array<any>, arrHeaderDisplay: Array<any>, fileName: string) {
     let csvData = this.convertToCSV(data, arrHeader, arrHeaderDisplay);
     console.log(csvData)
     let blob = new Blob(['\ufeff' + csvData], { type: 'text/csv;charset=utf-8;' });
@@ -71,7 +97,7 @@ export class ReportsComponent implements OnInit {
       dwldLink.setAttribute("target", "_blank");
     }
     dwldLink.setAttribute("href", url);
-    dwldLink.setAttribute("download", "sample.csv");
+    dwldLink.setAttribute("download", fileName);
     dwldLink.style.visibility = "hidden";
     document.body.appendChild(dwldLink);
     dwldLink.click();
@@ -82,7 +108,7 @@ export class ReportsComponent implements OnInit {
     let delimiter = ';';
     let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     let str = '';
-    let row = 'Item No.' + delimiter;
+    let row = ' ' + delimiter;
     for (let index in headerDisplay) {
       row += headerDisplay[index] + delimiter;
     }
@@ -92,6 +118,7 @@ export class ReportsComponent implements OnInit {
       let line = (i + 1) + '';
       for (let index in headerList) {
         let head = array[i][headerList[index][0]]
+        console.log(head);
         if (!headerList[index][1])
           line += delimiter + head;
         else {
@@ -99,19 +126,13 @@ export class ReportsComponent implements OnInit {
           if (Array.isArray(head)) {   
             let headArr: Array<any> = head;                     
 
-            // for (let item of headArr) {              
-            //   line += item[headerList[index][1]][headerList[index][2]] + ', '
-            // }
-
             for (let subIndex = 0; subIndex < headArr.length; subIndex++) {
               const item = headArr[subIndex];
               line += item[headerList[index][1]][headerList[index][2]]
               if (subIndex < headArr.length - 1)
                 line += ", "
             }
-
-          }
-          
+          }        
         }
       }
       str += line + '\r\n';
