@@ -10,6 +10,7 @@ import { PaymentPageComponent } from './payment-page/payment-page.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { ReportsComponent } from './reports/reports.component';
 import { StoreComponent } from './store/store.component';
 
 const routes: Routes = [
@@ -56,6 +57,10 @@ const routes: Routes = [
   {
     path: 'gameDetails',
     component: GameDetailsComponent
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent
   }
 ];
 
