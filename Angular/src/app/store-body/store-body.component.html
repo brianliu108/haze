@@ -53,7 +53,7 @@
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
-          <a mat-list-item [routerLink]="['/createEvent']" (click)="drawer.toggle()">Create/Manage Events</a>
+          <a mat-list-item [routerLink]="['/createEvent']" (click)="drawer.toggle()">Create Events</a>
         </mat-list-item>
         <mat-divider>
         </mat-divider>
@@ -87,13 +87,14 @@
         </div>
         <div style="margin-bottom: 5%;" *ngIf="displayWishList == false && displayGames == false && displayEvents == true">
           <h1>Upcoming Events</h1>
-          <div class="gameCategoryArea" *ngFor="let item of events;">
+          <div class="gameCategoryArea" *ngFor="let item of events;" (click)="routeToEventDetails(item)">
             <h3>{{item.eventName}}</h3>
             <p>Begins {{item.startDate}}</p>
             <p>Ends {{item.endDate}}</p>
-
+            <br>
+            <p>Included Games</p>
             <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile (click)="routeToDetails(item)" *ngFor="let game of item.products" class="gameTile">{{game.product.productName}}</mat-grid-tile>
+              <mat-grid-tile (click)="routeToDetails(game.product)" *ngFor="let game of item.products" class="gameTile">{{game.product.productName}}</mat-grid-tile>
             </mat-grid-list>
           </div>
           <br>

@@ -61,6 +61,11 @@ export class StoreBodyComponent implements OnInit {
     this.appComponent.navigate('/gameDetails');
   }
 
+  routeToEventDetails(item: any){
+    localStorage.setItem('selectedEvent', JSON.stringify(item));
+    this.appComponent.navigate('/gameDetails');
+  }
+
   setDisplayWishList(){
     this.displayWishList = true;
     this.displayGames = false;    
@@ -103,5 +108,9 @@ export class StoreBodyComponent implements OnInit {
     catch(err: any){
       console.error(err);
     }
+  }
+
+  showItem(item: any){
+    console.log(item);
   }
 }
