@@ -53,7 +53,7 @@
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
-          <a mat-list-item (click)="drawer.toggle()">Create/Manage Events</a>
+          <a mat-list-item [routerLink]="['/createEvent']" (click)="drawer.toggle()">Create/Manage Events</a>
         </mat-list-item>
         <mat-divider>
         </mat-divider>

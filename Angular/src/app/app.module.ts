@@ -36,6 +36,8 @@ import { StoreBodyComponent } from './store-body/store-body.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
 import { GameDetailsComponent } from './game-details/game-details.component';
+import { CreateEventsComponent } from './create-events/create-events.component';
+
 import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
@@ -54,7 +56,11 @@ import { ReportsComponent } from './reports/reports.component';
     CreateAdminComponent,
     CreateGamesComponent,
     GameDetailsComponent,
+
+    CreateEventsComponent
+
     ReportsComponent
+
   ],
   imports: [
     BrowserModule,

@@ -55,6 +55,10 @@
                 <input matInput [formControl]="priceCtrl">
                 <mat-error>Price is required</mat-error>
             </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Cover Image URL</mat-label>
+                <input matInput [formControl]="coverImgUrlCtrl">
+            </mat-form-field>
             <br>
             <div style="display: flex;">
                 <button mat-stroked-button (click)="createGame()" class="buttonStyle"

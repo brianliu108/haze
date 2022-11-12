@@ -5,6 +5,10 @@
         <h3 style="text-align: center; color: green;" *ngIf="addedWishList">Game added to wish list!</h3>
         <h3 style="text-align: center; color: green;" *ngIf="removedWishList">Game removed from wish list!</h3>
         <h3 style="color:red; text-align: center;" *ngFor="let error of errors">{{error}}</h3>
+        <section *ngIf="selectedGame.coverImgUrl != null || selectedGame.coverImgUrl != ''">
+            <h1>{{selectedGame.coverImgUrl}}</h1>
+            <img src="selectedGame.coverImgUrl" alt="Game Photo">
+        </section>
         <div class="detailArea">
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Game Description</mat-label>

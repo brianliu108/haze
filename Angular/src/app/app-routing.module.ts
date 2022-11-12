@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
+import { CreateEventsComponent } from './create-events/create-events.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { LoginComponent } from './login/login.component';
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'gameDetails',
     component: GameDetailsComponent
+  },
+  {
+    path: 'createEvent',
+    component: CreateEventsComponent
   },
   {
     path: 'reports',
