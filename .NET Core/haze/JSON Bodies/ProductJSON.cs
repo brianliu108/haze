@@ -8,5 +8,6 @@
         public List<int> PlatformIds { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
+        public string? CoverImgUrl { get; set; }
     }
 }

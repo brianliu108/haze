@@ -56,7 +56,8 @@ namespace haze.Controllers
                 ProductName = prod.ProductName,
                 Description = prod.Description,
                 Categories = new List<ProductCategory>(),
-                Platforms = new List<ProductPlatform>()
+                Platforms = new List<ProductPlatform>(),
+                CoverImgUrl = prod.CoverImgUrl
             };
 
             _hazeContext.Products.Add(product);
