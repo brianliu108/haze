@@ -49,7 +49,7 @@ export class GameDetailsComponent implements OnInit {
 
   async deleteGame() {
     try {
-      const deleteResponse = await axios.delete('https://localhost:7105/Product' + '/' + this.selectedGame.id, {
+      const deleteResponse = await axios.delete('https://localhost:7105/Products' + '/' + this.selectedGame.id, {
         headers: {
           Authorization: "Bearer " + this.token
         }

@@ -29,6 +29,7 @@ export class CreateGamesComponent implements OnInit {
   productNameCtrl: FormControl = new FormControl(null, Validators.required);
   categoryCtrl: FormControl = new FormControl(null);
   platformCtrl: FormControl = new FormControl(null);
+  coverImgUrlCtrl: FormControl = new FormControl(null);
   descriptionCtrl: FormControl = new FormControl(null, [Validators.required]);
   priceCtrl: FormControl = new FormControl(null, Validators.required);
 
@@ -60,37 +61,6 @@ export class CreateGamesComponent implements OnInit {
       this.appComponent.navigate('/store');
     }
   }
-
-  /*
-  async attemptCreate() {
-    if (this.gameGroup.valid) {
-      try {
-        let registerInfo = {
-          productName: this.productNameCtrl,
-          category: this.categoryCtrl,
-          platform: this.platformCtrl,
-          description: this.descriptionCtrl,
-          price: this.priceCtrl
-        }
-        const response = await axios.post('https://localhost:7105/RegisterAdmin', registerInfo, this.requestInfo);
-
-        if (response.status = 200) {
-          this.showSuccess();
-          setTimeout(() => {
-            this.routeToStore();
-          }, 3000);
-        }
-        else if (response.status != 200) {
-          this.showFailure();
-        }
-      } catch (error: any) {
-        if (error.response.data.errors) {
-          this.errors = error.response.data.errors;
-        }
-      }
-    }
-  }
-  */
 
   async getCategories() {
     try {
@@ -166,12 +136,13 @@ export class CreateGamesComponent implements OnInit {
         "categoryIds": this.selectedCategories,
         "platformIds": this.selectedPlatforms,
         "description": this.descriptionCtrl.value,
-        "price": parseFloat(this.priceCtrl.value)
+        "price": parseFloat(this.priceCtrl.value),
+        "coverImgUrl": this.coverImgUrlCtrl.value
       }
       console.log(gameInfo);
       
       try {
-        const createResponse = await axios.post('https://localhost:7105/Product', gameInfo, this.requestInfo);
+        const createResponse = await axios.post('https://localhost:7105/Products', gameInfo, this.requestInfo);
   
         if (createResponse.status = 200) {
           console.log(createResponse);
