@@ -8,13 +8,13 @@ import { matTabsAnimations, MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatCheckboxModule} from '@angular/material/checkbox'; 
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatSelectModule} from '@angular/material/select';  
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
@@ -24,7 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StoreComponent } from './store/store.component';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { ProfileComponent } from './profile/profile.component';
 import { WebBannerComponent } from './web-banner/web-banner.component';
 import { PaymentPageComponent } from './payment-page/payment-page.component';
@@ -37,8 +37,8 @@ import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
-
 import { ReportsComponent } from './reports/reports.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -56,10 +56,16 @@ import { ReportsComponent } from './reports/reports.component';
     CreateAdminComponent,
     CreateGamesComponent,
     GameDetailsComponent,
+<<<<<<< HEAD
+    CreateEventsComponent,
+    ReportsComponent,
+    EventDetailsComponent
+=======
 
     CreateEventsComponent,
 
     ReportsComponent
+>>>>>>> 37d33e8bbde36c09dc81094b1f2163492e784a13
 
   ],
   imports: [

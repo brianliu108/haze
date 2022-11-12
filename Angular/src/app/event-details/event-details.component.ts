@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import axios from 'axios';
 import { AppComponent } from '../app.component';
 
 @Component({
-  selector: 'app-create-events',
-  templateUrl: './create-events.component.html',
-  styleUrls: ['./create-events.component.scss']
+  selector: 'app-event-details',
+  templateUrl: './event-details.component.html',
+  styleUrls: ['./event-details.component.scss']
 })
-export class CreateEventsComponent implements OnInit {
-
+export class EventDetailsComponent implements OnInit {
   private token: any;
   private requestInfo: any;
 

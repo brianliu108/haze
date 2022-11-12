@@ -4,6 +4,7 @@ import { AddressComponent } from './address/address.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 import { GameDetailsComponent } from './game-details/game-details.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
@@ -66,6 +67,10 @@ const routes: Routes = [
   {
     path: 'reports',
     component: ReportsComponent
+  },
+  {
+    path: 'eventDetails',
+    component: EventDetailsComponent
   }
 ];
 
