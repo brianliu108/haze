@@ -16,4 +16,5 @@ export class AppComponent {
   public navigate(name: string){
     this.router.navigate(["/" + name]);
   }
+  
 }
