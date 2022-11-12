@@ -2,6 +2,9 @@
 <div class="addressBodyStyle">
     <mat-card class="addressCardStyle">
         <h1 style="text-align: center;">{{selectedGame.productName}}</h1>
+        <h3 style="text-align: center; color: green;" *ngIf="addedWishList">Game added to wish list!</h3>
+        <h3 style="text-align: center; color: green;" *ngIf="removedWishList">Game removed from wish list!</h3>
+        <h3 style="color:red; text-align: center;" *ngFor="let error of errors">{{error}}</h3>
         <div class="detailArea">
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Game Description</mat-label>
@@ -12,7 +15,8 @@
                 <input matInput readonly value="{{selectedGame.price}}">
             </mat-form-field>
             <div style="display: flex;">
-                <button class="buttonStyle" mat-stroked-button>Add to wishlist</button>
+                <button class="buttonStyle" (click)="addToWishlist()" *ngIf="!isInWishlist" mat-stroked-button>Add to wishlist</button>
+                <button class="buttonStyle" (click)="removeFromWishlist()" *ngIf="isInWishlist" mat-stroked-button>Remove from wishlist</button>
                 <button class="buttonStyle" mat-stroked-button>Add to cart</button>
             </div>
         </div>
