@@ -73,7 +73,7 @@
           <h1>Available Games</h1>
           <div class="gameCategoryArea">
             <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile (click)="routeToDetails(item)" *ngFor="let item of games;" class="gameTile">{{item.productName}}</mat-grid-tile>
+              <mat-grid-tile *ngFor="let item of games;" class="gameTile"><button (click)="routeToDetails(item)" mat-stroked-button>{{item.productName}}</button></mat-grid-tile>
             </mat-grid-list>
           </div>
         </div>
@@ -81,21 +81,23 @@
           <h1>Wishlist Games</h1>
           <div class="gameCategoryArea">
             <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile (click)="routeToDetails(item.product)" *ngFor="let item of wishlistGames;" class="gameTile">{{item.product.productName}}</mat-grid-tile>
+              <mat-grid-tile *ngFor="let item of wishlistGames;" class="gameTile"><button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button></mat-grid-tile>
             </mat-grid-list>
           </div>
         </div>
         <div style="margin-bottom: 5%;" *ngIf="displayWishList == false && displayGames == false && displayEvents == true">
           <h1>Upcoming Events</h1>
-          <div class="gameCategoryArea" *ngFor="let item of events;" (click)="routeToEventDetails(item)">
+          <div class="gameCategoryArea" *ngFor="let item of events;">
             <h3>{{item.eventName}}</h3>
             <p>Begins {{item.startDate}}</p>
             <p>Ends {{item.endDate}}</p>
             <br>
             <p>Included Games</p>
             <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile (click)="routeToDetails(game.product)" *ngFor="let game of item.products" class="gameTile">{{game.product.productName}}</mat-grid-tile>
+              <mat-grid-tile *ngFor="let game of item.products" class="gameTile"><button mat-stroked-button (click)="routeToDetails(game.product)">{{game.product.productName}}</button></mat-grid-tile>
             </mat-grid-list>
+            <br>
+            <button mat-stroked-button (click)="routeToEventDetails(item)">View {{item.eventName}} Details</button>
           </div>
           <br>
         </div>

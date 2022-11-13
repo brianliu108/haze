@@ -151,10 +151,11 @@ export class EventDetailsComponent implements OnInit {
   }
 
   async registerForEvent() {
+    this.errors = [];
     try {
       console.log(this.requestInfo);
 
-      const registerResponse = await axios.post('https://localhost:7105/RegisterForEvent/' + this.selectedEventInfo.id, this.requestInfo);
+      const registerResponse = await axios.post('https://localhost:7105/RegisterForEvent/' + this.selectedEventInfo.id, null, this.requestInfo);
 
       if (registerResponse.status = 200) {
         console.log(registerResponse);
