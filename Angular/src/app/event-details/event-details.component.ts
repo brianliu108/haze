@@ -12,6 +12,10 @@ export class EventDetailsComponent implements OnInit {
   private token: any;
   private requestInfo: any;
 
+  selectedEventInfo: any;
+  userInfo: any;
+  isNotEditing: boolean = true;
+
   success: boolean = false;
   errors: Array<any> = [];
   gamesList: Array<any> = [];
@@ -43,6 +47,9 @@ export class EventDetailsComponent implements OnInit {
     };
 
     this.getGames();
+    this.selectedEventInfo = JSON.parse(localStorage.getItem('selectedEvent')!);
+    this.setInputs();
+    this.userInfo = JSON.parse(localStorage.getItem('currentUser')!);
   }
 
   async getGames() {
@@ -61,11 +68,11 @@ export class EventDetailsComponent implements OnInit {
   }
 
   addAll() {
-    if (this.allAdded == false){
+    if (this.allAdded == false) {
       this.allAdded = true;
       this.addAllGames();
     }
-    else{
+    else {
       this.allAdded = false;
       this.includedGames = [];
     }
@@ -80,10 +87,10 @@ export class EventDetailsComponent implements OnInit {
     if (!this.includedGames.includes(item)) {
       this.includedGames.push(item);
     }
-    else if(this.includedGames.includes(item)){
+    else if (this.includedGames.includes(item)) {
       let spliceIndex: number = 0;
-      for(let i: number = 0; i < this.includedGames.length; i++){
-        if(this.includedGames[i] == item){
+      for (let i: number = 0; i < this.includedGames.length; i++) {
+        if (this.includedGames[i] == item) {
           spliceIndex = i;
         }
       }
@@ -96,10 +103,10 @@ export class EventDetailsComponent implements OnInit {
     this.appComponent.navigate("/store");
   }
 
-  async createEvent(){
-    if(this.eventGroup.valid && this.includedGames.length != 0){
+  async createEvent() {
+    if (this.eventGroup.valid && this.includedGames.length != 0) {
       let includedGamesCallList: Array<any> = [];
-      for(let item of this.includedGames){
+      for (let item of this.includedGames) {
         includedGamesCallList.push(item.id);
       }
 
@@ -111,10 +118,10 @@ export class EventDetailsComponent implements OnInit {
         eventName: this.eventNameCtrl.value,
         productIds: includedGamesCallList
       };
-  
+
       try {
         const createResponse = await axios.post('https://localhost:7105/Event', eventInfo, this.requestInfo);
-  
+
         if (createResponse.status = 200) {
           console.log(createResponse);
           this.showSuccess();
@@ -128,12 +135,38 @@ export class EventDetailsComponent implements OnInit {
         console.error(error);
       }
     }
-    else{
+    else {
       this.errors.push("Must select games for event!");
     }
   }
 
-  showSuccess(){
+  showSuccess() {
     this.success = true;
+  }
+
+  setInputs() {
+    this.eventNameCtrl.setValue(this.selectedEventInfo.eventName);
+    this.startDateCtrl.setValue(this.selectedEventInfo.startDate);
+    this.endDateCtrl.setValue(this.selectedEventInfo.endDate);
+  }
+
+  async registerForEvent() {
+    try {
+      console.log(this.requestInfo);
+
+      const registerResponse = await axios.post('https://localhost:7105/RegisterForEvent/' + this.selectedEventInfo.id, this.requestInfo);
+
+      if (registerResponse.status = 200) {
+        console.log(registerResponse);
+        this.showSuccess();
+        setTimeout(() => {
+          this.routeToStore();
+        }, 3000);
+      }
+    }
+    catch (error: any) {
+      this.errors.push(error);
+      console.error(error);
+    }
   }
 }

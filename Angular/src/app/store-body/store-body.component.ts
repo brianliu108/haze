@@ -63,7 +63,7 @@ export class StoreBodyComponent implements OnInit {
 
   routeToEventDetails(item: any){
     localStorage.setItem('selectedEvent', JSON.stringify(item));
-    this.appComponent.navigate('/gameDetails');
+    this.appComponent.navigate('/eventDetails');
   }
 
   setDisplayWishList(){
