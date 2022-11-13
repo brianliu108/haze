@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import axios, { Axios } from 'axios';
 import { AppComponent } from '../app.component';
 
@@ -13,6 +14,29 @@ export class GameDetailsComponent implements OnInit {
   selectedGame: any;
   userData: any;
   wishlistGames: Array<any>;
+
+  selectedPlatforms: Array<any> = [];
+  selectedCategories: Array<any> = [];
+
+  platforms: Array<any>;
+  categories: Array<any>;
+
+  editingGame: boolean = false;
+  updatedGame: boolean = false;
+
+  gameNameCtrl: FormControl = new FormControl(null, Validators.required);
+  categoryCtrl: FormControl = new FormControl(null);
+  platformCtrl: FormControl = new FormControl(null);
+  coverImgUrlCtrl: FormControl = new FormControl(null);
+  descriptionCtrl: FormControl = new FormControl(null, [Validators.required]);
+  priceCtrl: FormControl = new FormControl(null, Validators.required);
+  updateGroup: FormGroup = new FormGroup({
+    productName: this.gameNameCtrl,
+    category: this.categoryCtrl,
+    platform: this.platformCtrl,
+    description: this.descriptionCtrl,
+    price: this.priceCtrl
+  })
 
   isInWishlist: boolean;
 
@@ -43,8 +67,18 @@ export class GameDetailsComponent implements OnInit {
 
   }
 
+  cancelEdits(){
+    this.editingGame = false;
+  }
+
   routeToStore() {
     this.appComponent.navigate('/store');
+  }
+
+  editGame(){
+    this.editingGame = true;
+    this.getCategories();
+    this.getPlatforms();
   }
 
   async deleteGame() {
@@ -64,6 +98,60 @@ export class GameDetailsComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async getCategories() {
+    try {
+      const categoriesResponse = await axios.get('https://localhost:7105/Categories', this.requestInfo);
+
+      if (categoriesResponse.status = 200) {
+        this.categories = categoriesResponse.data;
+      }
+    }
+    catch (error: any) {
+      console.error(error);
+    }
+  }
+
+  async getPlatforms() {
+    try {
+      const platformsResponse = await axios.get('https://localhost:7105/Platforms', this.requestInfo);
+
+      if (platformsResponse.status = 200) {
+        this.platforms = platformsResponse.data;
+      }
+    }
+    catch (error: any) {
+      console.error(error);
+    }
+  }
+
+  addToCategories(item: any) {
+    if (!this.selectedCategories.includes(item.id)) {
+      this.selectedCategories.push(item.id);
+    }
+    else if (this.selectedCategories.includes(item.id)) {
+      for (let i: number = 0; i < this.selectedCategories.length; i++) {
+        if (this.selectedCategories[i] == item.id) {
+          this.selectedCategories.splice(i, 1);
+        }
+      }
+    }
+    console.log(this.selectedCategories);
+  }
+
+  addToPlatforms(item: any) {
+    if (!this.selectedPlatforms.includes(item.id)) {
+      this.selectedPlatforms.push(item.id);
+    }
+    else if (this.selectedPlatforms.includes(item.id)) {
+      for (let i: number = 0; i < this.selectedPlatforms.length; i++) {
+        if (this.selectedPlatforms[i] == item.id) {
+          this.selectedPlatforms.splice(i, 1);
+        }
+      }
+    }
+    console.log(this.selectedPlatforms);
   }
 
   async addToWishlist() {
@@ -129,5 +217,46 @@ export class GameDetailsComponent implements OnInit {
         this.isInWishlist = true;
       }
     }
+  }
+
+  async updateGame() {
+    if(this.updateGroup.valid){
+      let gameInfo: any = {
+        "id": this.selectedGame.id,
+        "productName": this.gameNameCtrl.value,
+        "categoryIds": this.selectedCategories,
+        "platformIds": this.selectedPlatforms,
+        "description": this.descriptionCtrl.value,
+        "price": parseFloat(this.priceCtrl.value),
+        "coverImgUrl": this.coverImgUrlCtrl.value
+      }
+      console.log(gameInfo);
+      
+      try {
+        const createResponse = await axios.put('https://localhost:7105/Products', gameInfo, this.requestInfo);
+  
+        if (createResponse.status = 200) {
+          console.log(createResponse);
+          this.showSuccess();
+          setTimeout(() => {
+            this.routeToStore();
+          }, 3000);
+        }
+        else{
+          this.showFailure();
+        }
+      }
+      catch (error: any) {
+        console.error(error);
+      }
+    }
+  }
+  
+  showSuccess() {
+    this.updatedGame = true;
+  }
+
+  showFailure() {
+    this.errors.push("Unsuccessfull game editing, check inputs and try again");
   }
 }

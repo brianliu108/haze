@@ -10,14 +10,14 @@
                 <section>                    
                     <h1 style="margin-left: 10%;">Favorite Category (or categories)</h1>
                     <h2 *ngFor="let category of categories; let i = index" [attr.data-index]="i" style="margin-left: 15%;">
-                        <mat-checkbox [checked]="categories[i].checked" value="{{category.id}}" (change)="onCheckboxChange(category.id, true)">{{category.name}}</mat-checkbox>
+                        <mat-checkbox [color]="'primary'" [checked]="categories[i].checked" value="{{category.id}}" (change)="onCheckboxChange(category.id, true)">{{category.name}}</mat-checkbox>
                     </h2>
                 </section>
                 <br>
                 <section>
                     <h1 style="margin-left: 10%;">Favorite Platform (or platforms)</h1>
                     <h2 *ngFor="let platform of platforms; let i = index" [attr.data-index]="i" style="margin-left: 15%;">
-                        <mat-checkbox [checked]="platforms[i].checked" value="{{platform.id}}" (change)="onCheckboxChange(platform.id, false)">{{platform.name}}</mat-checkbox>
+                        <mat-checkbox [color]="'primary'" [checked]="platforms[i].checked" value="{{platform.id}}" (change)="onCheckboxChange(platform.id, false)">{{platform.name}}</mat-checkbox>
                     </h2>
                 </section>
                 <br>

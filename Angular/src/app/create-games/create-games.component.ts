@@ -129,7 +129,6 @@ export class CreateGamesComponent implements OnInit {
   }
 
   async createGame() {
-    console.log(this.gameGroup.valid);
     if(this.gameGroup.valid){
       let gameInfo: any = {
         "productName": this.productNameCtrl.value,

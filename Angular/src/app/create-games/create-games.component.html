@@ -12,35 +12,16 @@
                 <input matInput [formControl]="productNameCtrl">
                 <mat-error *ngIf="productNameCtrl.hasError('required')">Product name is required</mat-error>
             </mat-form-field>
-            <!--
-            <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Category</mat-label>
-                <mat-select [formControl]="categoryCtrl">
-                    <mat-option *ngFor="let item of categories" [value]="item.name">{{item.name}}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="categoryCtrl.hasError('required')">Category is required</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="inputSet">
-                <mat-label>Platform</mat-label>
-                <mat-checkbox [formControl]="platformCtrl" *ngFor="let item of platforms">
-                    {{item.name}}
-                </mat-checkbox>
-                <mat-select [formControl]="platformCtrl">
-                    <mat-option *ngFor="let item of platforms" [value]="item.name">{{item.name}}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="platformCtrl.hasError('required')">Platform is required</mat-error>
-            </mat-form-field>
-            -->
             <div style="margin-left: 10%;">
                 <h3>Categories</h3>
-                <mat-checkbox class="inputSet" [formControl]="categoryCtrl" (click)="addToCategories(item)" *ngFor="let item of categories">
+                <mat-checkbox class="inputSet" [color]="'primary'" [formControl]="categoryCtrl" (click)="addToCategories(item)" *ngFor="let item of categories">
                     {{item.name}}
                 </mat-checkbox>
             </div>
             <br>
             <div style="margin-left: 10%;">
                 <h3>Platform</h3>
-                <mat-checkbox class="inputSet" [formControl]="platformCtrl" (click)="addToPlatforms(item)" *ngFor="let item of platforms">
+                <mat-checkbox class="inputSet" [color]="'primary'" [formControl]="platformCtrl" (click)="addToPlatforms(item)" *ngFor="let item of platforms">
                     {{item.name}}
                 </mat-checkbox>
             </div>

@@ -16,7 +16,7 @@
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Price</mat-label>
                 <input matInput readonly value="{{selectedGame.price}}">
-            </mat-form-field>
+            </mat-form-field>            
             <div style="display: flex;">
                 <button class="buttonStyle" (click)="addToWishlist()" *ngIf="!isInWishlist" mat-stroked-button>Add to wishlist</button>
                 <button class="buttonStyle" (click)="removeFromWishlist()" *ngIf="isInWishlist" mat-stroked-button>Remove from wishlist</button>
@@ -24,12 +24,58 @@
             </div>
         </div>
         <br><br>
-        <button mat-stroked-button style="margin-left: 90%;" (click)="routeToStore()">Back to store</button>
+        <button mat-stroked-button class="buttonStyle" (click)="routeToStore()">Back to store</button>
+        <br><br>
 
         <div class="adminArea" *ngIf="userData.role=='Admin'">
             <h1 style="text-align: center;">Admin Options</h1>
             <h3 style="text-align: center; color: green;" *ngIf="deleted == true">Product Deleted</h3>
-            <div style="display: flex;">
+            <h3 style="text-align: center; color: green;" *ngIf="updatedGame == true">Game Updated!</h3>
+            <div *ngIf="editingGame == true">
+                <h3 style="text-align: center;">Update {{selectedGame.productName}}</h3>
+                <form [formGroup]="updateGroup">
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Game Name</mat-label>
+                        <input matInput [formControl]="gameNameCtrl">
+                        <mat-error>Game Name is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Description</mat-label>
+                        <input matInput [formControl]="descriptionCtrl">
+                        <mat-error>Game Name is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Price</mat-label>
+                        <input matInput [formControl]="priceCtrl">
+                        <mat-error>Game Name is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Cover Image URL</mat-label>
+                        <input matInput [formControl]="coverImgUrlCtrl">
+                    </mat-form-field>
+                    <div style="margin-left: 10%;">
+                        <h3>Categories</h3>
+                        <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="categoryCtrl" (click)="addToCategories(item)" *ngFor="let item of categories">
+                            {{item.name}}
+                        </mat-checkbox>
+                    </div>
+                    <br>
+                    <div style="margin-left: 10%;">
+                        <h3>Platform</h3>
+                        <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="platformCtrl" (click)="addToPlatforms(item)" *ngFor="let item of platforms">
+                            {{item.name}}
+                        </mat-checkbox>
+                    </div>
+                    <br>
+                </form>
+            </div>
+            <div style="display: flex;" *ngIf="editingGame == true">
+                <button class="buttonStyle" (click)="updateGame()" mat-stroked-button>Submit Changes</button>
+                <button class="buttonStyle" (click)="deleteGame()" mat-stroked-button>Cancel Changes</button>
+                <br><br>
+            </div>
+            <div style="display: flex;" *ngIf="editingGame == false">
+                <button class="buttonStyle" (click)="editGame()" mat-stroked-button>Edit Game</button>
                 <button class="buttonStyle" (click)="deleteGame()" mat-stroked-button>Delete Game</button>
             </div>
         </div>
