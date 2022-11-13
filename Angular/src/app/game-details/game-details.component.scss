@@ -4,6 +4,12 @@
         height: auto;
         margin: 0 auto;
 
+        .inputSet{
+            width: 80%;
+            margin: auto;
+            display: block;
+        }
+
         .addressCardStyle {
             width: auto;
             height: auto;
@@ -13,11 +19,6 @@
             .detailArea{
                 width: 100%;
 
-                .inputSet{
-                    width: 80%;
-                    margin: auto;
-                    display: block;
-                }
             }
                 
             .buttonStyle{
