@@ -62,7 +62,7 @@
                     style="flex: 1; max-width: 10%; position: absolute;">Cancel</button>
             </div>
             -->
-            <section *ngIf="userInfo.role == 'User'">
+            <section *ngIf="userInfo.role == 'User' || userInfo.role == 'Admin'">
                 <button mat-stroked-button class="buttonStyle" (click)="registerForEvent()">Register for event</button>
                 <br>
             </section>
