@@ -22,7 +22,7 @@ export class AddressComponent implements OnInit {
   showShipping: boolean = false;
 
   shippingHomeAddressCtrl = new FormControl(null, Validators.required);
-  shippingHomeAddress2Ctrl = new FormControl(null, Validators.required);
+  shippingHomeAddress2Ctrl = new FormControl(null);
   shippingCountryCtrl = new FormControl(null, Validators.required);
   shippingPhoneNumCtrl = new FormControl(null, [Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]);
   shippingCityCtrl = new FormControl(null, Validators.required);
@@ -198,6 +198,8 @@ export class AddressComponent implements OnInit {
         if(this.showShipping == true){
           console.log(shippingObj);
           shippingCall = await axios.put(this.appComponent.apiHost + "/ShippingAddress", shippingObj, this.requestInfo);
+        } else if (!this.showShipping && this.storedShippingAddress) {
+          await this.deleteSavedShippingAddress();
         }
 
         if(this.showShipping == true){
