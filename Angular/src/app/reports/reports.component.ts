@@ -16,18 +16,23 @@ export class ReportsComponent implements OnInit {
   constructor(private appComponent: AppComponent) { }
 
   ngOnInit(): void {
-    this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
-    let decodedToken:any = jwt_decode(this.token);
-    console.log(decodedToken);
-    if (decodedToken.role != "Admin") 
-      return this.appComponent.navigate("store")    
-    if (!this.token)
-      return this.appComponent.navigate("");
-    this.requestInfo = {
-      headers: {
-        Authorization: "Bearer " + this.token
-      }
-    };
+    try {
+      this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
+      let decodedToken:any = jwt_decode(this.token);
+      console.log(decodedToken);
+      if (decodedToken.role != "Admin") 
+        return this.appComponent.navigate("store")    
+      if (!this.token)
+        return this.appComponent.navigate("");
+      this.requestInfo = {
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      };
+    } catch (e) {
+      this.appComponent.navigate("")
+    }
+    
   }
   
   async generateGameListReport() {
@@ -66,7 +71,8 @@ export class ReportsComponent implements OnInit {
   }
 
   async generateMemberDetailReport() {
-
+    this.errors = []
+    this.errors.push('This will be implemented in an upcoming iteration')
   }
 
   async generateWishlistReport() {
@@ -83,7 +89,8 @@ export class ReportsComponent implements OnInit {
   }
 
   async generateSalesReport() {
-
+    this.errors = []
+    this.errors.push('This will be implemented in an upcoming iteration')
   }
 
   downloadFile(data: any, arrHeader: Array<any>, arrHeaderDisplay: Array<any>, fileName: string) {
