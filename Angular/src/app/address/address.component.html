@@ -3,8 +3,7 @@
     <mat-card class="addressCardStyle">
         <h1 style="text-align: center;">Add/Update Address</h1>
         <form>
-            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Address successfully Stored! Routing to
-                profile page</p>
+            <p style="color: green; margin-left: 10%;" *ngIf="success == true">Address successfully Stored!</p>
             <p style="color:red; margin-left: 10%;" *ngFor="let error of errors">{{error}}</p>
             <h2 style="margin-left: 10%;">Billing Address</h2>
             <mat-form-field appearance="fill" class="inputSet">
@@ -56,7 +55,7 @@
             <button mat-stroked-button class="buttonStyle" (click)="deleteSavedBillingAddress()">Delete Saved Billing
                 Address</button>
             <br><br>
-            <mat-checkbox [color]="'primary'" style="margin-left: 10%;" (click)="revealShipping()" [checked]="showShipping">
+            <mat-checkbox style="margin-left: 10%;" (change)="revealShipping()" [checked]="showShipping">
                 Click if Shipping Address is different from billing
             </mat-checkbox>
             <br><br><br>
