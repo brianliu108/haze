@@ -71,7 +71,7 @@
             </div>
             <div style="display: flex;" *ngIf="editingGame == true">
                 <button class="buttonStyle" (click)="updateGame()" mat-stroked-button>Submit Changes</button>
-                <button class="buttonStyle" (click)="deleteGame()" mat-stroked-button>Cancel Changes</button>
+                <button class="buttonStyle" (click)="cancelEdits()" mat-stroked-button>Cancel Changes</button>
                 <br><br>
             </div>
             <div style="display: flex;" *ngIf="editingGame == false">
