@@ -72,7 +72,7 @@
         <div *ngIf="displayGames == true && displayWishList == false && displayEvents == false">
           <h1>Available Games</h1>
           <div class="gameCategoryArea">
-            <mat-grid-list cols="8" rowHeight="2:1">
+            <mat-grid-list cols="8" rowHeight="2:1" style="margin-right: 2%;">
               <mat-grid-tile *ngFor="let item of games;" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
                   <img alt="{{item.productName}}" (click)="routeToDetails(item)" src="{{item.coverImgUrl}}"  class="imgStyle">
