@@ -90,7 +90,9 @@ public class HazeTest : IAsyncLifetime
     {
         string endpoint = "/Login";
         string requestBody = $"{{\"username\": \"{adminName}\",  \"password\": \"{password}\"}}";
+
         await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.OK, requestBody, true);
+
     }
     
     [Fact]
