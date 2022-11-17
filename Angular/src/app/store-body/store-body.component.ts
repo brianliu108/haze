@@ -15,10 +15,12 @@ export class StoreBodyComponent implements OnInit {
   games: Array<any> = [];
   wishlistGames: Array<any> = [];
   events: Array<any> = [];
+  eventsGames: Array<any> = [];
 
   displayGames: boolean = true;
   displayWishList: boolean = false;  
   displayEvents: boolean = false;
+  
 
   constructor(
     private appComponent: AppComponent
@@ -45,7 +47,6 @@ export class StoreBodyComponent implements OnInit {
   async getGames() {
     try{
       let getGamesCall = await axios.get(this.appComponent.apiHost + "/Products",  this.requestInfo);
-      console.log(getGamesCall);
 
       if(getGamesCall.status == 200){
         this.games = getGamesCall.data;
@@ -101,8 +102,11 @@ export class StoreBodyComponent implements OnInit {
     try{
       let getEventsGamesCall = await axios.get(this.appComponent.apiHost + "/Events",  this.requestInfo);
 
+      let test = getEventsGamesCall.data;
+
       if(getEventsGamesCall.status == 200){
         this.events = getEventsGamesCall.data;
+        this.eventsGames = test[0].products;
       }
     }
     catch(err: any){

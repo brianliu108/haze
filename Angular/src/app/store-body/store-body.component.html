@@ -72,20 +72,29 @@
         <div *ngIf="displayGames == true && displayWishList == false && displayEvents == false">
           <h1>Available Games</h1>
           <div class="gameCategoryArea">
-            <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile *ngFor="let item of games;" class="gameTile"><button (click)="routeToDetails(item)" mat-stroked-button>{{item.productName}}</button></mat-grid-tile>
+            <mat-grid-list cols="8" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let item of games;" class="gameTile">
+                <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
+                  <img alt="{{item.productName}}" (click)="routeToDetails(item)" src="{{item.coverImgUrl}}"  class="imgStyle">
+              </mat-grid-tile>
             </mat-grid-list>
           </div>
         </div>
         <div *ngIf="displayWishList == true && displayGames == false && displayEvents == false">
           <h1>Wishlist Games</h1>
           <div class="gameCategoryArea">
-            <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile *ngFor="let item of wishlistGames;" class="gameTile"><button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button></mat-grid-tile>
+            <mat-grid-list cols="8" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let item of wishlistGames;" class="gameTile">
+                <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
+                <section *ngIf="item.product.coverImgUrl != null || item.product.coverImgUrl != ''">
+                  <img (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}"  class="imgStyle">
+                </section>
+              </mat-grid-tile>
             </mat-grid-list>
           </div>
         </div>
-        <div style="margin-bottom: 5%;" *ngIf="displayWishList == false && displayGames == false && displayEvents == true">
+        <div style="margin-bottom: 5%;"
+          *ngIf="displayWishList == false && displayGames == false && displayEvents == true">
           <h1>Upcoming Events</h1>
           <div class="gameCategoryArea" *ngFor="let item of events;">
             <h3>{{item.eventName}}</h3>
@@ -93,8 +102,13 @@
             <p>Ends {{item.endDate}}</p>
             <br>
             <p>Included Games</p>
-            <mat-grid-list cols="8" rowHeight="4:1">
-              <mat-grid-tile *ngFor="let game of item.products" class="gameTile"><button mat-stroked-button (click)="routeToDetails(game.product)">{{game.product.productName}}</button></mat-grid-tile>
+            <mat-grid-list cols="8" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let item of eventsGames" class="gameTile">
+                <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
+                <section *ngIf="item.product.coverImgUrl != null || item.product.coverImgUrl != ''">
+                  <img (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}"  class="imgStyle">
+                </section>
+              </mat-grid-tile>
             </mat-grid-list>
             <br>
             <button mat-stroked-button (click)="routeToEventDetails(item)">View {{item.eventName}} Details</button>
