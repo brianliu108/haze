@@ -47,6 +47,7 @@ public class HazeTest : IAsyncLifetime
         return Task.CompletedTask;
     }
     
+    // Member Login
     [Fact]
     public async void PostLoginUser_UserExistsLogin_Ok()
     {
@@ -55,6 +56,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.OK, requestBody);
     }
     
+    // Profile Update
     [Fact]
     public async void PutProfile_ValidRequest_Ok()
     {
@@ -63,6 +65,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Put, true, HttpStatusCode.OK, requestBody);
     }
     
+    // Preference Setting
     [Fact]
     public async void PatchPreferenceSetting_ValidRequest_Ok()
     {
@@ -71,6 +74,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, "PATCH", true, HttpStatusCode.OK, requestBody);
     }
     
+    // Member Address Info
     [Fact]
     public async void GetMemberAddresses_ValidRequest_Ok()
     {
@@ -78,6 +82,8 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
     }
     
+    
+    // Member Credit Card info Storing
     [Fact]
     public async void GetMemberPaymentInfos_ValidRequest_Ok()
     {
@@ -85,6 +91,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
     }
 
+    // Admin Log In 
     [Fact]
     public async void PostLoginAdmin_AdminExistsLogin_Ok()
     {
@@ -95,6 +102,7 @@ public class HazeTest : IAsyncLifetime
 
     }
     
+    // Admin Events Managing
     [Fact]
     public async void GetEvent_ValidRequest_Ok()
     {
@@ -102,6 +110,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK, "", true);
     }
     
+    // Admin View/Print Report
     [Fact]
     public async void GetWishlistReport_ValidRequest_Ok()
     {
@@ -109,6 +118,7 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK, "", true);
     }
     
+    // Wish List
     [Fact]
     public async void GetUserWishlist_ValidRequest_Ok()
     {
