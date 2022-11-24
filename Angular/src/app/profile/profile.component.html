@@ -26,7 +26,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="infoInputs">
                         <mat-label>Birth Date</mat-label>
-                        <input [formControl]="birthDateCtrl" matInput [matDatepicker]="picker">
+                        <input [max]="today" [formControl]="birthDateCtrl" matInput [matDatepicker]="picker">
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

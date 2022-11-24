@@ -157,11 +157,19 @@
         margin: 0 auto;
         margin-bottom: 2%;
         margin-top: 2%;
-        height: 151px;
-        
+        height: 151px !important;
+        width: auto !important;
+        object-fit: contain;
     }
 
     .gameTile:hover{
         box-shadow: 0 6px 6px black;
+        transform: scale(1.02) perspective(0px);
+    }
+
+    .buttonStyle{
+        width: 50%;
+        margin: 0 auto;
+        display: block;
     }
 }

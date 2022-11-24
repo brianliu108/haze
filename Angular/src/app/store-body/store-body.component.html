@@ -70,10 +70,16 @@
     <mat-drawer-content>
       <div class="mainStoreArea">
         <div *ngIf="displayGames == true && displayWishList == false && displayEvents == false">
-          <h1>Available Games</h1>
+          <div style="display: flex;">
+            <h1>Available Games</h1>
+            <mat-form-field style="flex: 1; margin-left: 15%; margin-right: 20%;" appearance="fill">
+              <mat-label>Search Game</mat-label>
+              <input matInput [formControl]="searchCtrl" (ngModelChange)="filterGames()">
+            </mat-form-field>
+          </div>
           <div class="gameCategoryArea">
             <mat-grid-list cols="8" rowHeight="2:1" style="margin-right: 2%;">
-              <mat-grid-tile *ngFor="let item of games;" class="gameTile">
+              <mat-grid-tile *ngFor="let item of shownGames;" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
                   <img alt="{{item.productName}}" (click)="routeToDetails(item)" src="{{item.coverImgUrl}}"  class="imgStyle">
               </mat-grid-tile>
@@ -105,7 +111,7 @@
             <mat-grid-list cols="8" rowHeight="2:1">
               <mat-grid-tile *ngFor="let item of eventsGames" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
-                <section *ngIf="item.product.coverImgUrl != null || item.product.coverImgUrl != ''">
+                <section *ngIf=" item.product.coverImgUrl != ''">
                   <img (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}"  class="imgStyle">
                 </section>
               </mat-grid-tile>

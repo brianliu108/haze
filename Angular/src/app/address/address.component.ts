@@ -15,7 +15,7 @@ export class AddressComponent implements OnInit {
   billingCountryCtrl = new FormControl(null, Validators.required);
   billingPhoneNumCtrl = new FormControl(null, [Validators.required, Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]);
   billingCityCtrl = new FormControl(null, Validators.required);
-  billingPostalZipCodeCtrl = new FormControl(null, Validators.required);
+  billingPostalZipCodeCtrl = new FormControl(null, [Validators.required, Validators.pattern(/^[0-9]{5}$|^[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]$/)]);
   billingProvinceOrStateCtrl = new FormControl(null, Validators.required);
 
   success: boolean = false;

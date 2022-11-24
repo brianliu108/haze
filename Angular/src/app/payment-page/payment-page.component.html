@@ -14,7 +14,8 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="paymentInputs">
                     <mat-label>Expiry</mat-label>
-                    <input matInput [formControl]="expiryCtrl">
+                    <input matInput placeholder="MM/YY" [formControl]="expiryCtrl">
+                    <mat-hint>MM/YY</mat-hint>
                     <mat-error *ngIf="expiryCtrl.hasError('required')">Expiry is required</mat-error>
                     <mat-error *ngIf="expiryCtrl.hasError('pattern')">Please check your expiry</mat-error>
                 </mat-form-field>
