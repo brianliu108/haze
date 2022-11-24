@@ -56,7 +56,13 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.OK, requestBody);
     }
     
-    
+    [Fact]
+    public async void PostLoginUser_InvalidLoginCredential_NotFound()
+    {
+        string endpoint = "/Login";
+        string requestBody = $"{{\"username\": \"\",  \"password\": \"{password}\"}}";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.NotFound, requestBody);
+    }
     
     // Profile Update
     [Fact]
@@ -65,6 +71,14 @@ public class HazeTest : IAsyncLifetime
         string endpoint = "/UserProfile";
         string requestBody = "{    \"email\": \"\",    \"password\": \"\",    \"roleName\": \"\",    \"userName\": \"\",    \"firstName\": \"unit\",    \"lastName\": \"test\",    \"gender\": \"Prefer not to say\",    \"birthDate\": \"2022-01-01T00:00:00\",    \"newsletter\": true  }";
         await RunHazeTest(endpoint, WebRequestMethods.Http.Put, true, HttpStatusCode.OK, requestBody);
+    }
+    
+    [Fact]
+    public async void PutProfile_InvalidRequest_BadRequest()
+    {
+        string endpoint = "/UserProfile";
+        string requestBody = "{    \"email\": \"\",    \"password\": \"\",    \"roleName\": \"\",    \"userName\": null,    \"firstName\": \"\",    \"lastName\": \"\",    \"gender\": \"Prefer not to say\",    \"birthDate\": \"2022-01-01T00:00:00\",    \"newsletter\": true  }";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Put, true, HttpStatusCode.BadRequest, requestBody);
     }
     
     // Preference Setting
@@ -147,10 +161,12 @@ public class HazeTest : IAsyncLifetime
     }
     
     [Fact]
-    public async void GetEvent_ValidRequest_Ok()
+    public async void PostEvent_InvalidRequest_BadRequest()
     {
-        string endpoint = "/Events";
-        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK, "", true);
+        string endpoint = "/Event";
+        string requestBody =
+            "{\n  \"eventName\": \"string\",\n  \"startDate\": \"string\",\n  \"endDate\": \"string\",\n  \"productIds\": [\n    0\n  ]\n}";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.BadRequest, requestBody, true);
     }
     
     // Admin View/Print Report
@@ -161,12 +177,27 @@ public class HazeTest : IAsyncLifetime
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK, "", true);
     }
     
+    [Fact]
+    public async void GetWishlistReport_GetUsers_Ok()
+    {
+        string endpoint = "/GetUsers";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK, "", true);
+    }
+    
     // Wish List
     [Fact]
     public async void GetUserWishlist_ValidRequest_Ok()
     {
         string endpoint = "/Wishlist";
         await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async void PostUserWishlist_InvalidProduct_NotFound()
+    {
+        string endpoint = "/Wishlist";
+        string requestBody = "{\n  \"productId\": 0\n}";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.NotFound, requestBody);
     }
     
     /// <summary>
