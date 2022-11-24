@@ -152,4 +152,16 @@
             border: 1px solid black;
         }
     }
+    .imgStyle{
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 2%;
+        margin-top: 2%;
+        height: 151px;
+        
+    }
+
+    .gameTile:hover{
+        box-shadow: 0 6px 6px black;
+    }
 }
