@@ -181,14 +181,16 @@ namespace haze.Controllers
             Product product = await _hazeContext.Products
                 .Include(x => x.Categories).ThenInclude(x => x.сategory)
                     .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Include(x => x.UserReviews).ThenInclude(x => x.User)
                     .Where(x => x.Id == Id).FirstOrDefaultAsync();
+
             if (product == null)
                 return BadRequest("Product dont exist!");
 
-            _hazeContext.Products.Remove(product);
-            await _hazeContext.SaveChangesAsync();
+            if (product.UserReviews == null)
+                return BadRequest("Product has no reviews!");
 
-            return Ok();
+            return Ok(product.UserReviews);
         }
 
         [HttpPost("/ProductReviews/{productId}/{reviewDescription}")]
@@ -211,6 +213,9 @@ namespace haze.Controllers
 
             if (user == null)
                 return BadRequest("User dont exist!");
+
+            if (product.UserReviews == null)
+                product.UserReviews = new List<ProductUserReview>();
 
             product.UserReviews.Add(new ProductUserReview
             {

@@ -23,5 +23,6 @@ namespace haze.DataAccess
         public DbSet<EventProduct> EventProducts { get; set; }
         public DbSet<EventUser> EventUsers { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
     }
 }
