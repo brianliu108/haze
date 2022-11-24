@@ -37,6 +37,7 @@
                 <mat-label>Postal/Zip code</mat-label>
                 <input matInput [formControl]="billingPostalZipCodeCtrl">
                 <mat-error>Postal/Zip code is required</mat-error>
+                <mat-error *ngIf="billingPostalZipCodeCtrl.hasError('pattern')">Must be valid Canadian or American postal code</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet" *ngIf="billingCountryCtrl.value == 'Canada'">
                 <mat-label>Province</mat-label>

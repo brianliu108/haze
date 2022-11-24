@@ -29,7 +29,7 @@ export class CreateGamesComponent implements OnInit {
   productNameCtrl: FormControl = new FormControl(null, Validators.required);
   categoryCtrl: FormControl = new FormControl(null);
   platformCtrl: FormControl = new FormControl(null);
-  coverImgUrlCtrl: FormControl = new FormControl(null);
+  coverImgUrlCtrl: FormControl = new FormControl(null, Validators.required);
   descriptionCtrl: FormControl = new FormControl(null, [Validators.required]);
   priceCtrl: FormControl = new FormControl(null, Validators.required);
 
