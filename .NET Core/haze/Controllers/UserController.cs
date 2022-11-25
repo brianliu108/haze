@@ -28,8 +28,11 @@ namespace haze.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category).Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
-                .Include(x => x.PaymentInfos).Include(x => x.BillingAddress).Include(x => x.ShippingAddress).ToListAsync());
+            return Ok(await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms)
+                .ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Include(x => x.BillingAddress).Include(x => x.ShippingAddress)
+                .Include(x => x.Friends).ThenInclude(x => x.Friend).ThenInclude(x => x.User).ToListAsync());
         }
 
 
@@ -404,6 +407,29 @@ namespace haze.Controllers
         
             smtpClient.Send(mail);
 
+            return Ok();
+        }
+
+        [HttpGet("/Test")]
+        [Authorize]
+        public async Task<IActionResult> TestFriend()
+        {
+
+            User user = await _hazeContext.Users.Include(x => x.Friends).Where(x => x.Id == 2).FirstOrDefaultAsync();
+            User friend = await _hazeContext.Users.Include(x => x.Friends).Where(x => x.Id == 3).FirstOrDefaultAsync();
+            
+            user.Friends.Add(new UserFriend()
+            {
+                Friend = new Friend()
+                {
+                    Accepted = false,
+                    DateAdded = DateTime.Today,
+                    IsFamily = false,
+                    User = friend
+                }
+            });
+
+            await _hazeContext.SaveChangesAsync();
             return Ok();
         }
     }
