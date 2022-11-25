@@ -231,18 +231,18 @@ namespace haze.Controllers
             return Ok();
         }
 
-        [HttpPost("/ApproveProductReview/{Id}")]
+        [HttpPost("/ApproveProductReview/{productId}/{reviewId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> ApproveReviewProduct(int Id)
+        public async Task<ActionResult> ApproveReviewProduct(int productId, int reviewId)
         {
             Product product = await _hazeContext.Products
                 .Include(x => x.Categories).ThenInclude(x => x.сategory)
                     .Include(x => x.Platforms).ThenInclude(x => x.platform)
-                    .Where(x => x.Id == Id).FirstOrDefaultAsync();
+                    .Where(x => x.Id == productId).FirstOrDefaultAsync();
+
             if (product == null)
                 return BadRequest("Product dont exist!");
 
-            _hazeContext.Products.Remove(product);
             await _hazeContext.SaveChangesAsync();
 
             return Ok();
