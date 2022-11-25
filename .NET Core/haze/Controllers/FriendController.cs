@@ -30,15 +30,16 @@ public class FriendController : Controller
     }
     
     [HttpGet("/Friends/Requests")]
+    [Authorize]
     public async Task<IActionResult> PendingFriendRequest(int id)
     {
         try
         {
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-            var incomingRequests = await GetFriendsList(false);
+            var pendingRequests = await GetFriendsList(false);
             return Ok(new
             {
-                IncomingRequests = incomingRequests.Select(x => x.Friends)
+                pendingRequests = pendingRequests.Select(x => x.Friends)
             });
         }
         catch (Exception e)
@@ -49,6 +50,7 @@ public class FriendController : Controller
 
 
     [HttpPost("/Friends/Accept/{id:int:required}")]
+    [Authorize]
     public async Task<IActionResult> AcceptFriend(int id)
     {
         

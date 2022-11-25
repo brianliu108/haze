@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace haze.Migrations
 {
-    public partial class MigrationNamea : Migration
+    public partial class AddFriends : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -270,6 +270,29 @@ namespace haze.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Friends",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Accepted = table.Column<bool>(type: "bit", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateAccepted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsFamily = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friends", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Friends_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentInfo",
                 columns: table => new
                 {
@@ -342,6 +365,31 @@ namespace haze.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserFriends",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FriendId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFriends", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserFriends_Friends_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "Friends",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserFriends_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_EventProducts_EventId",
                 table: "EventProducts",
@@ -383,6 +431,11 @@ namespace haze.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Friends_UserId",
+                table: "Friends",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentInfo_UserId",
                 table: "PaymentInfo",
                 column: "UserId");
@@ -415,6 +468,16 @@ namespace haze.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProductUserReviews_UserId",
                 table: "ProductUserReviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_FriendId",
+                table: "UserFriends",
+                column: "FriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_UserId",
+                table: "UserFriends",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -465,6 +528,9 @@ namespace haze.Migrations
                 name: "ProductUserReviews");
 
             migrationBuilder.DropTable(
+                name: "UserFriends");
+
+            migrationBuilder.DropTable(
                 name: "WishlistItems");
 
             migrationBuilder.DropTable(
@@ -475,6 +541,9 @@ namespace haze.Migrations
 
             migrationBuilder.DropTable(
                 name: "Platforms");
+
+            migrationBuilder.DropTable(
+                name: "Friends");
 
             migrationBuilder.DropTable(
                 name: "Products");
