@@ -243,6 +243,14 @@ namespace haze.Controllers
             if (product == null)
                 return BadRequest("Product dont exist!");
 
+            ProductUserReview productUserReview = await _hazeContext.ProductUserReviews
+                    .Where(x => x.Id == reviewId).FirstOrDefaultAsync();
+
+            if (productUserReview == null)
+                return BadRequest("User Review dont exist!");
+
+            productUserReview.Approved = true;
+
             await _hazeContext.SaveChangesAsync();
 
             return Ok();
