@@ -418,7 +418,7 @@ namespace haze.Controllers
             User user = await _hazeContext.Users.Include(x => x.Friends).Where(x => x.Id == 2).FirstOrDefaultAsync();
             User friend = await _hazeContext.Users.Include(x => x.Friends).Where(x => x.Id == 3).FirstOrDefaultAsync();
             
-            user.Friends.Add(new UserFriend()
+            user.Friends.ToList().Add(new UserFriend()
             {
                 Friend = new Friend()
                 {
