@@ -12,8 +12,8 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    [Migration("20221125190219_MigrationNamea")]
-    partial class MigrationNamea
+    [Migration("20221125193305_AddFriends")]
+    partial class AddFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,6 +196,36 @@ namespace haze.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FavouritePlatforms");
+                });
+
+            modelBuilder.Entity("haze.Models.Friend", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DateAccepted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFamily")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("haze.Models.PaymentInfo", b =>
@@ -401,6 +431,29 @@ namespace haze.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("haze.Models.UserFriend", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FriendId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFriends");
+                });
+
             modelBuilder.Entity("haze.Models.WishlistItem", b =>
                 {
                     b.Property<int>("Id")
@@ -484,6 +537,17 @@ namespace haze.Migrations
                     b.Navigation("Platform");
                 });
 
+            modelBuilder.Entity("haze.Models.Friend", b =>
+                {
+                    b.HasOne("haze.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("haze.Models.PaymentInfo", b =>
                 {
                     b.HasOne("haze.Models.User", null)
@@ -553,6 +617,21 @@ namespace haze.Migrations
                     b.Navigation("ShippingAddress");
                 });
 
+            modelBuilder.Entity("haze.Models.UserFriend", b =>
+                {
+                    b.HasOne("haze.Models.Friend", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("haze.Models.User", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Friend");
+                });
+
             modelBuilder.Entity("haze.Models.WishlistItem", b =>
                 {
                     b.HasOne("haze.Models.Product", "Product")
@@ -589,6 +668,8 @@ namespace haze.Migrations
                     b.Navigation("FavouriteCategories");
 
                     b.Navigation("FavouritePlatforms");
+
+                    b.Navigation("Friends");
 
                     b.Navigation("PaymentInfos");
 

@@ -36,10 +36,12 @@ public class HazeTest : IAsyncLifetime
         var userContent = new StringContent(userPostBody, Encoding.UTF8, "application/json");
         var adminLoginRes = await adminClient.PostAsync("/login", adminContent);
         var userLoginRes = await userClient.PostAsync("/login", userContent);
-        dynamic? adminJson = JsonConvert.DeserializeObject<dynamic>(await adminLoginRes.Content.ReadAsStringAsync());
-        dynamic? userJson = JsonConvert.DeserializeObject<dynamic>(await userLoginRes.Content.ReadAsStringAsync());
-        adminToken = adminJson.token;
-        userToken = userJson.token;
+        LoginResponse? adminResponse = JsonConvert.DeserializeObject<LoginResponse>(await adminLoginRes.Content.ReadAsStringAsync());
+        LoginResponse? userResponse = JsonConvert.DeserializeObject<LoginResponse>(await userLoginRes.Content.ReadAsStringAsync());
+        // dynamic? adminJson = JsonConvert.DeserializeObject<dynamic>(await adminLoginRes.Content.ReadAsStringAsync());
+        // dynamic? userJson = JsonConvert.DeserializeObject<dynamic>(await userLoginRes.Content.ReadAsStringAsync());
+        adminToken = adminResponse.Token;
+        userToken = userResponse.Token;
     }
 
     public Task DisposeAsync()

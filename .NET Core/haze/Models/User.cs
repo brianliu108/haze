@@ -21,6 +21,6 @@ namespace haze.Models
         public Address? ShippingAddress { get; set; }
         public Address? BillingAddress { get; set; }
         public List<WishlistItem>? WishList { get; set; }
-        
+        public IEnumerable<UserFriend>? Friends { get; set; }
     }
 }
