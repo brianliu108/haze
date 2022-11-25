@@ -28,6 +28,55 @@ public class FriendController : Controller
             return BadRequest(e.Message);
         }
     }
+    [HttpPost("/Friends/Requests/Send/{id:int:required}")]
+    public async Task<IActionResult> SendFriendRequest(int id)
+    {
+        try
+        {
+            List<string> errors = new List<string>();
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            var user = await _hazeContext.Users.Include(x => x.Friends).ThenInclude(x => x.Friend)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync();
+            var friend = await _hazeContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var currentPendingRequests = await GetFriendsList(false);
+            var currentPendingRequestsUsers = new List<User>();
+            // foreach (var item in currentPendingRequests)
+                if (friend == null)
+            {
+                errors.Add("The given user wasn't found!");
+                return NotFound(errors);
+            }
+            // if (currentPendingRequests.Where(x => x.Friends != null && x.Friends.Where(y => y.Friend.User == friend)).ToList().Count != 0)
+            // if (currentPendingRequests.Any(x => x.Friends != null && x.Friends.Any(y => y.Friend.User == friend)))
+            var test = currentPendingRequests.Select(x => x.Friends).ToList();
+            var anus = test.Where(x => x.)
+                Console.WriteLine("gae");
+            // if (currentPendingRequests.Any(x => x.Friends != null && x.Friends.Any(y => y.Friend.User == friend)))
+            // {
+            //     errors.Add("You've already sent a request to this user!");
+            //     return BadRequest(errors);
+            // }
+            var friendsList = user.Friends.ToList();
+            friendsList.Add(new UserFriend()
+            {
+                Friend = new Friend()
+                {
+                    Accepted = false,
+                    DateAdded = DateTime.Today,
+                    User = friend,
+                    IsFamily = false
+                }
+            });
+            user.Friends = friendsList;
+            await _hazeContext.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
     
     [HttpGet("/Friends/Requests")]
     [Authorize]
@@ -37,9 +86,11 @@ public class FriendController : Controller
         {
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var pendingRequests = await GetFriendsList(false);
+            // var incomingRequests = await _hazeContext.Friends.Include(x => x.User)
             return Ok(new
             {
                 pendingRequests = pendingRequests.Select(x => x.Friends)
+                // incomingRequests = incomingRequests
             });
         }
         catch (Exception e)
@@ -48,8 +99,14 @@ public class FriendController : Controller
         }
     }
 
+    // [HttpGet("/test1")]
+    // [Authorize]
+    // public async Task<IActionResult> Test()
+    // {
+    //     
+    // }
 
-    [HttpPost("/Friends/Accept/{id:int:required}")]
+    [HttpPost("/Friends/Requests/Accept/{id:int:required}")]
     [Authorize]
     public async Task<IActionResult> AcceptFriend(int id)
     {
