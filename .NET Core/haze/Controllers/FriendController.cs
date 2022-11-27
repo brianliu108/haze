@@ -40,23 +40,22 @@ public class FriendController : Controller
                 .FirstOrDefaultAsync();
             var friend = await _hazeContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
             var currentPendingRequests = await GetFriendsList(false);
-            var currentPendingRequestsUsers = new List<User>();
-            // foreach (var item in currentPendingRequests)
-                if (friend == null)
+            if (friend == null)
             {
                 errors.Add("The given user wasn't found!");
-                return NotFound(errors);
+                return NotFound(new
+                {
+                    Errors = errors
+                });
             }
-            // if (currentPendingRequests.Where(x => x.Friends != null && x.Friends.Where(y => y.Friend.User == friend)).ToList().Count != 0)
-            // if (currentPendingRequests.Any(x => x.Friends != null && x.Friends.Any(y => y.Friend.User == friend)))
-            var test = currentPendingRequests.Select(x => x.Friends).ToList();
-            var anus = test.Where(x => x.)
-                Console.WriteLine("gae");
-            // if (currentPendingRequests.Any(x => x.Friends != null && x.Friends.Any(y => y.Friend.User == friend)))
-            // {
-            //     errors.Add("You've already sent a request to this user!");
-            //     return BadRequest(errors);
-            // }
+            if (currentPendingRequests.Any(a => a.ToList().Any(x => x.Friend.User.Id == friend.Id)))
+            {
+                errors.Add($"A friend request to user {friend.Username} was already sent!");
+                return BadRequest(new
+                {
+                    Errors = errors
+                });
+            }
             var friendsList = user.Friends.ToList();
             friendsList.Add(new UserFriend()
             {
@@ -89,7 +88,7 @@ public class FriendController : Controller
             // var incomingRequests = await _hazeContext.Friends.Include(x => x.User)
             return Ok(new
             {
-                pendingRequests = pendingRequests.Select(x => x.Friends)
+                pendingRequests = pendingRequests
                 // incomingRequests = incomingRequests
             });
         }
@@ -99,13 +98,6 @@ public class FriendController : Controller
         }
     }
 
-    // [HttpGet("/test1")]
-    // [Authorize]
-    // public async Task<IActionResult> Test()
-    // {
-    //     
-    // }
-
     [HttpPost("/Friends/Requests/Accept/{id:int:required}")]
     [Authorize]
     public async Task<IActionResult> AcceptFriend(int id)
@@ -114,7 +106,7 @@ public class FriendController : Controller
         return Ok();
     }
 
-    private async Task<List<User>> GetFriendsList(bool accepted)
+    private async Task<List<IEnumerable<UserFriend>?>> GetFriendsList(bool accepted)
     {
         var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
         return await _hazeContext.Users.Include(x => x.Friends).ThenInclude(x => x.Friend)
@@ -149,6 +141,6 @@ public class FriendController : Controller
                     }
                 })
             })
-            .Where(x => x.Id == userId && x.Friends.Any(t => t.Friend.Accepted == accepted)).ToListAsync();
+            .Where(x => x.Id == userId && x.Friends.Any(t => t.Friend.Accepted == accepted)).Select(x => x.Friends).ToListAsync();
     }
 }
