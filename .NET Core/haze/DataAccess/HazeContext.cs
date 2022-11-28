@@ -26,5 +26,6 @@ namespace haze.DataAccess
         public DbSet<WishlistItem> WishlistItems { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
         public DbSet<Friend> Friends { get; set; }
+        public DbSet<UserProduct> UserProducts { get; set; }
     }
 }

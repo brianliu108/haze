@@ -51,7 +51,7 @@ namespace haze.Controllers
         }
 
         [HttpPost("/CreateUser")]
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]
         public async Task<IActionResult> Create(User request)
         {
             _hazeContext.Users.Add(request);
