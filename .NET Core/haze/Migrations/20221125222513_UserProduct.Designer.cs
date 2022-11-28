@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using haze.DataAccess;
 
@@ -11,9 +12,10 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    partial class HazeContextModelSnapshot : ModelSnapshot
+    [Migration("20221125222513_UserProduct")]
+    partial class UserProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,8 +475,6 @@ namespace haze.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserProducts");
                 });
 
@@ -492,11 +492,16 @@ namespace haze.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("WishlistItems");
                 });
@@ -664,12 +669,6 @@ namespace haze.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("haze.Models.User", null)
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Product");
                 });
 
@@ -682,8 +681,12 @@ namespace haze.Migrations
                         .IsRequired();
 
                     b.HasOne("haze.Models.User", null)
-                        .WithMany("WishList")
+                        .WithMany("Products")
                         .HasForeignKey("UserId");
+
+                    b.HasOne("haze.Models.User", null)
+                        .WithMany("WishList")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Product");
                 });

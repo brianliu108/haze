@@ -176,7 +176,7 @@ namespace haze.Controllers
 
         [HttpGet("/ProductReviews/{Id}")]
         [Authorize]
-        public async Task<ActionResult> GetProductReviews (int Id)
+        public async Task<ActionResult<List<ProductUserReview>>> GetProductReviews (int Id)
         {
             Product product = await _hazeContext.Products
                 .Include(x => x.Categories).ThenInclude(x => x.сategory)
@@ -189,8 +189,7 @@ namespace haze.Controllers
 
             if (product.UserReviews == null)
                 return BadRequest("Product has no reviews!");
-
-            return Ok(product.UserReviews);
+            return Ok(product.UserReviews.Where(x => x.Approved == true));
         }
 
         [HttpPost("/ProductReviews/{productId}/{reviewDescription}")]
@@ -250,6 +249,98 @@ namespace haze.Controllers
                 return BadRequest("User Review dont exist!");
 
             productUserReview.Approved = true;
+
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("/UserLibrary/{productId}")]
+        [Authorize]
+        public async Task<ActionResult> AddProductToUserLibrary(int productId)
+        {
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                    .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Where(x => x.Id == productId).FirstOrDefaultAsync();
+
+            if (product == null)
+                return BadRequest("Product dont exist!");
+
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User dont exist!");
+
+            foreach (var game in user.Products)
+            {
+                if (game.Product.Id == product.Id)
+                {
+                    return BadRequest("Already in the library!");
+                }
+            }
+
+            if (user.Products == null)
+            {
+                user.Products = new List<UserProduct>();
+            }
+
+            // Add product to library
+            user.Products.Add(new UserProduct
+            {
+                UserId = userId,
+                DatePurchased = DateTime.Today,
+                Product = product
+            });
+
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("/UserLibrary/")]
+        [Authorize]
+        public async Task<ActionResult> GetUserLibrary()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users
+                .Include(x => x.Products).ThenInclude(x=>x.Product)
+                .Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User dont exist!");
+
+            return Ok(user.Products);
+        }
+
+        [HttpDelete("/UserLibrary/{productId}")]
+        [Authorize]
+        public async Task<ActionResult> DeleteProductFromUserLibrary(int productId)
+        {
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                    .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Where(x => x.Id == productId).FirstOrDefaultAsync();
+
+            if (product == null)
+                return BadRequest("Product dont exist!");
+
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Where(x => x.Id == userId)
+                .Include(x => x.BillingAddress).Include(x => x.ShippingAddress).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User dont exist!");
+
+            UserProduct gameToDelete = await _hazeContext.UserProducts.Where(x => x.Product == product).FirstOrDefaultAsync();
+
+            _hazeContext.UserProducts.Remove(gameToDelete);
 
             await _hazeContext.SaveChangesAsync();
 

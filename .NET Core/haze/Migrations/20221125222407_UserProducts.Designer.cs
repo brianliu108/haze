@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using haze.DataAccess;
 
@@ -11,9 +12,10 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    partial class HazeContextModelSnapshot : ModelSnapshot
+    [Migration("20221125222407_UserProducts")]
+    partial class UserProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -452,32 +454,6 @@ namespace haze.Migrations
                     b.ToTable("UserFriends");
                 });
 
-            modelBuilder.Entity("haze.Models.UserProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DatePurchased")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProducts");
-                });
-
             modelBuilder.Entity("haze.Models.WishlistItem", b =>
                 {
                     b.Property<int>("Id")
@@ -492,11 +468,16 @@ namespace haze.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("WishlistItems");
                 });
@@ -656,23 +637,6 @@ namespace haze.Migrations
                     b.Navigation("Friend");
                 });
 
-            modelBuilder.Entity("haze.Models.UserProduct", b =>
-                {
-                    b.HasOne("haze.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("haze.Models.User", null)
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("haze.Models.WishlistItem", b =>
                 {
                     b.HasOne("haze.Models.Product", "Product")
@@ -682,8 +646,12 @@ namespace haze.Migrations
                         .IsRequired();
 
                     b.HasOne("haze.Models.User", null)
-                        .WithMany("WishList")
+                        .WithMany("Products")
                         .HasForeignKey("UserId");
+
+                    b.HasOne("haze.Models.User", null)
+                        .WithMany("WishList")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Product");
                 });
