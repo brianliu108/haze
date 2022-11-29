@@ -17,6 +17,8 @@ export class StoreBodyComponent implements OnInit {
   wishlistGames: Array<any> = [];
   events: Array<any> = [];
   eventsGames: Array<any> = [];
+  libraryGames: Array<any> = [];
+  allLibraryGames: Array<any> = [];
 
   allGames: Array<any> = [];
 
@@ -47,6 +49,7 @@ export class StoreBodyComponent implements OnInit {
     this.getGames();
     this.getWishList();
     this.getEvents();
+    this.getLibraryGames();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
   }
 
@@ -63,6 +66,22 @@ export class StoreBodyComponent implements OnInit {
       console.error(err);
     }
   }
+
+  async getLibraryGames() {
+    try {
+      let getLibraryGamesCall = await axios.get(this.appComponent.apiHost + "/UserLibrary", this.requestInfo);
+
+      if (getLibraryGamesCall.status == 200) {
+        this.allLibraryGames = JSON.parse(JSON.stringify(getLibraryGamesCall.data));
+        this.libraryGames = getLibraryGamesCall.data;
+      }
+      console.log(this.allLibraryGames);
+    }
+    catch (err: any) {
+      console.error(err);
+    }
+  }
+
 
   routeToDetails(item: any) {
     localStorage.setItem('selectedGame', JSON.stringify(item));
