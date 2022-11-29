@@ -19,11 +19,16 @@ export class CartCheckoutComponent implements OnInit {
   private requestInfo: any;
 
   cartCost: number = 0;
+  taxCost: number = 0;
+  fullCost: number = 0;
 
   currentCards: Array<any> = [];
   currentCard: any = null;
 
-  cvcCtrl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(/[1-9]\d\d/)]);
+  gamesPurchased: boolean = false;
+  submitError: boolean = false;
+
+  cvcCtrl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(/^\d{3}$/)]);
 
   ngOnInit(): void {
     this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
@@ -61,5 +66,33 @@ export class CartCheckoutComponent implements OnInit {
     for(let i: number = 0; i < this.gamesInCart.length; i++){
       this.cartCost += this.gamesInCart[i].price;
     }
+
+    this.taxCost = this.cartCost * 0.13;
+    this.fullCost = this.cartCost * 1.13;
+  }
+
+
+  async purchaseGames(){
+    if(this.cvcCtrl.valid){
+      for(let i: number = 0; i < this.gamesInCart.length; i++){
+        try {
+          const response = await axios.post('https://localhost:7105/UserLibrary/' + this.gamesInCart[i].id, null, this.requestInfo);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      this.gamesPurchased = true;
+    }
+    else{
+      this.submitError = true;
+      this.setSubmitError();
+    }
+  }
+
+  setSubmitError(){
+    setTimeout(() => {
+      this.submitError = false;
+    }, 3000)
   }
 }

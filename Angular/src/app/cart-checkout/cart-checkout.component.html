@@ -3,8 +3,15 @@
     <mat-card class="loginCard">
         <h1 style="text-align: center; font-weight: bold;">Checkout</h1>
         <br>
+        <h2 style="text-align: center; font-weight: bold; color: green;" *ngIf="gamesPurchased">Games successfully purchased!</h2>
+        <h2 style="text-align: center; font-weight: bold; color: red;" *ngIf="submitError">CVC is required</h2>
+        <br>
 
-        <h2>Cost: ${{cartCost}}</h2>
+        <h2>Subtotal: ${{cartCost}}</h2>
+        <br>
+        <h2>Tax: ${{taxCost}}</h2>
+        <br>
+        <h2>Full Cost: ${{fullCost}}</h2>
 
         <br>
         <h2>Selected Games: </h2>
@@ -42,9 +49,10 @@
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>CVC Number</mat-label>
                 <input matInput [formControl]="cvcCtrl">
-                <mat-error>CVC Number is required</mat-error>
+                <mat-error *ngIf="cvcCtrl.hasError('required')">CVC Number is required</mat-error>
                 <mat-error *ngIf="cvcCtrl.hasError('pattern')">Must be a 3 digit number</mat-error>
             </mat-form-field>
         </section>
+        <button mat-stroked-button (click)="purchaseGames()" class="buttonStyle">Purchase</button>
     </mat-card>
 </div>
