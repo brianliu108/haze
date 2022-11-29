@@ -21,6 +21,8 @@ export class GameDetailsComponent implements OnInit {
   platforms: Array<any>;
   categories: Array<any>;
 
+  gamesInCart: Array<any>;
+
   editingGame: boolean = false;
   updatedGame: boolean = false;
 
@@ -64,7 +66,53 @@ export class GameDetailsComponent implements OnInit {
 
     this.selectedGame = JSON.parse(localStorage.getItem('selectedGame')!);
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
+    this.gamesInCart = JSON.parse(localStorage.getItem("gamesInCart") || "[]");
+  }
 
+  addToCart(){
+    //let gamesInCart = JSON.parse(localStorage.getItem('gamesInCart')!);
+    //let gamesInCartList: Array<any> = [];
+    /*
+    if(gamesInCart == null){
+      gamesInCartList.push(this.selectedGame);
+      gamesInCart = localStorage.setItem('gamesInCart', JSON.stringify(gamesInCartList));
+      console.log("games in cart list made");
+    }
+    else{
+      let tempList = localStorage.getItem(JSON.parse('gamesInCart'))!;
+      console.log(tempList);
+      gamesInCartList = JSON.parse(JSON.stringify(tempList));
+      gamesInCartList.push(this.selectedGame);
+      gamesInCart = JSON.parse(localStorage.getItem('gamesInCart') || "[]");
+      //test.push(this.selectedGame);
+      gamesInCart = localStorage.setItem('gamesInCart', JSON.stringify(gamesInCartList));
+    }
+    */
+
+    console.log(this.gamesInCart);
+
+    if(this.gamesInCart.length != 0){
+      let isInCart: boolean = false;
+      for(let i: number = 0; i < this.gamesInCart.length; i++){
+        console.log(this.gamesInCart[i].productName);
+        console.log(this.selectedGame.productName);
+        if(this.gamesInCart[i].productName == this.selectedGame.productName){
+          isInCart = true;
+        }
+      }
+      
+      if(isInCart == false){
+        this.gamesInCart.push(this.selectedGame);
+        localStorage.setItem("gamesInCart", JSON.stringify(this.gamesInCart));
+      }
+      else{
+        this.errors.push("Game is already in cart");
+      }
+    }
+    else{
+      this.gamesInCart.push(this.selectedGame);
+      localStorage.setItem("gamesInCart", JSON.stringify(this.gamesInCart));
+    }
   }
 
   cancelEdits(){
@@ -137,7 +185,6 @@ export class GameDetailsComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedCategories);
   }
 
   addToPlatforms(item: any) {
@@ -151,7 +198,6 @@ export class GameDetailsComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedPlatforms);
   }
 
   async addToWishlist() {
@@ -175,8 +221,6 @@ export class GameDetailsComponent implements OnInit {
       let itemId;
       for(let item of this.wishlistGames){
         if(item.product.id == this.selectedGame.id){
-          console.log("wishlist id:" + item.product.id);
-          console.log(this.selectedGame.id);
           //this.isInWishlist = true;
           itemId = item.id;
         }
@@ -198,8 +242,6 @@ export class GameDetailsComponent implements OnInit {
 
       if (getWishlistResponse.status == 200) {
         this.wishlistGames = getWishlistResponse.data;
-        console.log(this.selectedGame);
-        console.log(this.wishlistGames);
         this.checkIfInWishlist();
       }
     } catch (error) {
@@ -212,8 +254,6 @@ export class GameDetailsComponent implements OnInit {
     this.isInWishlist = false;
     for(let item of this.wishlistGames){
       if(item.product.id == this.selectedGame.id){
-        console.log("wishlist id:" + item.product.id);
-        console.log(this.selectedGame.id);
         this.isInWishlist = true;
       }
     }
@@ -230,13 +270,11 @@ export class GameDetailsComponent implements OnInit {
         "price": parseFloat(this.priceCtrl.value),
         "coverImgUrl": this.coverImgUrlCtrl.value
       }
-      console.log(gameInfo);
-      
+
       try {
         const createResponse = await axios.put('https://localhost:7105/Products', gameInfo, this.requestInfo);
   
         if (createResponse.status = 200) {
-          console.log(createResponse);
           this.showSuccess();
           setTimeout(() => {
             this.routeToStore();

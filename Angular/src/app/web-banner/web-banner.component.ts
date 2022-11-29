@@ -23,6 +23,10 @@ export class WebBannerComponent implements OnInit {
     this.appComponent.navigate("store");
   }
 
+  routeToCart(){
+    this.appComponent.navigate("/checkout");
+  }
+
   navigateLogin(){
     localStorage.clear();
     this.appComponent.navigate("");

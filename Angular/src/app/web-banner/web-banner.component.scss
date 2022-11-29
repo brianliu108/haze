@@ -29,12 +29,11 @@
 
       .title {
         display: flex;
-        margin: 0 auto;
-        align-items: center;
+        margin: 0 auto !important;
+        align-items: center !important;
       }
 
       .buttons {
-        display: flex;
         margin: auto 0;
         padding-right: 1%;
       }

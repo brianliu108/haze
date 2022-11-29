@@ -11,7 +11,7 @@
         <div class="detailArea">
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Game Description</mat-label>
-                <input matInput readonly value="{{selectedGame.description}}">
+                <textarea matInput readonly cdkTextareaAutosize value="{{selectedGame.description}}"></textarea>
             </mat-form-field>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Price</mat-label>
@@ -20,7 +20,7 @@
             <div style="display: flex;">
                 <button class="buttonStyle" (click)="addToWishlist()" *ngIf="!isInWishlist" mat-stroked-button>Add to wishlist</button>
                 <button class="buttonStyle" (click)="removeFromWishlist()" *ngIf="isInWishlist" mat-stroked-button>Remove from wishlist</button>
-                <button class="buttonStyle" mat-stroked-button>Add to cart</button>
+                <button class="buttonStyle" (click)="addToCart()" mat-stroked-button>Add to cart</button>
             </div>
         </div>
         <br><br>
@@ -36,7 +36,7 @@
                 <form [formGroup]="updateGroup">
                     <mat-form-field appearance="fill" class="inputSet">
                         <mat-label>Game Name</mat-label>
-                        <input matInput [formControl]="gameNameCtrl">
+                        <textarea [formControl]="gameNameCtrl" matInput cdkTextareaAutosize></textarea>
                         <mat-error>Game Name is required</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="inputSet">

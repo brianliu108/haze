@@ -1,0 +1,53 @@
+:host {
+    .loginBody {
+        width: 99%;
+        height: 90vh;
+        margin: 0 auto;
+        margin-top: 2%;
+
+        .loginCard {
+            margin: 0 auto;
+            color: gray;
+            width: 50%;
+            padding: 2%;
+
+            .inputSet {
+                width: 80%;
+                margin: auto;
+                display: block;
+            }
+
+            .buttonStyle {
+                width: 50%;
+                margin: auto;
+                display: block;
+            }
+
+            .imgStyle {
+                display: block;
+                margin: 0 auto;
+                margin-bottom: 2%;
+                margin-top: 2%;
+                height: 151px !important;
+                width: auto !important;
+                object-fit: contain;
+            }
+
+            .gameTile:hover {
+                box-shadow: 0 6px 6px black;
+                transform: scale(1.02) perspective(0px);
+            }
+
+            .buttonStyle {
+                width: 50%;
+                margin: 0 auto;
+                display: block;
+
+            }
+        }
+
+        .radioStyle {
+            margin-left: 16px;
+        }
+    }
+}
