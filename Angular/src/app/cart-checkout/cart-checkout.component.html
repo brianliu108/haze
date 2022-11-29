@@ -1,0 +1,50 @@
+<app-web-banner></app-web-banner>
+<div class="loginBody">
+    <mat-card class="loginCard">
+        <h1 style="text-align: center; font-weight: bold;">Checkout</h1>
+        <br>
+
+        <h2>Cost: ${{cartCost}}</h2>
+
+        <br>
+        <h2>Selected Games: </h2>
+
+        <mat-grid-list cols="4" rowHeight="2:1" style="margin-right: 2%;">
+            <mat-grid-tile *ngFor="let game of gamesInCart" class="gameTile">
+                <img alt="{{game.productName}}" (click)="routeToDetails(game)" src="{{game.coverImgUrl}}"
+                    class="imgStyle">
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <br>
+        <h2>Selected Payment Method:</h2>
+
+        <mat-error *ngIf="currentCards.length == 0">No payment methods saved! Please save one to complete checkout
+        </mat-error>
+
+        <mat-radio-button [color]="'primary'" class="radioStyle" value="i" (click)="setCurrentCard(card)"
+            *ngFor="let card of currentCards; let i = index;">Payment Option {{i + 1}}</mat-radio-button>
+
+
+        <br><br>
+
+        <section *ngIf="currentCard != null">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Card Number</mat-label>
+                <input matInput value="{{currentCard.creditCardNumber}}" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Expiration Date</mat-label>
+                <input matInput value="{{currentCard.expiryDate}}" readonly="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>CVC Number</mat-label>
+                <input matInput [formControl]="cvcCtrl">
+                <mat-error>CVC Number is required</mat-error>
+                <mat-error *ngIf="cvcCtrl.hasError('pattern')">Must be a 3 digit number</mat-error>
+            </mat-form-field>
+        </section>
+    </mat-card>
+</div>
