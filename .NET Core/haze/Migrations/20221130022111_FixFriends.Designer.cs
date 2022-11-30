@@ -12,7 +12,7 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    [Migration("20221130014759_FixFriends")]
+    [Migration("20221130022111_FixFriends")]
     partial class FixFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,17 +212,20 @@ namespace haze.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsFamily")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("User1Id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("User1IsFamily")
+                        .HasColumnType("bit");
+
                     b.Property<int>("User2Id")
                         .HasColumnType("int");
+
+                    b.Property<bool>("User2IsFamily")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

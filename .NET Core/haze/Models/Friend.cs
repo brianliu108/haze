@@ -12,5 +12,6 @@ public class Friend
     public FriendStatus Status { get; set; }
     public DateTime DateAdded { get; set; }
     public DateTime? DateAccepted { get; set; }
-    public bool IsFamily { get; set; }
+    public bool User1IsFamily { get; set; }
+    public bool User2IsFamily { get; set; }
 }

@@ -15,14 +15,20 @@ namespace haze.Migrations
             migrationBuilder.DropTable(
                 name: "UserFriends");
 
-            migrationBuilder.DropColumn(
-                name: "Accepted",
-                table: "Friends");
-
             migrationBuilder.RenameColumn(
                 name: "UserId",
                 table: "Friends",
                 newName: "User2Id");
+
+            migrationBuilder.RenameColumn(
+                name: "IsFamily",
+                table: "Friends",
+                newName: "User2IsFamily");
+
+            migrationBuilder.RenameColumn(
+                name: "Accepted",
+                table: "Friends",
+                newName: "User1IsFamily");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Friends_UserId",
@@ -88,21 +94,24 @@ namespace haze.Migrations
                 table: "Friends");
 
             migrationBuilder.RenameColumn(
+                name: "User2IsFamily",
+                table: "Friends",
+                newName: "IsFamily");
+
+            migrationBuilder.RenameColumn(
                 name: "User2Id",
                 table: "Friends",
                 newName: "UserId");
+
+            migrationBuilder.RenameColumn(
+                name: "User1IsFamily",
+                table: "Friends",
+                newName: "Accepted");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Friends_User2Id",
                 table: "Friends",
                 newName: "IX_Friends_UserId");
-
-            migrationBuilder.AddColumn<bool>(
-                name: "Accepted",
-                table: "Friends",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
 
             migrationBuilder.CreateTable(
                 name: "UserFriends",
