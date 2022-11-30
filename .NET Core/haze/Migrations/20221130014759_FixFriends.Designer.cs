@@ -12,7 +12,7 @@ using haze.DataAccess;
 namespace haze.Migrations
 {
     [DbContext(typeof(HazeContext))]
-    [Migration("20221129001106_FixFriends")]
+    [Migration("20221130014759_FixFriends")]
     partial class FixFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,9 +206,6 @@ namespace haze.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Accepted")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("DateAccepted")
                         .HasColumnType("datetime2");
 
@@ -217,6 +214,9 @@ namespace haze.Migrations
 
                     b.Property<bool>("IsFamily")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("User1Id")
                         .HasColumnType("int");

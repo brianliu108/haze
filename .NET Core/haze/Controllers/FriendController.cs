@@ -20,7 +20,7 @@ public class FriendController : Controller
         {
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var friends = await _hazeContext.Friends.Include(x => x.User1).Include(x => x.User2)
-                .Where(x => (x.User1.Id == userId || x.User2.Id == userId && x.Accepted))
+                .Where(x => (x.User1.Id == userId || x.User2.Id == userId && x.Status == FriendStatus.Accepted))
                 .Select(x => new Friend()
                 {
                     Id = x.Id,
@@ -34,7 +34,7 @@ public class FriendController : Controller
                         Id = x.User2.Id,
                         Username = x.User2.Username
                     },
-                    Accepted = x.Accepted,
+                    Status = x.Status,
                     DateAccepted = x.DateAccepted,
                     DateAdded = x.DateAdded,
                     IsFamily = x.IsFamily
@@ -69,15 +69,15 @@ public class FriendController : Controller
                         Id = x.User2.Id,
                         Username = x.User2.Username
                     },
-                    Accepted = x.Accepted,
+                    Status = x.Status,
                     DateAccepted = x.DateAccepted,
                     DateAdded = x.DateAdded,
                     IsFamily = x.IsFamily
                 })
-                .Where(x => x.User1.Id == userId && x.User2.Id != userId && !x.Accepted)
+                .Where(x => x.User1.Id == userId && x.User2.Id != userId && x.Status == FriendStatus.Pending)
                 .ToListAsync();
             var incomingRequests = await _hazeContext.Friends.Include(x => x.User1)
-                .Include(x => x.User2).Where(x => x.User1.Id != userId && x.User2.Id == userId && !x.Accepted)
+                .Include(x => x.User2).Where(x => x.User1.Id != userId && x.User2.Id == userId && x.Status == FriendStatus.Pending)
                 .Select(x => new Friend()
                 {
                     Id = x.Id,
@@ -91,7 +91,7 @@ public class FriendController : Controller
                         Id = x.User2.Id,
                         Username = x.User2.Username
                     },
-                    Accepted = x.Accepted,
+                    Status = x.Status,
                     DateAccepted = x.DateAccepted,
                     DateAdded = x.DateAdded,
                     IsFamily = x.IsFamily
@@ -118,9 +118,9 @@ public class FriendController : Controller
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
             var friend = await _hazeContext.Users.Where(x => x.Id == friendId).FirstOrDefaultAsync();
-            var currentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == userId && x.User2.Id != userId && !x.Accepted)
+            var currentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == userId && x.User2.Id != userId && x.Status == FriendStatus.Pending)
                 .ToListAsync();
-            var friendCurrentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == friendId && x.User2.Id != friendId && !x.Accepted)
+            var friendCurrentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == friendId && x.User2.Id != friendId && x.Status == FriendStatus.Pending)
                 .ToListAsync();
             // Validation
             if (friend == null)
@@ -138,7 +138,7 @@ public class FriendController : Controller
                 });
             _hazeContext.Friends.Add(new Friend()
             {
-                Accepted = false,
+                Status = FriendStatus.Pending,
                 User1 = user,
                 User2 = friend,
                 DateAdded = DateTime.Today,
@@ -164,9 +164,9 @@ public class FriendController : Controller
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var user = await _hazeContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
             var friend = await _hazeContext.Users.Where(x => x.Id == friendId).FirstOrDefaultAsync();
-            var currentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == userId && x.User2.Id != userId && !x.Accepted)
+            var currentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == userId && x.User2.Id != userId && x.Status == FriendStatus.Pending)
                 .ToListAsync();
-            var friendCurrentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == friendId && x.User2.Id != friendId && !x.Accepted)
+            var friendCurrentPendingRequests = await _hazeContext.Friends.Where(x => x.User1.Id == friendId && x.User2.Id != friendId && x.Status == FriendStatus.Pending)
                 .ToListAsync();
             if (friend == null)
                 errors.Add("The given user was not found!");
@@ -181,7 +181,7 @@ public class FriendController : Controller
                 });
             var friendRequest = friendCurrentPendingRequests
                 .First(x => x.User1.Id == friendId && x.User2.Id == userId);
-            friendRequest.Accepted = true;
+            friendRequest.Status = FriendStatus.Accepted;
             friendRequest.DateAccepted = DateTime.Today;
             await _hazeContext.SaveChangesAsync();
             return Ok();

@@ -9,7 +9,7 @@ public class Friend
     public int Id { get; set; }
     public virtual User User1 { get; set; }
     public virtual User User2 { get; set; }
-    public bool Accepted { get; set; }
+    public FriendStatus Status { get; set; }
     public DateTime DateAdded { get; set; }
     public DateTime? DateAccepted { get; set; }
     public bool IsFamily { get; set; }
