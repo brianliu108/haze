@@ -14,6 +14,7 @@ export class SocialProfileComponent implements OnInit {
   friends: Array<any> = ['Apple', 'Orange', 'Banana', 'Apple', 'Orange', 'Banana'];
   private token: any;
   private requestInfo: any;
+  storedAccount: any;
 
   searchCtrl: FormControl = new FormControl(null);
 
@@ -33,7 +34,9 @@ export class SocialProfileComponent implements OnInit {
       }
     };
 
-
+    //get local storage
+    
+    this.storedAccount = JSON.parse(localStorage.getItem('selectedProfile') || "{}"); 
     //this.getFriends();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
   }
