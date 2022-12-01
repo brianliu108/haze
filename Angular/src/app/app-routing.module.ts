@@ -16,6 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { ReportsComponent } from './reports/reports.component';
 import { StoreComponent } from './store/store.component';
+import { SocialComponent } from './social/social.component';
+import { SocialProfileComponent } from './social-profile/social-profile.component';
 
 const routes: Routes = [
   {
@@ -81,6 +83,14 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: CartCheckoutComponent
+  },
+  {
+    path: 'social',
+    component: SocialComponent
+  },
+  {
+    path: 'socialProfile',
+    component: SocialProfileComponent
   }
 ];
 

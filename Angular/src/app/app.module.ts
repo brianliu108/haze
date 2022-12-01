@@ -42,6 +42,8 @@ import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
 import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
+import { SocialComponent } from './social/social.component';
+import { SocialProfileComponent } from './social-profile/social-profile.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user
     ReportsComponent,
     EventDetailsComponent,
     CartCheckoutComponent,
-    ApproveUserReviewsComponent
+    ApproveUserReviewsComponent,
+    SocialComponent,
+    SocialProfileComponent
   ],
   imports: [
     BrowserModule,
