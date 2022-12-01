@@ -35,6 +35,28 @@ namespace haze.Controllers
                 .ToListAsync());
         }
 
+        [HttpGet("GetMembers")]
+        [Authorize]
+        public async Task<ActionResult<List<User>>> GetMembers()
+        {
+            var members = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms)
+                .ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Include(x => x.BillingAddress).Include(x => x.ShippingAddress)
+                .Where(x => x.RoleName == "User")
+                .Select(x => new User()
+                {
+                    Id = x.Id,
+                    Username = x.Username,
+                    Email = x.Email,
+                    FavouriteCategories = x.FavouriteCategories,
+                    FavouritePlatforms = x.FavouritePlatforms,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName
+                })
+                .ToListAsync();
+            return Ok(members);
+        }
 
         [HttpGet("/GetUser")]
         [Authorize]
