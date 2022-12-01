@@ -1,3 +1,4 @@
+SET IDENTITY_INSERT categories ON
 INSERT INTO categories (id, name)
   values (1, 'Shooter');
   INSERT INTO categories (id, name)

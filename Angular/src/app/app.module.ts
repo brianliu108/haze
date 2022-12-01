@@ -15,7 +15,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +40,7 @@ import { CreateEventsComponent } from './create-events/create-events.component';
 import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
+import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
 
 @NgModule({
   declarations: [
@@ -59,8 +60,7 @@ import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user
     GameDetailsComponent,
     CreateEventsComponent,
     ReportsComponent,
-    EventDetailsComponent,
-    ApproveUserReviewsComponent
+    EventDetailsComponent
 
   ],
   imports: [
@@ -84,7 +84,8 @@ import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user
     MatListModule,
     MatToolbarModule,
     MatSelectModule,
-    MatGridListModule
+    MatGridListModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

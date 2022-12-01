@@ -24,7 +24,6 @@ namespace haze.DataAccess
         public DbSet<EventUser> EventUsers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
-        public DbSet<UserFriend> UserFriends { get; set; }
         public DbSet<Friend> Friends { get; set; }
         public DbSet<UserProduct> UserProducts { get; set; }
     }

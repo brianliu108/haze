@@ -17,12 +17,15 @@ export class StoreBodyComponent implements OnInit {
   wishlistGames: Array<any> = [];
   events: Array<any> = [];
   eventsGames: Array<any> = [];
+  libraryGames: Array<any> = [];
+  allLibraryGames: Array<any> = [];
 
   allGames: Array<any> = [];
 
-  displayGames: boolean = true;
+  displayGames: boolean = false;
   displayWishList: boolean = false;
   displayEvents: boolean = false;
+  displayOwnedGames: boolean = true;
 
   searchCtrl: FormControl = new FormControl(null);
 
@@ -46,6 +49,7 @@ export class StoreBodyComponent implements OnInit {
     this.getGames();
     this.getWishList();
     this.getEvents();
+    this.getLibraryGames();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
   }
 
@@ -63,6 +67,22 @@ export class StoreBodyComponent implements OnInit {
     }
   }
 
+  async getLibraryGames() {
+    try {
+      let getLibraryGamesCall = await axios.get(this.appComponent.apiHost + "/UserLibrary", this.requestInfo);
+
+      if (getLibraryGamesCall.status == 200) {
+        this.allLibraryGames = JSON.parse(JSON.stringify(getLibraryGamesCall.data));
+        this.libraryGames = getLibraryGamesCall.data;
+      }
+      console.log(this.allLibraryGames);
+    }
+    catch (err: any) {
+      console.error(err);
+    }
+  }
+
+
   routeToDetails(item: any) {
     localStorage.setItem('selectedGame', JSON.stringify(item));
     this.appComponent.navigate('/gameDetails');
@@ -77,18 +97,28 @@ export class StoreBodyComponent implements OnInit {
     this.displayWishList = true;
     this.displayGames = false;
     this.displayEvents = false;
+    this.displayOwnedGames = false;
   }
 
   setDisplayStore() {
     this.displayWishList = false;
     this.displayGames = true;
     this.displayEvents = false;
+    this.displayOwnedGames = false;
   }
 
   setDisplayEvents() {
     this.displayWishList = false;
     this.displayGames = false;
     this.displayEvents = true;
+    this.displayOwnedGames = false;
+  }
+
+  setOwnedGames(){
+    this.displayWishList = false;
+    this.displayGames = false;
+    this.displayEvents = false;
+    this.displayOwnedGames = true;
   }
 
   async getWishList() {
@@ -112,7 +142,7 @@ export class StoreBodyComponent implements OnInit {
 
       if (getEventsGamesCall.status == 200) {
         this.events = getEventsGamesCall.data;
-        this.eventsGames = test[0].products;
+        //this.eventsGames = test[0].products;
       }
     }
     catch (err: any) {
@@ -131,7 +161,6 @@ export class StoreBodyComponent implements OnInit {
         if(!this.shownGames[i].productName.toLowerCase().includes(this.searchCtrl.value.toLowerCase())){
           this.shownGames.splice(i, 1);
         }
-
       }
     }
   }
