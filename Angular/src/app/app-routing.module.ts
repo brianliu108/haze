@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
+import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
@@ -68,6 +69,10 @@ const routes: Routes = [
   {
     path: 'reports',
     component: ReportsComponent
+  },
+  {
+    path: 'reviews',
+    component: ApproveUserReviewsComponent
   },
   {
     path: 'eventDetails',

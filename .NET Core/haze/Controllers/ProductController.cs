@@ -192,6 +192,15 @@ namespace haze.Controllers
             return Ok(product.UserReviews.Where(x => x.Approved == true));
         }
 
+        [HttpGet("/ProductReviews")]
+        [Authorize]
+        public async Task<ActionResult<List<ProductUserReview>>> GetUnverifiedProductReviews ()
+        {
+            var reviews = await _hazeContext.ProductUserReviews.Where(x=>x.Approved == false).ToListAsync();
+
+            return Ok(reviews);
+        }
+
         [HttpPost("/ProductReviews/{productId}/{reviewDescription}")]
         [Authorize]
         public async Task<ActionResult> AddProductReview(int productId, string reviewDescription)
@@ -250,6 +259,21 @@ namespace haze.Controllers
 
             productUserReview.Approved = true;
 
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("/ProductReviews/{Id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteProductReview(int Id)
+        {
+            ProductUserReview productUserReview = await _hazeContext.ProductUserReviews
+                    .Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (productUserReview == null)
+                return BadRequest("Product dont exist!");
+
+            _hazeContext.ProductUserReviews.Remove(productUserReview);
             await _hazeContext.SaveChangesAsync();
 
             return Ok();

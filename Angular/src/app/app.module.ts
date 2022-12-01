@@ -39,6 +39,7 @@ import { GameDetailsComponent } from './game-details/game-details.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
 
 @NgModule({
@@ -59,8 +60,7 @@ import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
     GameDetailsComponent,
     CreateEventsComponent,
     ReportsComponent,
-    EventDetailsComponent,
-    CartCheckoutComponent
+    EventDetailsComponent
 
   ],
   imports: [

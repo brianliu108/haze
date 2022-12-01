@@ -1,0 +1,14 @@
+<app-web-banner></app-web-banner>
+<div class="bodyStyle">
+    <mat-card class="cardStyle">
+        <h1 style="text-align: center;">Approve product reviews</h1>
+        <div class="reviewRow" *ngFor="let item of shownReviews;">
+            <span class="userReview">{{item.description}}</span>
+            <div>   
+                <button class="approveButton" (click)="aproveUserReview(item)" mat-stroked-button>✅</button>
+                <button class="approveButton" (click)="disAproveUserReview(item)" mat-stroked-button>❌</button>
+            </div>
+        </div>
+    </mat-card>
+</div>
+
