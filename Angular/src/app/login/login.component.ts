@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private appComponent: AppComponent
   ) { }
+  
+  private token: any;
 
   logonAttempts: number;
   loginFail: boolean = false;
@@ -27,6 +29,11 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
+
+    if (this.token)
+      this.appComponent.navigate("store");
+
     if(localStorage.getItem('logonAttempts') == null){
       this.logonAttempts = 0;
       localStorage.setItem('logonAttempts', JSON.stringify(this.logonAttempts));

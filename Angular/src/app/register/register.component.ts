@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   errors: Array<any> = [];
 
   success: boolean = false;
+  private token: any;
 
   constructor(
     private appComponent: AppComponent
@@ -23,6 +24,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.token = JSON.parse(localStorage.getItem("currentUser") || '{}').token
+
+    if (this.token)
+      this.appComponent.navigate("store");
   }
   usernameCtrl = new FormControl(null, Validators.required);
   emailCtrl = new FormControl(null, [Validators.required, Validators.email]);
