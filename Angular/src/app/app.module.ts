@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatRadioButton, MatRadioModule} from '@angular/material/radio';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -85,7 +86,8 @@ import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
     MatToolbarModule,
     MatSelectModule,
     MatGridListModule,
-    MatRadioModule
+    MatRadioModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
