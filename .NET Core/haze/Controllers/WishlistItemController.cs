@@ -18,7 +18,33 @@ public class WishlistItemController : Controller
     {
         var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
         User user = await _hazeContext.Users.Include(x => x.WishList)
-            .ThenInclude(x => x.Product).Where(x => x.Id == userId).FirstOrDefaultAsync();
+            .ThenInclude(x => x.Product).ThenInclude(x => x.Categories).ThenInclude(x => x.сategory)
+            .Include(x => x.WishList)
+            .ThenInclude(x => x.Product).ThenInclude(x => x.Platforms).ThenInclude(x => x.platform)
+            .Include(x => x.WishList).ThenInclude(x => x.Product).ThenInclude(x => x.UserReviews)
+            .Where(x => x.Id == userId).FirstOrDefaultAsync();
+        var wishlist = user.WishList;
+        return Ok(wishlist);
+    }
+    
+    [HttpGet("/WishList/{userId:int:required}")]
+    [Authorize]
+    public async Task<IActionResult> GetUserWishlistById(int userId)
+    {
+        List<string> errors = new List<string>();
+        User user = await _hazeContext.Users.Include(x => x.WishList)
+            .ThenInclude(x => x.Product).ThenInclude(x => x.Categories).ThenInclude(x => x.сategory)
+            .Include(x => x.WishList)
+            .ThenInclude(x => x.Product).ThenInclude(x => x.Platforms).ThenInclude(x => x.platform)
+            .Include(x => x.WishList).ThenInclude(x => x.Product).ThenInclude(x => x.UserReviews)
+            .Where(x => x.Id == userId).FirstOrDefaultAsync();
+        if (user == null)
+            errors.Add("User wasn't found");
+        if (errors.Count > 0)
+            return NotFound(new
+            {
+                Errors = errors
+            });
         var wishlist = user.WishList;
         return Ok(wishlist);
     }
