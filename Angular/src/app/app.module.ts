@@ -41,6 +41,7 @@ import { CreateEventsComponent } from './create-events/create-events.component';
 import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
+import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 
 @NgModule({
   declarations: [
@@ -61,8 +62,8 @@ import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
     CreateEventsComponent,
     ReportsComponent,
     EventDetailsComponent,
-    CartCheckoutComponent
-
+    CartCheckoutComponent,
+    ApproveUserReviewsComponent
   ],
   imports: [
     BrowserModule,
