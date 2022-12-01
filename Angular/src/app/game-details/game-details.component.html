@@ -3,6 +3,7 @@
     <mat-card class="addressCardStyle">
         <h1 style="text-align: center;">{{selectedGame.productName}}</h1>
         <h3 style="text-align: center; color: green;" *ngIf="addedWishList">Game added to wish list!</h3>
+        <h3 style="text-align: center; color: green;" *ngIf="gameAddedToCart">Game added to cart!</h3>
         <h3 style="text-align: center; color: green;" *ngIf="removedWishList">Game removed from wish list!</h3>
         <h3 style="color:red; text-align: center;" *ngFor="let error of errors">{{error}}</h3>
         <section *ngIf="selectedGame.coverImgUrl != null || selectedGame.coverImgUrl != ''">

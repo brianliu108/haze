@@ -4,7 +4,9 @@
         <h1 style="text-align: center; font-weight: bold;">Checkout</h1>
         <br>
         <h2 style="text-align: center; font-weight: bold; color: green;" *ngIf="gamesPurchased">Games successfully purchased!</h2>
+        <h2 style="text-align: center; font-weight: bold; color: green;" *ngIf="cartCleared">Cart cleared, routing to store page.</h2>
         <h2 style="text-align: center; font-weight: bold; color: red;" *ngIf="submitError">CVC is required</h2>
+        <h2 style="text-align: center; font-weight: bold; color: red;" *ngIf="cartError">No games in cart!</h2>
         <br>
 
         <h2>Subtotal: ${{cartCost}}</h2>
@@ -53,6 +55,9 @@
                 <mat-error *ngIf="cvcCtrl.hasError('pattern')">Must be a 3 digit number</mat-error>
             </mat-form-field>
         </section>
-        <button mat-stroked-button (click)="purchaseGames()" class="buttonStyle">Purchase</button>
+        <div style="display: flex;">
+            <button mat-stroked-button (click)="purchaseGames()" style="flex: 1;" class="buttonStyle">Purchase</button>
+            <button mat-stroked-button (click)="clearCart()" style="flex: 1;" class="buttonStyle">Clear Cart</button>
+        </div>
     </mat-card>
 </div>

@@ -27,6 +27,8 @@ export class CartCheckoutComponent implements OnInit {
 
   gamesPurchased: boolean = false;
   submitError: boolean = false;
+  cartError: boolean = false;
+  cartCleared: boolean = false;
 
   cvcCtrl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(/^\d{3}$/)]);
 
@@ -39,6 +41,9 @@ export class CartCheckoutComponent implements OnInit {
     };
 
     this.gamesInCart = JSON.parse(localStorage.getItem('gamesInCart') || "[]");
+    if(this.gamesInCart.length == 0){
+      this.cartError = true;
+    }
 
     this.getCards();
     this.calculateCost();
@@ -67,8 +72,8 @@ export class CartCheckoutComponent implements OnInit {
       this.cartCost += this.gamesInCart[i].price;
     }
 
-    this.taxCost = this.cartCost * 0.13;
-    this.fullCost = this.cartCost * 1.13;
+    this.taxCost = parseFloat((this.cartCost * 0.13).toFixed(2));
+    this.fullCost = parseFloat((this.cartCost * 1.13).toFixed(2));
   }
 
 
@@ -84,6 +89,7 @@ export class CartCheckoutComponent implements OnInit {
 
       this.gamesPurchased = true;
       localStorage.removeItem('gamesInCart');
+      this.appComponent.navigate('store');
     }
     else{
       this.submitError = true;
@@ -95,5 +101,13 @@ export class CartCheckoutComponent implements OnInit {
     setTimeout(() => {
       this.submitError = false;
     }, 3000)
+  }
+
+  clearCart(){
+    this.cartCleared = true;
+    localStorage.removeItem('gamesInCart');
+    setTimeout(() => {
+      this.appComponent.navigate('store');
+    }, 3000);
   }
 }
