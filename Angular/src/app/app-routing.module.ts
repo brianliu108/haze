@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
 import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
+import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 import { CreateGamesComponent } from './create-games/create-games.component';
@@ -16,6 +17,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { ReportsComponent } from './reports/reports.component';
 import { StoreComponent } from './store/store.component';
+import { SocialComponent } from './social/social.component';
+import { SocialProfileComponent } from './social-profile/social-profile.component';
 
 const routes: Routes = [
   {
@@ -81,6 +84,14 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: CartCheckoutComponent
+  },
+  {
+    path: 'social',
+    component: SocialComponent
+  },
+  {
+    path: 'socialProfile',
+    component: SocialProfileComponent
   }
 ];
 
