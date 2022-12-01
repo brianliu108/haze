@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddressComponent } from './address/address.component';
 import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
-import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 import { CreateGamesComponent } from './create-games/create-games.component';

@@ -42,7 +42,6 @@ import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
-import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 import { SocialComponent } from './social/social.component';
 import { SocialProfileComponent } from './social-profile/social-profile.component';
 
