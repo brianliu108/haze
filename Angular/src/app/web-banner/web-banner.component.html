@@ -6,7 +6,7 @@
         </div>
         <div class="buttons">
           <button (click)="routeToCart()" mat-icon-button>
-            <mat-icon class="icon">shopping_cart</mat-icon>
+            <mat-icon class="icon" matBadgePosition="before" matBadgeSize="small" matBadge="{{cartSize}}">shopping_cart</mat-icon>
           </button>
           <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon class="icon">account_circle</mat-icon>
