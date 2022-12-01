@@ -36,6 +36,10 @@ export class WebBannerComponent implements OnInit {
     this.appComponent.navigate("");
   }
 
+  navigateSocial(){
+    this.appComponent.navigate("social");
+  }
+
   navigatePreferences(){
     this.appComponent.navigate("preferences");
   }
