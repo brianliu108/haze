@@ -12,7 +12,11 @@ export class WebBannerComponent implements OnInit {
     private appComponent: AppComponent
   ) { }
 
+  gamesInCart: Array<any>; 
+  cartSize: number = 0;
+
   ngOnInit(): void {
+    this.checkIfCart();
   }
 
   navigateProfile(){
@@ -36,4 +40,11 @@ export class WebBannerComponent implements OnInit {
     this.appComponent.navigate("preferences");
   }
 
+  checkIfCart(){
+    this.gamesInCart = JSON.parse(localStorage.getItem('gamesInCart') || "[]");
+
+    if(this.gamesInCart.length > 0){
+      this.cartSize = this.gamesInCart.length;
+    }
+  }
 }

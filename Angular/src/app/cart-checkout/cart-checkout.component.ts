@@ -83,6 +83,7 @@ export class CartCheckoutComponent implements OnInit {
       }
 
       this.gamesPurchased = true;
+      localStorage.removeItem('gamesInCart');
     }
     else{
       this.submitError = true;
