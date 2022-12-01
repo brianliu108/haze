@@ -39,6 +39,7 @@ import { GameDetailsComponent } from './game-details/game-details.component';
 import { CreateEventsComponent } from './create-events/create-events.component';
 import { ReportsComponent } from './reports/reports.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user-reviews.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     GameDetailsComponent,
     CreateEventsComponent,
     ReportsComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    ApproveUserReviewsComponent
 
   ],
   imports: [

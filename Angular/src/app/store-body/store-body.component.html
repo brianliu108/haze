@@ -65,6 +65,9 @@
         <mat-list-item *ngIf="userData.role == 'Admin'">
           <a mat-list-item [routerLink]="['/reports']" (click)="drawer.toggle()">Generate Reports</a>
         </mat-list-item>
+        <mat-list-item *ngIf="userData.role == 'Admin'">
+          <a mat-list-item [routerLink]="['/reviews']" (click)="drawer.toggle()">Approve Reviews</a>
+        </mat-list-item>
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
