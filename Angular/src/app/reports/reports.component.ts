@@ -58,7 +58,7 @@ export class ReportsComponent implements OnInit {
   async generateMemberListReport() {
     this.errors = []
     let headerList: Array<Array<string>> = [["email", ""], ["username", ""], ["firstName", ""], 
-    ["lastName", ""], ["gender", ""], ["birthDate", ""], ["verified", ""], ["newsletter", ""], ["roleName"]];
+    ["lastName", ""], ["gender", ""], ["birthDate", ""], ["verified", ""], ["newsletter", ""], ["roleName", ""]];
     let headerDisplay: Array<string> = ["Email", "Username", "First Name", "Last Name", "Gender",
     "Birth Date", "Verified", "Newsletter", "Role Name"];
     let fileName: string = "MemberListReport.csv";
@@ -70,9 +70,13 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  async generateMemberDetailReport() {
-    this.errors = []
-    this.errors.push('This will be implemented in an upcoming iteration')
+  async generateMemberFriendsReport() {
+    this.errors = [];
+    try {
+      let headerList : Array<Array<string>> = [[]];
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateWishlistReport() {
