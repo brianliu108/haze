@@ -1,0 +1,71 @@
+<app-web-banner></app-web-banner>
+<div class="addressBodyStyle">
+    <mat-card class="addressCardStyle">
+        <h1 style="text-align: center;">{{selectedGame.productName}}</h1>
+        <h3 style="color:red; text-align: center;" *ngFor="let error of errors">{{error}}</h3>
+        <section *ngIf="selectedGame.coverImgUrl != null || selectedGame.coverImgUrl != ''">
+            <img src="{{selectedGame.coverImgUrl}}" class="imgStyle">
+        </section>
+        <div class="detailArea">
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Game Description</mat-label>
+                <textarea matInput readonly cdkTextareaAutosize value="{{selectedGame.description}}"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="inputSet">
+                <mat-label>Price</mat-label>
+                <input matInput readonly value="{{selectedGame.price}}">
+            </mat-form-field>            
+        </div>
+        <br><br>
+        <div style="display: flex;">
+            <button mat-stroked-button class="buttonStyle" (click)="routeToStore()">Download game</button>
+            <button mat-stroked-button class="buttonStyle" (click)="routeToStore()">Back to library</button>
+        </div>
+        <br><br>
+
+        <div class="adminArea" *ngIf="userData.role=='Admin'">
+            <h1 style="text-align: center;">Rate/Review Options</h1>
+            <h3 style="text-align: center; color: green;" *ngIf="reviewSubmitted">Review Submitted!</h3>
+            <h3 style="text-align: center; color: green;" *ngIf="">Rating Sibmitted!</h3>
+            <div *ngIf="reviewingGame == true">
+                <h3 style="text-align: center;">Write review for {{selectedGame.productName}}</h3>
+                <form [formGroup]="reviewGroup">
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Review</mat-label>
+                        <input matInput cdkTextareaAutosize [formControl]="reviewCtrl">
+                        <mat-error>Review is required</mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div *ngIf="ratingGame == true">
+                <h3 style="text-align: center;">Leave rating for {{selectedGame.productName}}</h3>
+                <form [formGroup]="rateGroup">
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <mat-label>Rating </mat-label>
+                        <mat-select [formControl]="rateCtrl">
+                            <mat-option value="1">1 Star</mat-option>
+                            <mat-option value="2">2 Star</mat-option>
+                            <mat-option value="3">3 Star</mat-option>
+                            <mat-option value="4">4 Star</mat-option>
+                            <mat-option value="5">5 Star</mat-option>
+                        </mat-select>
+                        <mat-error>Rating is required</mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div style="display: flex;" *ngIf="showRatingBtns">
+                <button class="buttonStyle" (click)="makeRatingCall()" mat-stroked-button>Submit Rating</button>
+                <button class="buttonStyle" (click)="ratingCanceller()" mat-stroked-button>Cancel</button>
+                <br><br>
+            </div>
+            <div style="display: flex;" *ngIf="showReviewBtns">
+                <button class="buttonStyle"  (click)="makeReviewCall()" mat-stroked-button>Submit Review</button>
+                <button class="buttonStyle" (click)="ratingCanceller()" mat-stroked-button>Cancel</button>
+            </div>
+            <div style="display: flex;" *ngIf="showReviewBtns == false && showRatingBtns == false">
+                <button class="buttonStyle"  (click)="reviewingGameSetter()" mat-stroked-button>Leave Review</button>
+                <button class="buttonStyle" (click)="ratingGameSetter()" mat-stroked-button>Leave Rating</button>
+            </div>
+        </div>
+    </mat-card>
+</div>

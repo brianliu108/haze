@@ -44,6 +44,7 @@ import { ApproveUserReviewsComponent } from './approve-user-reviews/approve-user
 import { CartCheckoutComponent } from './cart-checkout/cart-checkout.component';
 import { SocialComponent } from './social/social.component';
 import { SocialProfileComponent } from './social-profile/social-profile.component';
+import { OwnedGameDetailsComponent } from './owned-game-details/owned-game-details.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { SocialProfileComponent } from './social-profile/social-profile.componen
     CartCheckoutComponent,
     ApproveUserReviewsComponent,
     SocialComponent,
-    SocialProfileComponent
+    SocialProfileComponent,
+    OwnedGameDetailsComponent
   ],
   imports: [
     BrowserModule,

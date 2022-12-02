@@ -28,7 +28,7 @@ export class StoreBodyComponent implements OnInit {
   displayOwnedGames: boolean = true;
 
   searchCtrl: FormControl = new FormControl(null);
-
+  libSearchCtrl: FormControl = new FormControl(null);
 
   constructor(
     private appComponent: AppComponent
@@ -85,7 +85,14 @@ export class StoreBodyComponent implements OnInit {
 
   routeToDetails(item: any) {
     localStorage.setItem('selectedGame', JSON.stringify(item));
+    localStorage.removeItem('selectedOwnedGame');
     this.appComponent.navigate('/gameDetails');
+  }
+
+  routeToOwnedDetails(item: any){
+    localStorage.setItem('selectedOwnedGame', JSON.stringify(item));
+    localStorage.removeItem('selectedGame');
+    this.appComponent.navigate('/ownedGameDetails');
   }
 
   routeToEventDetails(item: any) {
@@ -160,6 +167,18 @@ export class StoreBodyComponent implements OnInit {
       for (let i = this.shownGames.length-1; i >= 0; i--) {
         if(!this.shownGames[i].productName.toLowerCase().includes(this.searchCtrl.value.toLowerCase())){
           this.shownGames.splice(i, 1);
+        }
+      }
+    }
+  }
+
+  filterLibGames(){
+    console.log('called')
+    this.allLibraryGames = JSON.parse(JSON.stringify(this.libraryGames));
+    if(this.libSearchCtrl.value.length != 0){
+      for (let i = this.allLibraryGames.length-1; i >= 0; i--) {
+        if(!this.allLibraryGames[i].product.productName.toLowerCase().includes(this.libSearchCtrl.value.toLowerCase())){
+          this.allLibraryGames.splice(i, 1);
         }
       }
     }
