@@ -36,6 +36,7 @@ export class SocialComponent implements OnInit {
 
     //this.getFriends();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
+
   }
 
   async getFriends() {
@@ -47,7 +48,7 @@ export class SocialComponent implements OnInit {
 
       if (getFriendsCall.status == 200) {
         this.friends = getFriendsCall.data;
-        //this.eventsGames = test[0].products;
+        console.log(this.friends);
       }
     }
     catch (err: any) {
@@ -55,8 +56,9 @@ export class SocialComponent implements OnInit {
     }
   }
 
-  async enterProfile(){
-
+  enterProfile(item: any){
+    localStorage.setItem("selectedProfile", JSON.stringify(item));
+    this.appComponent.navigate("socialProfile");
   }
 
 }
