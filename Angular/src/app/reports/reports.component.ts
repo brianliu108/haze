@@ -50,15 +50,23 @@ export class ReportsComponent implements OnInit {
 
   }
 
-  async generateGameDetailReport() {
+  async generateMemberLibraryReport() {
     this.errors = []
-    this.errors.push('This will be implemented in an upcoming iteration')
+    let headerList: Array<Array<string>> = [["gameTitle", ""], ["sales", ""]];
+    let headerDisplay: Array<string> = ["Username", "Items in Library"];
+    let fileName: string = "MemberLibraryReport.csv";
+    try {
+      let response = await axios.get(this.appComponent.apiHost + "/Reports/MemberLibrary", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateMemberListReport() {
     this.errors = []
     let headerList: Array<Array<string>> = [["email", ""], ["username", ""], ["firstName", ""], 
-    ["lastName", ""], ["gender", ""], ["birthDate", ""], ["verified", ""], ["newsletter", ""], ["roleName"]];
+    ["lastName", ""], ["gender", ""], ["birthDate", ""], ["verified", ""], ["newsletter", ""], ["roleName", ""]];
     let headerDisplay: Array<string> = ["Email", "Username", "First Name", "Last Name", "Gender",
     "Birth Date", "Verified", "Newsletter", "Role Name"];
     let fileName: string = "MemberListReport.csv";
@@ -70,9 +78,17 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  async generateMemberDetailReport() {
-    this.errors = []
-    this.errors.push('This will be implemented in an upcoming iteration')
+  async generateMemberFriendsReport() {
+    this.errors = [];
+    try {
+      let headerList : Array<Array<string>> = [["username"], ["numberOfFriends"]];
+      let headerDisplay: Array<string> = ["User", "Number of Friends"];
+      let fileName: string = "MemberFriendsReports.csv";
+      let response = await axios.get(this.appComponent.apiHost + "/Reports/MemberFriends", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateWishlistReport() {
@@ -90,7 +106,15 @@ export class ReportsComponent implements OnInit {
 
   async generateSalesReport() {
     this.errors = []
-    this.errors.push('This will be implemented in an upcoming iteration')
+    let headerList: Array<Array<string>> = [["gameTitle", ""], ["sales", ""]];
+    let headerDisplay: Array<string> = ["Product Name", "Number of Sales"];
+    let fileName: string = "SalesReport.csv";
+    try {
+      let response = await axios.get(this.appComponent.apiHost + "/Reports/ProductSales", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   downloadFile(data: any, arrHeader: Array<any>, arrHeaderDisplay: Array<any>, fileName: string) {
@@ -116,6 +140,7 @@ export class ReportsComponent implements OnInit {
     let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     let str = '';
     let row = ' ' + delimiter;
+    str += 'sep=;\n'
     for (let index in headerDisplay) {
       row += headerDisplay[index] + delimiter;
     }
