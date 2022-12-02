@@ -25,6 +25,7 @@ export class GameDetailsComponent implements OnInit {
 
   editingGame: boolean = false;
   updatedGame: boolean = false;
+  gameAddedToCart: boolean = false;
 
   gameNameCtrl: FormControl = new FormControl(null, Validators.required);
   categoryCtrl: FormControl = new FormControl(null);
@@ -70,25 +71,6 @@ export class GameDetailsComponent implements OnInit {
   }
 
   addToCart(){
-    //let gamesInCart = JSON.parse(localStorage.getItem('gamesInCart')!);
-    //let gamesInCartList: Array<any> = [];
-    /*
-    if(gamesInCart == null){
-      gamesInCartList.push(this.selectedGame);
-      gamesInCart = localStorage.setItem('gamesInCart', JSON.stringify(gamesInCartList));
-      console.log("games in cart list made");
-    }
-    else{
-      let tempList = localStorage.getItem(JSON.parse('gamesInCart'))!;
-      console.log(tempList);
-      gamesInCartList = JSON.parse(JSON.stringify(tempList));
-      gamesInCartList.push(this.selectedGame);
-      gamesInCart = JSON.parse(localStorage.getItem('gamesInCart') || "[]");
-      //test.push(this.selectedGame);
-      gamesInCart = localStorage.setItem('gamesInCart', JSON.stringify(gamesInCartList));
-    }
-    */
-
     console.log(this.gamesInCart);
 
     if(this.gamesInCart.length != 0){
@@ -103,6 +85,7 @@ export class GameDetailsComponent implements OnInit {
       
       if(isInCart == false){
         this.gamesInCart.push(this.selectedGame);
+        this.gameAddedToCart = true;
         localStorage.setItem("gamesInCart", JSON.stringify(this.gamesInCart));
       }
       else{
@@ -111,6 +94,7 @@ export class GameDetailsComponent implements OnInit {
     }
     else{
       this.gamesInCart.push(this.selectedGame);
+      this.gameAddedToCart = true;
       localStorage.setItem("gamesInCart", JSON.stringify(this.gamesInCart));
     }
   }

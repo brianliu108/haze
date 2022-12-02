@@ -1,15 +1,18 @@
 <app-web-banner></app-web-banner>
 
-<mat-card class="mat-card mat-elevation-z4 container" >
-    <mat-list>
-        <mat-list-item>Social Bar</mat-list-item>
-            <mat-divider></mat-divider>
-                <ul id='friend-list'>
-                    <li class="friend" *ngFor="let record of friends">
-                        <img (click)="enterProfile(record)" src={{image}} />
-                        <div (click)="enterProfile(record)" class='name'>{{record}}</div>
-                    </li>
-                </ul>
-        <mat-divider></mat-divider>
-    </mat-list>
+<mat-card class="mat-card mat-elevation-z4 container">
+  <mat-list>
+    <mat-list-item>Social Bar</mat-list-item>
+    <mat-expansion-panel> 
+        <mat-expansion-panel-header>
+            Current Friends List
+        </mat-expansion-panel-header>
+        <ul id="friend-list">
+            <li class="friend" *ngFor="let record of friends">
+                <img (click)="enterProfile(record)" src={{image}} />
+                <div (click)="enterProfile(record)" class='name'>{{record}}</div>
+            </li>
+          </ul>
+    </mat-expansion-panel>
+  </mat-list>
 </mat-card>
