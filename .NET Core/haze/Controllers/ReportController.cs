@@ -108,4 +108,37 @@ public class ReportController : Controller
             return BadRequest(e.Message);
         }
     }
+
+    [HttpGet("/Reports/MemberLibrary")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetMemberLibraryReport()
+    {
+        try
+        {
+            var userProducts = await _hazeContext.UserProducts.Include(x => x.Product).ToListAsync();
+            List<SalesReportJSON> salesReport = new List<SalesReportJSON>();
+            var users = await _hazeContext.Users.ToListAsync();
+            var reportDictionary = new Dictionary<string, int>();
+            foreach (var userProduct in userProducts)
+            {
+                string username = users.First(x => x.Id == userProduct.UserId).Username;
+                if (!reportDictionary.ContainsKey(username))
+                    reportDictionary.Add(username, 0);
+                reportDictionary[username] += 1;
+            }
+            foreach (KeyValuePair<string, int> userProduct in reportDictionary)
+            {
+                salesReport.Add(new SalesReportJSON()
+                {
+                    GameTitle = userProduct.Key,
+                    Sales = userProduct.Value
+                });
+            }
+            return Ok(salesReport);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

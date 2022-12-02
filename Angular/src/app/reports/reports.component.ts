@@ -52,7 +52,15 @@ export class ReportsComponent implements OnInit {
 
   async generateMemberLibraryReport() {
     this.errors = []
-    this.errors.push('This will be implemented in an upcoming iteration')
+    let headerList: Array<Array<string>> = [["gameTitle", ""], ["sales", ""]];
+    let headerDisplay: Array<string> = ["Username", "Items in Library"];
+    let fileName: string = "MemberLibraryReport.csv";
+    try {
+      let response = await axios.get(this.appComponent.apiHost + "/Reports/MemberLibrary", this.requestInfo)
+      this.downloadFile(response.data, headerList, headerDisplay, fileName);
+    } catch (e) {
+      this.errors.push(e);
+    }
   }
 
   async generateMemberListReport() {
