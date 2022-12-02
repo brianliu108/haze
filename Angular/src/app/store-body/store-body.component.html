@@ -58,15 +58,12 @@
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
-          <a mat-list-item (click)="drawer.toggle()">View/Approve User Reviews</a>
+          <a mat-list-item [routerLink]="['/reviews']" (click)="drawer.toggle()">View/Approve User Reviews</a>
         </mat-list-item>
         <mat-divider>
         </mat-divider>
         <mat-list-item *ngIf="userData.role == 'Admin'">
           <a mat-list-item [routerLink]="['/reports']" (click)="drawer.toggle()">Generate Reports</a>
-        </mat-list-item>
-        <mat-list-item *ngIf="userData.role == 'Admin'">
-          <a mat-list-item [routerLink]="['/reviews']" (click)="drawer.toggle()">Approve Reviews</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>
@@ -78,14 +75,14 @@
             <h1>Owned Games</h1>
             <mat-form-field style="flex: 1; margin-left: 15%; margin-right: 20%;" appearance="fill">
               <mat-label>Search Game</mat-label>
-              <input matInput [formControl]="searchCtrl" (ngModelChange)="filterGames()">
+              <input matInput [formControl]="libSearchCtrl" (ngModelChange)="filterLibGames()">
             </mat-form-field>
           </div>
           <div class="gameCategoryArea">
             <mat-grid-list cols="8" rowHeight="2:1" style="margin-right: 2%;">
-              <mat-grid-tile *ngFor="let item of libraryGames;" class="gameTile">
+              <mat-grid-tile *ngFor="let item of allLibraryGames;" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
-                <img alt="{{item.product.productName}}" (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}"
+                <img alt="{{item.product.productName}}" (click)="routeToOwnedDetails(item.product)" src="{{item.product.coverImgUrl}}"
                   class="imgStyle">
               </mat-grid-tile>
             </mat-grid-list>

@@ -18,6 +18,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { StoreComponent } from './store/store.component';
 import { SocialComponent } from './social/social.component';
 import { SocialProfileComponent } from './social-profile/social-profile.component';
+import { OwnedGameDetailsComponent } from './owned-game-details/owned-game-details.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
   {
     path: 'socialProfile',
     component: SocialProfileComponent
+  },
+  {
+    path: 'ownedGameDetails',
+    component: OwnedGameDetailsComponent
   }
 ];
 
