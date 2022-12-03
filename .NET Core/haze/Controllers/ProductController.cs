@@ -201,9 +201,9 @@ namespace haze.Controllers
             return Ok(reviews);
         }
 
-        [HttpPost("/ProductReviews/{productId}/{reviewDescription}")]
+        [HttpPost("/ProductReviews/{productId}/{reviewDescription}/{rating}")]
         [Authorize]
-        public async Task<ActionResult> AddProductReview(int productId, string reviewDescription)
+        public async Task<ActionResult> AddProductReview(int productId, string reviewDescription, int rating)
         {
             Product product = await _hazeContext.Products
                 .Include(x => x.Categories).ThenInclude(x => x.сategory)
@@ -222,6 +222,12 @@ namespace haze.Controllers
             if (user == null)
                 return BadRequest("User dont exist!");
 
+            ProductUserReview productUserReview = await _hazeContext.ProductUserReviews
+               .Include(x => x.User).Where(x => x.User.Id == userId && x.ProductId == productId).FirstOrDefaultAsync();
+
+            if (productUserReview != null)
+                return BadRequest("Review already exists!");
+
             if (product.UserReviews == null)
                 product.UserReviews = new List<ProductUserReview>();
 
@@ -229,10 +235,59 @@ namespace haze.Controllers
             {
                 ProductId = productId,
                 Description = reviewDescription,
+                Rating = rating,
                 Approved = false,
                 User = user
             });
 
+
+            await _hazeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("/AddProductRating/{productId}/{rating}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddProductRating(int productId, int rating)
+        {
+            Product product = await _hazeContext.Products
+                .Include(x => x.Categories).ThenInclude(x => x.сategory)
+                    .Include(x => x.Platforms).ThenInclude(x => x.platform)
+                    .Where(x => x.Id == productId).FirstOrDefaultAsync();
+
+            if (product == null)
+                return BadRequest("Product dont exist!");
+
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users
+                .Include(x => x.Products).ThenInclude(x => x.Product)
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User dont exist!");
+
+            ProductUserReview productUserReview = await _hazeContext.ProductUserReviews
+                .Include(x=>x.User).Where(x => x.User.Id == userId && x.ProductId == productId).FirstOrDefaultAsync();
+
+            if (productUserReview == null)
+            {
+                if (product.UserReviews == null)
+                    product.UserReviews = new List<ProductUserReview>();
+
+                product.UserReviews.Add(new ProductUserReview
+                {
+                    ProductId = productId,
+                    Description = "",
+                    Rating = rating,
+                    Approved = true,
+                    User = user
+                });
+            }
+            else
+            {
+                productUserReview.Rating = rating;
+            }
 
             await _hazeContext.SaveChangesAsync();
 
