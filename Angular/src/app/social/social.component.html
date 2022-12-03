@@ -14,5 +14,16 @@
             </li>
           </ul>
     </mat-expansion-panel>
+    <mat-expansion-panel> 
+        <mat-expansion-panel-header>
+            Friends/Fams interaction here
+        </mat-expansion-panel-header>
+        <ul id="friend-list">
+            <li class="friend" *ngFor="let record of friends">
+                <img (click)="enterProfile(record)" src={{image}} />
+                <div (click)="enterProfile(record)" class='name'>{{record}}</div>
+            </li>
+          </ul>
+    </mat-expansion-panel>
   </mat-list>
 </mat-card>
