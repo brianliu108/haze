@@ -32,6 +32,37 @@ namespace haze.Controllers
                 .ToListAsync());
         }
 
+        [HttpGet("RegisteredEvents")]
+        [Authorize]
+        public async Task<ActionResult<List<Event>>> GetUsersRegisteredEvents()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
+            User user = await _hazeContext.Users.Include(x => x.FavouriteCategories).ThenInclude(x => x.Category)
+                .Include(x => x.FavouritePlatforms).ThenInclude(x => x.Platform)
+                .Include(x => x.PaymentInfos).Where(x => x.Id == userId)
+                .Include(x => x.BillingAddress).Include(x => x.ShippingAddress).FirstOrDefaultAsync();
+
+            if (user == null)
+                return BadRequest("User not found");
+
+            List<Event> events = await _hazeContext.Events
+                .Include(x => x.RegisteredUsers).ThenInclude(x => x.RegisteredUser)
+                .Where(x=>x.RegisteredUsers.Count() > 0).ToListAsync();
+
+            List<Event> registeredEvents = new List<Event>();
+
+            foreach (var item in events)
+            {
+                var regUsers = item.RegisteredUsers.Where(u=>u.RegisteredUser.Id == userId).ToList();
+                if (regUsers.Any())
+                {
+                    registeredEvents.Add(item);
+                }
+            }
+
+            return Ok(registeredEvents);
+        }
+
         [HttpGet("/Event/{Id}")]
         [Authorize]
         public async Task<ActionResult<Event>> GetEvent(int Id)
