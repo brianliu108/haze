@@ -17,13 +17,31 @@
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Price</mat-label>
                 <input matInput readonly value="{{selectedGame.price}}">
-            </mat-form-field>            
+            </mat-form-field>
             <div style="display: flex;">
-                <button class="buttonStyle" (click)="addToWishlist()" *ngIf="!isInWishlist" mat-stroked-button>Add to wishlist</button>
-                <button class="buttonStyle" (click)="removeFromWishlist()" *ngIf="isInWishlist" mat-stroked-button>Remove from wishlist</button>
+                <button class="buttonStyle" (click)="addToWishlist()" *ngIf="!isInWishlist" mat-stroked-button>Add to
+                    wishlist</button>
+                <button class="buttonStyle" (click)="removeFromWishlist()" *ngIf="isInWishlist"
+                    mat-stroked-button>Remove from wishlist</button>
                 <button class="buttonStyle" (click)="addToCart()" mat-stroked-button>Add to cart</button>
             </div>
         </div>
+        <br><br>
+        <h2 style="margin-left: 3%;">View Community Feedback</h2>
+        <h3 style="margin-left: 3%;">Reviews</h3>
+        <mat-error style="margin-left: 3%;" *ngIf="reviewsList.length == 0">No reviews for {{selectedGame.productName}}</mat-error>
+        <div class="reviewSection">
+            <div *ngFor="let review of reviewsList; let i = index;">
+                <div>
+                    <mat-form-field appearance="fill" class="inputSet">
+                        <textarea matInput cdkTextareaAutosize value="{{review.description}}"></textarea>
+                    </mat-form-field>
+                    <p style="text-align:right; margin-right: 10%;">Posted By: {{review.user.username}}</p>
+                </div>
+            </div>
+        </div> 
+        <h3 style="margin-left: 3%;">Rating:</h3>
+        
         <br><br>
         <button mat-stroked-button class="buttonStyle" (click)="routeToStore()">Back to store</button>
         <br><br>
@@ -38,37 +56,39 @@
                     <mat-form-field appearance="fill" class="inputSet">
                         <mat-label>Game Name</mat-label>
                         <textarea [formControl]="gameNameCtrl" matInput cdkTextareaAutosize></textarea>
-                        <mat-error>Game Name is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="inputSet">
-                        <mat-label>Description</mat-label>
-                        <input matInput [formControl]="descriptionCtrl">
-                        <mat-error>Game Name is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="inputSet">
-                        <mat-label>Price</mat-label>
-                        <input matInput [formControl]="priceCtrl">
-                        <mat-error>Game Name is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="inputSet">
-                        <mat-label>Cover Image URL</mat-label>
-                        <input matInput [formControl]="coverImgUrlCtrl">
-                    </mat-form-field>
-                    <div style="margin-left: 10%;">
-                        <h3>Categories</h3>
-                        <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="categoryCtrl" (click)="addToCategories(item)" *ngFor="let item of categories">
-                            {{item.name}}
-                        </mat-checkbox>
-                    </div>
-                    <br>
-                    <div style="margin-left: 10%;">
-                        <h3>Platform</h3>
-                        <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="platformCtrl" (click)="addToPlatforms(item)" *ngFor="let item of platforms">
-                            {{item.name}}
-                        </mat-checkbox>
-                    </div>
-                    <br>
+                    <mat-error>Game Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Description</mat-label>
+                    <input matInput [formControl]="descriptionCtrl">
+                    <mat-error>Game Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Price</mat-label>
+                    <input matInput [formControl]="priceCtrl">
+                    <mat-error>Game Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputSet">
+                    <mat-label>Cover Image URL</mat-label>
+                    <input matInput [formControl]="coverImgUrlCtrl">
+                </mat-form-field>
                 </form>
+                <div style="margin-left: 10%;">
+                    <h3>Categories</h3>
+                    <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="categoryCtrl"
+                        (click)="addToCategories(item)" *ngFor="let item of categories">
+                        {{item.name}}
+                    </mat-checkbox>
+                </div>
+                <br>
+                <div style="margin-left: 10%;">
+                    <h3>Platform</h3>
+                    <mat-checkbox [color]="'primary'" class="inputSet" [formControl]="platformCtrl"
+                        (click)="addToPlatforms(item)" *ngFor="let item of platforms">
+                        {{item.name}}
+                    </mat-checkbox>
+                </div>
+                <br>
             </div>
             <div style="display: flex;" *ngIf="editingGame == true">
                 <button class="buttonStyle" (click)="updateGame()" mat-stroked-button>Submit Changes</button>

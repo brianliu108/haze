@@ -14,6 +14,7 @@ export class GameDetailsComponent implements OnInit {
   selectedGame: any;
   userData: any;
   wishlistGames: Array<any>;
+  reviewsList: Array<any>;
 
   selectedPlatforms: Array<any> = [];
   selectedCategories: Array<any> = [];
@@ -63,11 +64,12 @@ export class GameDetailsComponent implements OnInit {
       }
     };
 
-    this.getWishlist();
-
     this.selectedGame = JSON.parse(localStorage.getItem('selectedGame')!);
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
     this.gamesInCart = JSON.parse(localStorage.getItem("gamesInCart") || "[]");
+
+    this.getWishlist();
+    this.getReviews();
   }
 
   addToCart(){
@@ -280,5 +282,18 @@ export class GameDetailsComponent implements OnInit {
 
   showFailure() {
     this.errors.push("Unsuccessfull game editing, check inputs and try again");
+  }
+
+  async getReviews(){
+    try {
+      const reviewResponse = await axios.get('https://localhost:7105/ProductReviews/' + this.selectedGame.id, this.requestInfo);
+      console.log(reviewResponse.data);
+      if (reviewResponse.status = 200) {
+        this.reviewsList = reviewResponse.data;
+      }
+    }
+    catch (error: any) {
+      console.error(error);
+    }
   }
 }
