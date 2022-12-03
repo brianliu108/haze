@@ -32,6 +32,12 @@
                 margin-bottom: 2%;
                 margin-top: 2%;
             }
+
+            .reviewSection{
+                margin-top: 1.5rem;
+                max-height: 50vh;
+                overflow-y: scroll;
+            }
         }
     }
 }
