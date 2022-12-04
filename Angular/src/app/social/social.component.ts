@@ -14,6 +14,7 @@ export class SocialComponent implements OnInit {
   friends: Array<any> = ['Apple', 'Orange', 'Banana', 'Apple', 'Orange', 'Banana'];
   private token: any;
   private requestInfo: any;
+  users: Array<any> = [];
 
   searchCtrl: FormControl = new FormControl(null);
 
@@ -33,6 +34,7 @@ export class SocialComponent implements OnInit {
       }
     };
 
+    this.getUsers();
 
     //this.getFriends();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
@@ -61,4 +63,16 @@ export class SocialComponent implements OnInit {
     this.appComponent.navigate("socialProfile");
   }
 
+  async getUsers(){
+    try {
+      let getUsersCall = await axios.get(this.appComponent.apiHost + "/getMembers", this.requestInfo);
+
+      if (getUsersCall.status == 200) {
+        this.users = getUsersCall.data;
+      }
+    }
+    catch (err: any) {
+      console.error(err);
+    }
+  }
 }

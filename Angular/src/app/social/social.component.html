@@ -25,5 +25,21 @@
             </li>
           </ul>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        Add Friend
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="fill" class="inputSet">
+        <mat-label>Username</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <mat-grid-list cols="4" rowHeight="2:1" style="margin-right: 2%;">
+        <mat-grid-tile *ngFor="let user of users;"  class="gameTile">
+          <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
+          <h3>{{user.username}}</h3>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-expansion-panel>
   </mat-list>
 </mat-card>
