@@ -17,6 +17,13 @@
           <div class='name'>
             <div class="friend-entry-left" (click)="enterProfile(record)">{{otherUser(record).username}}</div>
             <button mat-raised-button color="warn" class="friend-entry-right" (click)="deleteFriend(otherUser(record).id)">Delete</button>
+            <button mat-raised-button color="primary" class="friend-entry-right friend-entry-family" mat-button [matMenuTriggerFor]="familyMenu">Family Options</button>
+            <mat-menu #familyMenu="matMenu">
+              <button mat-menu-item *ngIf="showRequestFamily(record)" (click)="requestFamily(otherUser(record).id)">Request Family</button>
+              <button mat-menu-item *ngIf="showAcceptFamily(record)" (click)="requestFamily(otherUser(record).id)">Accept</button>
+              <button disabled mat-menu-item *ngIf="showPendingFamily(record)">Request Pending</button>
+              <button mat-menu-item *ngIf="showRemoveFamily(record) || showPendingFamily(record)" (click)="removeFamily(otherUser(record).id)">Remove</button>
+            </mat-menu>
             <div class="clear"></div>
           </div>
         </li>
