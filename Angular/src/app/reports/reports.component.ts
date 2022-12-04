@@ -151,6 +151,8 @@ export class ReportsComponent implements OnInit {
       for (let index in headerList) {
         let head = array[i][headerList[index][0]]
         console.log(head);
+        if (head == null)
+          head = "";
         if (!headerList[index][1])
           line += delimiter + head;
         else {

@@ -220,6 +220,13 @@ public class HazeTest : IAsyncLifetime
 
     // Rate Games
 
+    [Fact]
+    public async void PostProductRatings_ValidRequestNoDescription_Ok()
+    {
+        string endpoint = "/AddProductRating/1/5";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.OK);
+    }
+
     // Review Games
     [Fact]
     public async void GetProductReviews_ValidRequest_Ok()
