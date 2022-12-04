@@ -189,6 +189,58 @@ export class SocialComponent implements OnInit {
     }
   }
 
+  async requestFamily(id: any) {
+    try {
+      let result = await axios.post(this.appComponent.apiHost + "/Friends/Family/" + id, null, this.requestInfo);
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async removeFamily(id: any) {
+    try {
+      let result = await axios.delete(this.appComponent.apiHost + "/Friends/Family/" + id, {
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      });
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  showRequestFamily(record:any) {
+    return !record.user1IsFamily && !record.user2IsFamily
+  }
+
+  showAcceptFamily(record:any) {
+    let userNumber = 1;
+    if (record.user2.id == this.decoded.userId)
+      userNumber = 2;
+    if (userNumber == 1)
+      return record.user2IsFamily && !record.user1IsFamily;
+    
+    return record.user1IsFamily && !record.user2IsFamily;
+  }
+
+  showPendingFamily(record:any) {
+    let userNumber = 1;
+    if (record.user2.id == this.decoded.userId)
+      userNumber = 2;
+    if (userNumber == 1)
+      return record.user1IsFamily && !record.user2IsFamily;
+
+    return record.user2IsFamily && !record.user1IsFamily;
+  }
+
+  showRemoveFamily(record: any) {
+    return record.user1IsFamily && record.user2IsFamily;
+  }
+
   otherUser(friend: any) {
     if (friend.user1.username == this.decoded.username)
       return friend.user2;
