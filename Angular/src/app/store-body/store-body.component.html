@@ -29,7 +29,7 @@
     <mat-drawer class="sideNavDrawer" #drawer mode="over" opened="false">
       <mat-nav-list class="sideNavList">
         <mat-list-item>
-          <a mat-list-item (click)="drawer.toggle()" (click)="setDisplayStore()">View Game Library</a>
+          <a mat-list-item (click)="drawer.toggle()" (click)="setOwnedGames()">View Game Library</a>
         </mat-list-item>
         <mat-divider>
         </mat-divider>
@@ -135,7 +135,6 @@
             <p>Begins {{item.startDate}}</p>
             <p>Ends {{item.endDate}}</p>
             <br>
-            <p>Included Games</p>
             <mat-grid-list cols="8" rowHeight="2:1">
               <mat-grid-tile *ngFor="let item of item.products" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
