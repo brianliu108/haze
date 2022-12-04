@@ -20,7 +20,7 @@ public class FriendController : Controller
         {
             var userId = int.Parse(HttpContext.User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             var friends = await _hazeContext.Friends.Include(x => x.User1).Include(x => x.User2)
-                .Where(x => (x.User1.Id == userId || x.User2.Id == userId && x.Status == FriendStatus.Accepted))
+                .Where(x => ((x.User1.Id == userId || x.User2.Id == userId) && x.Status == FriendStatus.Accepted))
                 .Select(x => new Friend()
                 {
                     Id = x.Id,

@@ -201,7 +201,49 @@ public class HazeTest : IAsyncLifetime
         string requestBody = "{\n  \"productId\": 0\n}";
         await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.NotFound, requestBody);
     }
-    
+
+    // Friends
+    [Fact]
+    public async void GetFriends_ValidRequest_Ok()
+    {
+        string endpoint = "/Friends";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async void GetFriendRequests_ValidRequest_Ok()
+    {
+        string endpoint = "/Friends/Requests";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
+    }
+    // Download Games
+
+    // Rate Games
+
+    [Fact]
+    public async void PostProductRatings_ValidRequestNoDescription_Ok()
+    {
+        string endpoint = "/AddProductRating/1/5";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Post, true, HttpStatusCode.OK);
+    }
+
+    // Review Games
+    [Fact]
+    public async void GetProductReviews_ValidRequest_Ok()
+    {
+        string endpoint = "/ProductReviews";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async void GetProduct1Reviews_ValidRequest_Ok()
+    {
+        string endpoint = "/ProductReviews/1";
+        await RunHazeTest(endpoint, WebRequestMethods.Http.Get, true, HttpStatusCode.OK);
+    }
+    // Selecting Games
+
+
     /// <summary>
     /// Runs a haze test.
     /// </summary>

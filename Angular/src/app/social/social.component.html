@@ -1,45 +1,93 @@
 <app-web-banner></app-web-banner>
 
 <mat-card class="mat-card mat-elevation-z4 container">
+  <div class="top">
+    <img src="assets/user-icon.png" alt="icon Png" >{{username}}
+  </div>
   <mat-list>
     <mat-list-item>Social Bar</mat-list-item>
-    <mat-expansion-panel> 
-        <mat-expansion-panel-header>
-            Current Friends List
-        </mat-expansion-panel-header>
-        <ul id="friend-list">
-            <li class="friend" *ngFor="let record of friends">
-                <img (click)="enterProfile(record)" src={{image}} />
-                <div (click)="enterProfile(record)" class='name'>{{record}}</div>
-            </li>
-          </ul>
+    <mat-expansion-panel [expanded]="friends.length > 0">
+      <mat-expansion-panel-header>
+        Current Friends List
+      </mat-expansion-panel-header>
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let record of friends">
+          <!-- <img (click)="enterProfile(record)" src={{image}} /> -->
+          <img src="assets/user-icon.png" alt="icon Png" >
+          <div class='name'>
+            <div class="friend-entry-left" (click)="enterProfile(record)">{{otherUser(record).username}}</div>
+            <button mat-raised-button color="warn" class="friend-entry-right" (click)="deleteFriend(otherUser(record).id)">Delete</button>
+            <div class="clear"></div>
+          </div>
+        </li>
+      </ul>
     </mat-expansion-panel>
-    <mat-expansion-panel> 
-        <mat-expansion-panel-header>
-            Friends/Fams interaction here
-        </mat-expansion-panel-header>
-        <ul id="friend-list">
-            <li class="friend" *ngFor="let record of friends">
-                <img (click)="enterProfile(record)" src={{image}} />
-                <div (click)="enterProfile(record)" class='name'>{{record}}</div>
-            </li>
-          </ul>
-    </mat-expansion-panel>
+    <!-- <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        Friends/Fams interaction here
+      </mat-expansion-panel-header>
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let record of friends">
+            <img (click)="enterProfile(record)" src="assets/user-icon.png" />
+            <div (click)="enterProfile(record)" class='name'>{{otherUser(record)}}</div>
+        </li>
+      </ul>
+    </mat-expansion-panel> -->
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         Add Friend
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill" class="inputSet">
+      <!-- <mat-form-field appearance="fill" class="inputSet">
         <mat-label>Username</mat-label>
         <input matInput>
-      </mat-form-field>
-
-      <mat-grid-list cols="4" rowHeight="2:1" style="margin-right: 2%;">
-        <mat-grid-tile *ngFor="let user of users;"  class="gameTile">
-          <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
-          <h3>{{user.username}}</h3>
-        </mat-grid-tile>
-      </mat-grid-list>
+      </mat-form-field> -->
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let user of users;">
+          <img src="assets/user-icon.png" alt="icon Png">
+          <div class="name">
+            <div class="friend-entry-left">{{user.username}}</div>
+            <button mat-raised-button color="primary" class="friend-entry-right" (click)="sendRequest(user.id)">Add</button>
+          </div>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="incomingRequests.length > 0">
+      <mat-expansion-panel-header>
+        Incoming Requests
+      </mat-expansion-panel-header>
+      <!-- <mat-form-field appearance="fill" class="inputSet">
+        <mat-label>Username</mat-label>
+        <input matInput>
+      </mat-form-field> -->
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let incomingRequest of incomingRequests;">
+          <img src="assets/user-icon.png" alt="icon Png">
+          <div class="name">
+            <div class='name friend-entry-left'>{{otherUser(incomingRequest).username}}</div>
+            <button mat-raised-button color="warn" class="friend-entry-right" (click)="ignoreRequest(otherUser(incomingRequest).id)">Block</button>
+            <button mat-raised-button color="primary" class="friend-entry-right" (click)="acceptRequest(otherUser(incomingRequest).id)">Accept</button>           
+            <div class="clear"></div>
+          </div>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="pendingRequests.length > 0">
+      <mat-expansion-panel-header>
+        Pending Requests
+      </mat-expansion-panel-header>
+      <!-- <mat-form-field appearance="fill" class="inputSet">
+        <mat-label>Username</mat-label>
+        <input matInput>
+      </mat-form-field> -->
+      <ul class="friend-list">
+        <li class="friend" *ngFor="let pendingRequest of pendingRequests;">
+          <img src="assets/user-icon.png" alt="icon Png">
+          <div class="name">
+            <div class="friend-entry-left">{{otherUser(pendingRequest).username}}</div>
+            <button mat-raised-button color="warn" class="friend-entry-right" (click)="deleteFriend(otherUser(pendingRequest).id)">Delete</button>
+          </div>
+        </li>
+      </ul>
     </mat-expansion-panel>
   </mat-list>
 </mat-card>

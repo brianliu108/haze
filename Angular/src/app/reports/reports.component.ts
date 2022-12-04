@@ -37,8 +37,8 @@ export class ReportsComponent implements OnInit {
   
   async generateGameListReport() {
     this.errors = []
-    let headerList: Array<Array<string>> = [["id", ""], ["productName", ""], ["categories", "сategory", "name"], ["platforms", "platform", "name"], ["description", ""], ["price", ""], ["coverImgUrl", ""]];
-    let headerDisplay: Array<string> = ["Product ID", "Product Name", "Categories", "Platforms", "Description", "Price", "Cover Image URL"];
+    let headerList: Array<Array<string>> = [["productName", ""], ["categories", "сategory", "name"], ["platforms", "platform", "name"], ["description", ""], ["price", ""], ["coverImgUrl", ""]];
+    let headerDisplay: Array<string> = ["Product Name", "Categories", "Platforms", "Description", "Price", "Cover Image URL"];
     let fileName = "GameListReport.csv"
     try {
       let response = await axios.get(this.appComponent.apiHost + "/Products", this.requestInfo);
@@ -151,6 +151,8 @@ export class ReportsComponent implements OnInit {
       for (let index in headerList) {
         let head = array[i][headerList[index][0]]
         console.log(head);
+        if (head == null)
+          head = "";
         if (!headerList[index][1])
           line += delimiter + head;
         else {
