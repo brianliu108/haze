@@ -21,7 +21,9 @@ export class OwnedGameDetailsComponent implements OnInit {
   showReviewBtns: boolean = false;
   showRatingBtns: boolean = false;
 
-  reviewsList: Array<any>;
+  enableReviewSection: boolean = true;
+
+  reviewsList: Array<any> = [];
 
   noRatings: boolean = false;
   gameRating: Number;
@@ -29,15 +31,18 @@ export class OwnedGameDetailsComponent implements OnInit {
   badReviewSubmission: boolean = false;
 
   reviewSubmitted: boolean = false;
+  rateSubmitted: boolean = false;
 
   reviewCtrl: FormControl = new FormControl(null, [Validators.required, Validators.minLength(10)]);
+  rate1Ctrl: FormControl = new FormControl(null, Validators.required);
   reviewGroup: FormGroup = new FormGroup({
-    review: this.reviewCtrl
+    review: this.reviewCtrl,
+    rating: this.rate1Ctrl
   });
 
-  rateCtrl: FormControl = new FormControl(null, Validators.required);
+  rate2Ctrl: FormControl = new FormControl(null, Validators.required);
   rateGroup: FormGroup = new FormGroup({
-    review: this.reviewCtrl
+    rating: this.rate2Ctrl
   });
 
   private token: any;
@@ -108,13 +113,24 @@ export class OwnedGameDetailsComponent implements OnInit {
   }
 
   async makeRatingCall(){
-
+    if(this.rate2Ctrl.valid){
+      try {
+        const rateCallResponse = await axios.post('https://localhost:7105/AddProductRating' + '/' + this.selectedGame.id + '/' + this.rate2Ctrl.value, null, this.requestInfo);
+  
+        if (rateCallResponse.status = 200) {
+          this.showReviewSuccess();
+        }
+      }
+      catch (error: any) {
+        console.error(error);
+      }
+    }
   }
 
   async makeReviewCall(){
-    if(this.reviewCtrl.valid){
+    if(this.reviewGroup.valid){
       try {
-        const reviewCallResponse = await axios.post('https://localhost:7105/ProductReviews' + '/' + this.selectedGame.id + '/' + this.reviewCtrl.value + '/0', null, this.requestInfo);
+        const reviewCallResponse = await axios.post('https://localhost:7105/ProductReviews' + '/' + this.selectedGame.id + '/' + this.reviewCtrl.value + '/' + this.rate1Ctrl.value, null, this.requestInfo);
   
         if (reviewCallResponse.status = 200) {
           this.showReviewSuccess();
@@ -130,7 +146,8 @@ export class OwnedGameDetailsComponent implements OnInit {
   }
 
   ratingCanceller(){
-    this.rateCtrl.reset();
+    this.rate1Ctrl.reset();
+    this.rate2Ctrl.reset();
     this.reviewCtrl.reset();
     this.showRatingBtns = false;
     this.showReviewBtns = false;
@@ -142,6 +159,7 @@ export class OwnedGameDetailsComponent implements OnInit {
     this.reviewSubmitted = true;
     setTimeout(() => {
       this.reviewSubmitted = false;
+      window.location.reload();
     }, 3000);
   }
 
@@ -152,12 +170,21 @@ export class OwnedGameDetailsComponent implements OnInit {
     }, 3000);
   }
 
+  showRateSuccess(){
+    this.rateSubmitted = true;
+    setTimeout(() => {
+      this.rateSubmitted = false;
+      window.location.reload();
+    }, 3000);
+  }
+
   async getReviews(){
     try {
       const reviewResponse = await axios.get('https://localhost:7105/ProductReviews/' + this.selectedGame.id, this.requestInfo);
       console.log(reviewResponse.data);
       if (reviewResponse.status = 200) {
         this.reviewsList = reviewResponse.data;
+        this.checkReviews(reviewResponse.data);
         this.ratingGetter(reviewResponse.data);
       }
     }
@@ -169,14 +196,28 @@ export class OwnedGameDetailsComponent implements OnInit {
   ratingGetter(data: Array<any>){
     if(data.length != 0){
       let tempScore = 0;
+      let ignoreCounter = 0;
       for( let item of data){
-        tempScore += item.rating;
+        if(item.rating == 0){
+          ignoreCounter++;
+        }
+        else{
+          tempScore += item.rating;
+        }
       }
-      tempScore /= data.length;
+      tempScore /= (data.length - ignoreCounter);
       this.gameRating = parseFloat(tempScore.toFixed(2));
     }
     else{
       this.noRatings = true;
+    }
+  }
+
+  checkReviews(data: Array<any>){
+    for(let item of data){
+      if(item.user.username == atob(this.userData.username)){
+        this.enableReviewSection = false;
+      }
     }
   }
 }
