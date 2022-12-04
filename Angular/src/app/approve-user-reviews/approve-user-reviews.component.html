@@ -2,11 +2,12 @@
 <div class="bodyStyle">
     <mat-card class="cardStyle">
         <h1 style="text-align: center;">Approve product reviews</h1>
+        <mat-error style="text-align:center;" *ngIf="shownReviews.length == 0">No reviews pending.</mat-error>
         <div class="reviewRow" *ngFor="let item of shownReviews;">
             <span class="userReview">{{item.description}}</span>
-            <div>   
-                <button class="approveButton" (click)="aproveUserReview(item)" mat-stroked-button>✅</button>
-                <button class="approveButton" (click)="disAproveUserReview(item)" mat-stroked-button>❌</button>
+            <div style="display: flex;">   
+                <button class="approveButton" (click)="aproveUserReview(item)" style="flex: 1;" mat-stroked-button>✅</button>
+                <button class="approveButton" (click)="disAproveUserReview(item)" style="flex: 1;" mat-stroked-button>❌</button>
             </div>
         </div>
     </mat-card>

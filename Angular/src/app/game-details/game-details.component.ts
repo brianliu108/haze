@@ -13,8 +13,8 @@ export class GameDetailsComponent implements OnInit {
   errors: Array<any> = [];
   selectedGame: any;
   userData: any;
-  wishlistGames: Array<any>;
-  reviewsList: Array<any>;
+  wishlistGames: Array<any> = [];
+  reviewsList: Array<any> = [];
 
   noRatings: boolean = false;
   gameRating: Number;
@@ -22,10 +22,10 @@ export class GameDetailsComponent implements OnInit {
   selectedPlatforms: Array<any> = [];
   selectedCategories: Array<any> = [];
 
-  platforms: Array<any>;
-  categories: Array<any>;
+  platforms: Array<any> = [];
+  categories: Array<any> = [];
 
-  gamesInCart: Array<any>;
+  gamesInCart: Array<any> = [];
 
   editingGame: boolean = false;
   updatedGame: boolean = false;
