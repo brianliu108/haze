@@ -129,6 +129,26 @@
         </div>
         <div style="margin-bottom: 5%;"
           *ngIf="displayWishList == false && displayGames == false && displayEvents == true">
+          <h1>Registered Events</h1>
+          <div class="gameCategoryArea" *ngFor="let item of registeredEvents;">
+            <h3>{{item.eventName}}</h3>
+            <p>Begins {{item.startDate}}</p>
+            <p>Ends {{item.endDate}}</p>
+            <br>
+            <p>Included Games</p>
+            <mat-grid-list cols="8" rowHeight="2:1">
+              <mat-grid-tile *ngFor="let item of item.products" class="gameTile">
+                <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
+                <section *ngIf=" item.product.coverImgUrl != ''">
+                  <img (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}" class="imgStyle">
+                </section>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <br>
+            <button mat-stroked-button (click)="routeToEventDetails(item)">View {{item.eventName}} Details</button>
+          </div>
+          <mat-error *ngIf="registeredEvents.length == 0">No events registered to!</mat-error>
+          <br>
           <h1>Upcoming Events</h1>
           <div class="gameCategoryArea" *ngFor="let item of events;">
             <h3>{{item.eventName}}</h3>
@@ -137,7 +157,7 @@
             <br>
             <p>Included Games</p>
             <mat-grid-list cols="8" rowHeight="2:1">
-              <mat-grid-tile *ngFor="let item of eventsGames" class="gameTile">
+              <mat-grid-tile *ngFor="let item of item.products" class="gameTile">
                 <!--<button mat-stroked-button (click)="routeToDetails(item.product)">{{item.product.productName}}</button>-->
                 <section *ngIf=" item.product.coverImgUrl != ''">
                   <img (click)="routeToDetails(item.product)" src="{{item.product.coverImgUrl}}" class="imgStyle">

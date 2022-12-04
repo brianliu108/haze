@@ -18,6 +18,9 @@ export class CreateAdminComponent implements OnInit {
 
   errors: Array<any> = [];
 
+  today = new Date();
+
+
   ngOnInit(): void {
     this.checkAdmin();
 

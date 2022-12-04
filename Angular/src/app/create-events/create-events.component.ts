@@ -17,6 +17,9 @@ export class CreateEventsComponent implements OnInit {
   errors: Array<any> = [];
   gamesList: Array<any> = [];
 
+  today = new Date();
+
+
   allAdded: boolean = false;
 
   startDateCtrl: FormControl = new FormControl(null, Validators.required);
