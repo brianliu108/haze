@@ -1,10 +1,24 @@
 .container{
     width: 50%;
     min-width: 400px;
-    margin: auto;
+    margin: 3% auto;
 }
 
-#friend-list { 
+.top {
+  text-align: center;
+  font-size: large;
+  height: 20px;
+}
+
+.top img {
+  width: 45px;
+  vertical-align: middle;
+  margin-right: 1%;
+  border: 2px solid blue;
+  border-radius: 5px;
+}
+
+.friend-list { 
     display: block;
     margin: 0;
     padding: 0;
@@ -21,6 +35,20 @@
     align-items: center;
     border-bottom: 1px solid #DDD;
     cursor: pointer;
+
+    .friend-entry-left {
+      width: 10%;
+      float: left;
+    }
+
+    .friend-entry-right {
+      width: 10%;
+      float: right;
+      text-align: center;
+      margin-right: 1%;
+      border-radius: 10px;
+    } 
+
   }
   
   .friend img {

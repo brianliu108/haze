@@ -2,7 +2,7 @@ namespace haze.Models;
 
 public enum FriendStatus
 {
-    Pending,
+    Pending = 1,
     Accepted,
     Ignored
 }
