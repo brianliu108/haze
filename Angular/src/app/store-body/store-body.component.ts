@@ -17,6 +17,7 @@ export class StoreBodyComponent implements OnInit {
   wishlistGames: Array<any> = [];
   events: Array<any> = [];
   eventsGames: Array<any> = [];
+  registeredEvents: Array<any> = [];
   libraryGames: Array<any> = [];
   allLibraryGames: Array<any> = [];
 
@@ -49,6 +50,7 @@ export class StoreBodyComponent implements OnInit {
     this.getGames();
     this.getWishList();
     this.getEvents();
+    this.getRegisteredEvents();
     this.getLibraryGames();
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
   }
@@ -75,7 +77,6 @@ export class StoreBodyComponent implements OnInit {
         this.allLibraryGames = JSON.parse(JSON.stringify(getLibraryGamesCall.data));
         this.libraryGames = getLibraryGamesCall.data;
       }
-      console.log(this.allLibraryGames);
     }
     catch (err: any) {
       console.error(err);
@@ -181,6 +182,23 @@ export class StoreBodyComponent implements OnInit {
           this.allLibraryGames.splice(i, 1);
         }
       }
+    }
+  }
+
+  async getRegisteredEvents() {
+    try {
+      let getRegisteredEventsCall = await axios.get(this.appComponent.apiHost + "/RegisteredEvents", this.requestInfo);
+
+      let test = getRegisteredEventsCall.data;
+
+      if (getRegisteredEventsCall.status == 200) {
+        console.log(getRegisteredEventsCall);
+        this.registeredEvents = getRegisteredEventsCall.data;
+        //this.eventsGames = test[0].products;
+      }
+    }
+    catch (err: any) {
+      console.error(err);
     }
   }
 }

@@ -21,9 +21,16 @@ export class OwnedGameDetailsComponent implements OnInit {
   showReviewBtns: boolean = false;
   showRatingBtns: boolean = false;
 
+  reviewsList: Array<any>;
+
+  noRatings: boolean = false;
+  gameRating: Number;
+
+  badReviewSubmission: boolean = false;
+
   reviewSubmitted: boolean = false;
 
-  reviewCtrl: FormControl = new FormControl(null, Validators.required);
+  reviewCtrl: FormControl = new FormControl(null, [Validators.required, Validators.minLength(10)]);
   reviewGroup: FormGroup = new FormGroup({
     review: this.reviewCtrl
   });
@@ -51,6 +58,8 @@ export class OwnedGameDetailsComponent implements OnInit {
 
     this.selectedGame = JSON.parse(localStorage.getItem('selectedOwnedGame')!);
     this.userData = JSON.parse(localStorage.getItem("currentUser")!);
+
+    this.getReviews();
   }
 
   routeToStore(){
@@ -105,7 +114,7 @@ export class OwnedGameDetailsComponent implements OnInit {
   async makeReviewCall(){
     if(this.reviewCtrl.valid){
       try {
-        const reviewCallResponse = await axios.post('https://localhost:7105/ProductReviews' + '/' + this.selectedGame.id + '/' + this.reviewCtrl.value, null, this.requestInfo);
+        const reviewCallResponse = await axios.post('https://localhost:7105/ProductReviews' + '/' + this.selectedGame.id + '/' + this.reviewCtrl.value + '/0', null, this.requestInfo);
   
         if (reviewCallResponse.status = 200) {
           this.showReviewSuccess();
@@ -116,7 +125,7 @@ export class OwnedGameDetailsComponent implements OnInit {
       }
     }
     else{
-      alert("bad");
+      this.showBadReview();
     }
   }
 
@@ -134,5 +143,40 @@ export class OwnedGameDetailsComponent implements OnInit {
     setTimeout(() => {
       this.reviewSubmitted = false;
     }, 3000);
+  }
+
+  showBadReview(){
+    this.badReviewSubmission = true;
+    setTimeout(() => {
+      this.badReviewSubmission = false;
+    }, 3000);
+  }
+
+  async getReviews(){
+    try {
+      const reviewResponse = await axios.get('https://localhost:7105/ProductReviews/' + this.selectedGame.id, this.requestInfo);
+      console.log(reviewResponse.data);
+      if (reviewResponse.status = 200) {
+        this.reviewsList = reviewResponse.data;
+        this.ratingGetter(reviewResponse.data);
+      }
+    }
+    catch (error: any) {
+      console.error(error);
+    }
+  }
+
+  ratingGetter(data: Array<any>){
+    if(data.length != 0){
+      let tempScore = 0;
+      for( let item of data){
+        tempScore += item.rating;
+      }
+      tempScore /= data.length;
+      this.gameRating = parseFloat(tempScore.toFixed(2));
+    }
+    else{
+      this.noRatings = true;
+    }
   }
 }

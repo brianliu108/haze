@@ -28,20 +28,22 @@
         </div>
         <br><br>
         <h2 style="margin-left: 3%;">View Community Feedback</h2>
+        <h4 style="margin-left: 3%;">Purchase {{selectedGame.productName}} to leave feedback!</h4>
         <h3 style="margin-left: 3%;">Reviews</h3>
         <mat-error style="margin-left: 3%;" *ngIf="reviewsList.length == 0">No reviews for {{selectedGame.productName}}</mat-error>
         <div class="reviewSection">
             <div *ngFor="let review of reviewsList; let i = index;">
                 <div>
                     <mat-form-field appearance="fill" class="inputSet">
-                        <textarea matInput cdkTextareaAutosize value="{{review.description}}"></textarea>
+                        <textarea readonly matInput cdkTextareaAutosize value="{{review.description}}"></textarea>
                     </mat-form-field>
                     <p style="text-align:right; margin-right: 10%;">Posted By: {{review.user.username}}</p>
                 </div>
             </div>
         </div> 
         <h3 style="margin-left: 3%;">Rating:</h3>
-        
+        <mat-error style="margin-left: 3%;" *ngIf="noRatings">No ratings for {{selectedGame.productName}}</mat-error>
+        <h1 *ngIf="!noRatings" style="margin-left: 8%;">{{gameRating}}/5</h1>
         <br><br>
         <button mat-stroked-button class="buttonStyle" (click)="routeToStore()">Back to store</button>
         <br><br>

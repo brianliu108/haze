@@ -16,6 +16,9 @@ export class GameDetailsComponent implements OnInit {
   wishlistGames: Array<any>;
   reviewsList: Array<any>;
 
+  noRatings: boolean = false;
+  gameRating: Number;
+
   selectedPlatforms: Array<any> = [];
   selectedCategories: Array<any> = [];
 
@@ -290,10 +293,25 @@ export class GameDetailsComponent implements OnInit {
       console.log(reviewResponse.data);
       if (reviewResponse.status = 200) {
         this.reviewsList = reviewResponse.data;
+        this.ratingGetter(reviewResponse.data);
       }
     }
     catch (error: any) {
       console.error(error);
+    }
+  }
+
+  ratingGetter(data: Array<any>){
+    if(data.length != 0){
+      let tempScore = 0;
+      for( let item of data){
+        tempScore += item.rating;
+      }
+      tempScore /= data.length;
+      this.gameRating = parseFloat(tempScore.toFixed(2));
+    }
+    else{
+      this.noRatings = true;
     }
   }
 }

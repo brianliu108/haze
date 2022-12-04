@@ -22,7 +22,7 @@
             </div>
             <mat-form-field appearance="fill" class="inputSet">
                 <mat-label>Start Date</mat-label>
-                <input matInput [formControl]="startDateCtrl" [matDatepicker]="picker">
+                <input [max]="today" matInput [formControl]="startDateCtrl" [matDatepicker]="picker">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

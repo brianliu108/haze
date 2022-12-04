@@ -55,7 +55,6 @@ export class EventDetailsComponent implements OnInit {
   async getGames() {
     try {
       let getGamesCall = await axios.get(this.appComponent.apiHost + "/Products", this.requestInfo);
-      console.log(getGamesCall);
 
       if (getGamesCall.status == 200) {
         this.gamesList = getGamesCall.data;
